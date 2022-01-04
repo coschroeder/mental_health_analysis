@@ -11,7 +11,7 @@ library(psych)
 library(car)
 
 ### read data set    
-dat<-read.spss("\\\\sn00.zdv.uni-tuebingen.de/sepkl01//Mental_Health_Rawdata_v1.sav",
+dat<-read.spss("/home/cornelius/Documents/sustainability/mental_health/data_protected/Mental_Health_Rawdata_v1.sav",
                use.value.labels=T, to.data.frame=T,use.missings=T)
 
 ### recode items with an open answer format
@@ -23,15 +23,42 @@ table(dat$age, deparse.level = 2, useNA = "always")
 #move from another city
 table(dat$SD11, deparse.level = 2, useNA = "always")
 
-# I added something
 # Nationality                       table(dat$SD08)
+# two levels: as integers
+# 1. EU, non-EU
+# 2. Germany, EU, Asia, Africa, South A., Nord A., Australia
+# MaK
+
 # faculty                           table(dat$AP01_09a)
+# MaK
+# sort open questions to faculties
+# result: one variable 1-7
+# table(dat$AP01_01, dat$AP01_02, deparse.level=2, useNA = "always")
+
 # working hours PhD                 table(dat$AP03)
+# one number 
+# 60-70: mean, or lower boundary
+# MoKo
+
 # working hours Total               table(dat$AP05)
+# Moko
+
 # PhD-Startdate                     table(dat$AP04) -> recode
+# 6 month categories, only year: group into second half ?
+# 2nd variable: before/after Corona
+# MaK
+
 # Finance                           table(dat$EF01)
-# contract tempo                    table(dat$EF02)
-# contract schol                    table(dat$EF06)
+# sort into categories ?
+# others
+# CS
+
+# filter: contract tempo                    table(dat$EF02)
+# CS
+
+# filter: contract schol                    table(dat$EF06)
+# CS
+
 # contract percentage               table(dat$EF03)
 # side job                          table(dat$EF05)
 # other responsibilities            table(dat$OR01)
