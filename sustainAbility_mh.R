@@ -9,6 +9,8 @@
 library(foreign)
 library(psych)
 library(car)
+library(stringr)
+
 
 ### read data set    
 dat<-read.spss("/home/cornelius/Documents/sustainability/mental_health/data_protected/Mental_Health_Rawdata_v1.sav",
@@ -48,16 +50,57 @@ table(dat$SD11, deparse.level = 2, useNA = "always")
 # 2nd variable: before/after Corona
 # MaK
 
-# Finance                           table(dat$EF01)
-# sort into categories ?
-# others
+# Finance                           table(dat$EF01_08)
+# dat$EF01_08[dat$EF01_08!=""]
 # CS
+# Q: what to do if multiple matches? currently: other
+dat$EF01_08 <- str_trim(dat$EF01_08)
+#dat$EF01[dat$EF01_08 == 'first three years Scholarship (not employed), now temporary part time employment (50%)'] <- ''
+dat$EF01[dat$EF01_08 == "Grant based stipend"] <- 'Scholarship (employed, paying social security)'
+#dat$EF01[dat$EF01_08 == "travelling fees"] <- ''
+#dat$EF01[dat$EF01_08 == "cooperation with industry"] <- ''
+#dat$EF01[dat$EF01_08 == "bis vor kurzem mit Vollstipendium, jetzt Hiwi-Vertrag"] <- ''
+#dat$EF01[dat$EF01_08 == "lecture contract"] <- ''
+dat$EF01[dat$EF01_08 == "working half time out of university"] <- 'Not employed'
+#dat$EF01[dat$EF01_08 == "external Ph.D.student"] <- 'Not employed'
+dat$EF01[dat$EF01_08 == "ALG1" ] <- 'Not employed'
+#dat$EF01[dat$EF01_08 == "12 months scholarship for the whole PhD duration"  ] <- ''
+dat$EF01[dat$EF01_08 == "mini-job" ] <- 'Not employed'
+dat$EF01[dat$EF01_08 == "previously with a DFG grant (3 y) and short contract through Senckenberg"  ] <- 'Temporary employment'
+dat$EF01[dat$EF01_08 ==  "Private money"   ] <- 'Not employed'
+#dat$EF01[dat$EF01_08 == "temporary employment, now unemployed"  ] <- 'Not employed'
+dat$EF01[dat$EF01_08 == "50 % Temporary employment"  ] <- 'Temporary employment'
+dat$EF01[dat$EF01_08 == "DFG Grant, I dont know how it fits on the ones above"  ] <- 'Temporary employment'
+dat$EF01[dat$EF01_08 == "self-founded"   ] <- 'Not employed'
+dat$EF01[dat$EF01_08 ==  "Freelance employment" ] <- 'Not employed'
+dat$EF01[dat$EF01_08 == 'family (husband) financial support'] <- 'Not employed'
 
-# filter: contract tempo                    table(dat$EF02)
-# CS
 
-# filter: contract schol                    table(dat$EF06)
-# CS
+
+
+# filter: temporary contract length         table(dat$EF02, deparse.level=2, useNA = "always")
+# CS check: 260 nans
+dat$EF02_01 <- str_trim(dat$EF02_01)
+dat$EF02_01 <- recode(dat$EF02_01, "'36 months' = '36'; 
+                      '24 (posdoc/Marie Curie)' = '24';
+                      '28 Months' = '28';
+                      '36 + 12 +5' = '53';
+                      '36 + 15' = '51';
+                      '36+12'='48';
+                      '1-3' = '2';
+                      ")
+dat$EF02_01 <- as.numeric(dat$EF02_01)
+
+# filter: temporary scholarship length      table(dat$EF06)
+# CS check: 577 nans
+dat$EF06_01 <- str_trim(dat$EF06_01)
+dat$EF06_01 <- recode(dat$EF06_01, "'36 months' = '36'; 
+                      '36-48' = '42';
+                      '23 months' = '23';
+                      '36 (DFG) previously' = '36';
+                      ")
+dat$EF06_01 <- as.numeric(dat$EF06_01)
+
 
 # contract percentage               table(dat$EF03)
 # side job                          table(dat$EF05)
