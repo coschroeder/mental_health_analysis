@@ -22,6 +22,7 @@ table(dat$age, deparse.level = 2, useNA = "always")
 #move from another city
 table(dat$SD11, deparse.level = 2, useNA = "always")
 
+# I added something
 # Nationality                       table(dat$SD08)
 # faculty                           table(dat$AP01_09a)
 # working hours PhD                 table(dat$AP03)
