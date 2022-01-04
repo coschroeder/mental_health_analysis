@@ -41,8 +41,10 @@ table(dat$SD11, deparse.level = 2, useNA = "always")
 # suggestions                       table(dat$SH07)
 
 
-#describe(dat)
-# table(dat$)
+
+
+
+
 
 
 #dat_sub <- data.frame(dat$v1,dat$v2,dat$v3)
