@@ -25,32 +25,32 @@ table(dat$age, deparse.level = 2, useNA = "always")
 #move from another city
 table(dat$SD11, deparse.level = 2, useNA = "always")
 
-# Nationality                       table(dat$SD08)
+# SD08 Nationality                       table(dat$SD08)
 # two levels: as integers
 # 1. EU, non-EU
 # 2. Germany, EU, Asia, Africa, South A., Nord A., Australia
 # MaK
 
-# faculty                           table(dat$AP01_09a)
+# AP01_09a faculty                           table(dat$AP01_09a)
 # MaK
 # sort open questions to faculties
 # result: one variable 1-7
 # table(dat$AP01_01, dat$AP01_02, deparse.level=2, useNA = "always")
 
-# working hours PhD                 table(dat$AP03)
+# AP03 working hours PhD                 table(dat$AP03)
 # one number 
 # 60-70: mean, or lower boundary
 # MoKo
 
-# working hours Total               table(dat$AP05)
+# AP05 working hours Total               table(dat$AP05)
 # Moko
 
-# PhD-Startdate                     table(dat$AP04) -> recode
+# AP04 PhD-Startdate                     table(dat$AP04) -> recode
 # 6 month categories, only year: group into second half ?
 # 2nd variable: before/after Corona
 # MaK
 
-# Finance                           table(dat$EF01_08)
+# EF01_08 Finance                           table(dat$EF01_08)
 # dat$EF01_08[dat$EF01_08!=""]
 # CS
 # Q: what to do if multiple matches? currently: other
@@ -76,10 +76,8 @@ dat$EF01[dat$EF01_08 ==  "Freelance employment" ] <- 'Not employed'
 dat$EF01[dat$EF01_08 == 'family (husband) financial support'] <- 'Not employed'
 
 
-
-
-# filter: temporary contract length         table(dat$EF02, deparse.level=2, useNA = "always")
-# CS check: 260 nans
+# EF02 filter: temporary contract length         table(dat$EF02, deparse.level=2, useNA = "always")
+# CS check: 262 nans
 dat$EF02_01 <- str_trim(dat$EF02_01)
 dat$EF02_01 <- recode(dat$EF02_01, "'36 months' = '36'; 
                       '24 (posdoc/Marie Curie)' = '24';
@@ -88,23 +86,51 @@ dat$EF02_01 <- recode(dat$EF02_01, "'36 months' = '36';
                       '36 + 15' = '51';
                       '36+12'='48';
                       '1-3' = '2';
-                      ")
+                      '0' = '' ")
 dat$EF02_01 <- as.numeric(dat$EF02_01)
 
-# filter: temporary scholarship length      table(dat$EF06)
-# CS check: 577 nans
+# EF06 filter: temporary scholarship length      table(dat$EF06)
+# CS check: 581 nans
 dat$EF06_01 <- str_trim(dat$EF06_01)
 dat$EF06_01 <- recode(dat$EF06_01, "'36 months' = '36'; 
                       '36-48' = '42';
                       '23 months' = '23';
                       '36 (DFG) previously' = '36';
-                      ")
+                      '0' = '' ")
 dat$EF06_01 <- as.numeric(dat$EF06_01)
 
+# EF03 contract percentage               table(dat$EF03)
+# CS: check: 192 nans
+# before cleaning:   sum(dat$EF03_01=='') + sum(dat$EF03_01=='-') + sum(dat$EF03_01=='?')++ sum(dat$EF03_01=='0') = 192
+dat$EF03_01 <- str_trim(dat$EF03_01)
+dat$EF03_01 <- recode(dat$EF03_01, "'< 50' = '50'; 
+                      'DFG was 60%' = '60';
+                      '65 %, 75% since 2021' = '70';
+                      '87,5' = '87.5';
+                      '60 and 50' = '55';
+                      '57,5' = '57.5';
+                      '0' = '-';")
+dat$EF03_01 <- as.numeric(dat$EF03_01)
 
-# contract percentage               table(dat$EF03)
-# side job                          table(dat$EF05)
-# other responsibilities            table(dat$OR01)
+# EF05 side job                          table(dat$EF05)
+# CS: EF05 shows how often 1,2,3 etc. options where ticked.
+# EF05_04a open question. not sure how to proceede.  table(dat$EF05_04a)
+
+# OR01 other responsibilities            table(dat$OR01)
+
+# OR02 time for other responsibilities   table(dat$OR02)
+# CS: check 205 nans
+dat$OR02_01 <- str_trim(dat$OR02_01)
+dat$OR02_01 <- recode(dat$OR02_01, "'15-30' = '22.5'; 
+                      '20-30' = '25';
+                      '20-60' = '40';
+                      '30-70' = '50';
+                      '30%' = '30';
+                      '5-10' = '7.5';
+                      '60%' = '60';
+                      '66,67' = '66.67';")
+dat$OR02_01 <- as.numeric(dat$OR02_01)
+
 # time for other responsibilities   table(dat$OR02)
 # causes stress                     table(dat$MH03)
 # consulted someone about stress    table(dat$MH04)
