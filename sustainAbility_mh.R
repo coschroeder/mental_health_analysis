@@ -131,12 +131,11 @@ dat$OR02_01 <- recode(dat$OR02_01, "'15-30' = '22.5';
                       '66,67' = '66.67';")
 dat$OR02_01 <- as.numeric(dat$OR02_01)
 
-# time for other responsibilities   table(dat$OR02)
-# causes stress                     table(dat$MH03)
-# consulted someone about stress    table(dat$MH04)
-# need to change to reduce stress   table(dat$MH06)
-# changes are needed                table(dat$MH09)
-# suggestions                       table(dat$SH07)
+# MH03 causes stress                     table(dat$MH03)
+# MH04 consulted someone about stress    table(dat$MH04)
+# MH06 need to change to reduce stress   table(dat$MH06)
+# MH09 changes are needed                table(dat$MH09)
+# SH07 suggestions                       table(dat$SH07)
 
 
 
