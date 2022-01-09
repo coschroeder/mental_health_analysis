@@ -13,8 +13,10 @@ library(stringr)
 
 
 ### read data set    
-dat<-read.spss("/home/cornelius/Documents/sustainability/mental_health/data_protected/Mental_Health_Rawdata_v1.sav",
-               use.value.labels=T, to.data.frame=T,use.missings=T)
+###dat<-read.spss("/home/cornelius/Documents/sustainability/mental_health/data_protected/Mental_Health_Rawdata_v1.sav",               use.value.labels=T, to.data.frame=T,use.missings=T)
+
+
+dat<-read.spss("C:/Daten/Mental/Mental_Health_Rawdata_v1.sav",use.value.labels=T, to.data.frame=T,use.missings=T)
 
 ### recode items with an open answer format
 # Age 
@@ -41,9 +43,82 @@ table(dat$SD11, deparse.level = 2, useNA = "always")
 # one number 
 # 60-70: mean, or lower boundary
 # MoKo
+dat$AP03_01 <- str_trim(dat$AP03_01)
+dat$AP03_01 <- recode(dat$AP03_01, "'26-30' = '28';
+                                    'totally different, over the last years, main profession is that of a teacher - more hours durin holidays, fewer during term' = '';
+                                    '34-40' = '37';
+                                    '50 hours/week' = '50';
+                                    '50-60' = '55';
+                                    '35h' = '35';
+                                    '5-10' = '7';
+                                    '40-45' = '42';
+                                    '45 - 50' = '47';
+                                    '35-40' = '37';
+                                    '50+' = '50';
+                                    '40-50' = '45';
+                                    '20-45' = '32';
+                                    '18-20' = '19';
+                                    '45-50' = '47';
+                                    '50 or more' = '50';
+                                    '40-52' = '46';
+                                    '50+' = '50';
+                                    '45-55' = '50';
+                                    '35-40' = '37';
+                                    'ca 35' = '35';
+                                    '60-90' = '75';
+                                    '24-30' = '27';
+                                    '40-60' = '50';
+                                    '50-60' = '55';
+                                    '39.6' = '39';
+                                    '40-42' = '41';
+                                    '30-40' = '35';
+                                    '50-70' = '60';
+                                    '45-60' = '52';
+                                    '40+' = '40';
+                                    '20/30' = '25';
+                                    '42.5' = '42';
+                                    '35-50' = '42';
+                                    '15-25' = '20';
+                                    '~30' = '30';
+                                    '>50' = '50';
+                                    '15-20' = '17';
+                                    '16 (unpaid)' = '16';
+                                    '18-20' = '19'")
+dat$AP03_01 <- as.numeric(dat$AP03_01)
+describe(dat$AP03_01)
 
 # AP05 working hours Total               table(dat$AP05)
 # Moko
+dat$AP05_01 <- str_trim(dat$AP05_01)
+dat$AP05_01 <- recode(dat$AP05_01, "'26-30' = '28';
+                                    '50 hours/week' = '50';
+                                    ''35' = '35';
+                                    '50-60' = '55';
+                                    '40-45' = '42';
+                                    '35-40' = '37';
+                                    '45-50' = '47';
+                                    '35-40' = '37';
+                                    '50+' = '50';
+                                    '20-45' = '32';
+                                    '50 or more' = '50';
+                                    '40-52' = '46';
+                                    '37-42' = '39';
+                                    '45-55' = '50';
+                                    'ca 40' = '40';
+                                    '60-90' = '75';
+                                    '36-40' = '38';
+                                    '40-60' = '50';
+                                    '40-50' = '45';
+                                    '54-74' = '64';
+                                    '40 (paid)' = '40';
+                                    '50-70' = '60';
+                                    '40+' = '40';
+                                    '40/50' = '45';
+                                    '42.5' = '42';
+                                    '>50' = '50';
+                                    ")
+dat$AP05_01 <- as.numeric(dat$AP05_01)
+describe(dat$AP05_01)
 
 # AP04 PhD-Startdate                     table(dat$AP04) -> recode
 # 6 month categories, only year: group into second half ?
