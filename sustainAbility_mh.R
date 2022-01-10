@@ -15,8 +15,19 @@ library(stringr)
 ### read data set    
 ###dat<-read.spss("/home/cornelius/Documents/sustainability/mental_health/data_protected/Mental_Health_Rawdata_v1.sav",               use.value.labels=T, to.data.frame=T,use.missings=T)
 
-
 dat<-read.spss("C:/Daten/Mental/Mental_Health_Rawdata_v1.sav",use.value.labels=T, to.data.frame=T,use.missings=T)
+
+### filter out test run
+# everywhere 1 was entered, especially at the age SD02_01
+mask <-  ( (!is.na(dat$SD02_01==1) & dat$SD02_01==1) )
+dat <- dat[!mask,]
+
+### Filter for finished data
+# (p. 35: 'do you have further comments?')
+mask = dat$LASTPAGE == 35 | dat$LASTPAGE == 34 
+sprintf("%s out of %s  finished the survey",sum(mask),length(dat[,1]))    
+dat <- dat[mask,]
+
 
 ### recode items with an open answer format
 # Age 
@@ -214,9 +225,8 @@ dat$OR02_01 <- as.numeric(dat$OR02_01)
 
 
 
-
-
-
+###############################################################
+# potentially useful code snippets:
 
 
 #dat_sub <- data.frame(dat$v1,dat$v2,dat$v3)
@@ -247,3 +257,12 @@ dat$OR02_01 <- as.numeric(dat$OR02_01)
 #tabi_pre <- as.data.frame(describe(datipre,na.rm=T)[1:44,1:9])
 #round(tabi_pre,2)
 
+##############################################################################
+
+#### helper functions
+
+get_n_rotten_entries <- function(data) {
+  # returns the number of ('', '-', '?', '0') entries
+  s <- sum(data=='') + sum(data=='-') + sum(data=='?')+ sum(data=='0')
+  return(s)
+}
