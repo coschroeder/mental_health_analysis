@@ -10,6 +10,8 @@ library(foreign)
 library(psych)
 library(car)
 library(stringr)
+library(ggplot2)
+library(likert) 
 
 
 ### read data set    
@@ -17,16 +19,27 @@ library(stringr)
 
 dat<-read.spss("C:/Daten/Mental/Mental_Health_Rawdata_v1.sav",use.value.labels=T, to.data.frame=T,use.missings=T)
 
+
+### suggestion: 
+### drop rows if the first 3 variables are missings AND total time (time_sum) is<=180s
+dat$drop_filter <- NA
+dat$drop_filter <- ifelse(is.na(dat$SD01== T) & is.na(dat$SD02_01== T) & is.na(dat$SD08== T) & dat$TIME_SUM <= 180, 0,1)
+table(dat$drop_filter, useNA = "always") # N = 64 will be dropped as they have not started the questionnaire
+dat <- subset(dat, drop_filter==1)
+# Drop test run with SD02_01 (age) == 1
+mask <-  ( (!is.na(dat$SD02_01==1) & dat$SD02_01==1))
+dat <- dat[!mask,]
+
 ### filter out test run
 # everywhere 1 was entered, especially at the age SD02_01
-mask <-  ( (!is.na(dat$SD02_01==1) & dat$SD02_01==1) )
-dat <- dat[!mask,]
+#mask <-  ( (!is.na(dat$SD02_01==1) & dat$SD02_01==1) )
+#dat <- dat[!mask,]
 
 ### Filter for finished data
 # (p. 35: 'do you have further comments?')
-mask = dat$LASTPAGE == 35 | dat$LASTPAGE == 34 
-sprintf("%s out of %s  finished the survey",sum(mask),length(dat[,1]))    
-dat <- dat[mask,]
+#mask = dat$LASTPAGE == 35 | dat$LASTPAGE == 34 
+#sprintf("%s out of %s  finished the survey",sum(mask),length(dat[,1]))    
+#dat <- dat[mask,]
 
 ########################
 ### Data preparation ###
@@ -66,10 +79,8 @@ dat$continent <- recode(dat$SD08,
 'Colombia'=	3;
 'Costa Rica'=	3;
 'Croatia'=	1;
-'Cuba'=	2;
 'Cyprus'=	1;
 'Czech Republic'=	1;
-'Benin'=	5;
 'Denmark'=	1;
 'Ecuador'=	3;
 'France'=	1;
@@ -86,9 +97,8 @@ dat$continent <- recode(dat$SD08,
 'North Korea'=	4;
 'South Korea'=	4;
 'Lebanon'=	4;
-'Lesotho'=	5;
 'Luxembourg'=	1;
-'México'=	3;
+'MÃ©xico'=	3;
 'Netherlands'=	1;
 'Pakistan'=	4;
 'Pitcairn Islands'=	6;
@@ -115,6 +125,7 @@ dat$continent <- recode(dat$SD08,
 'Philippines'= 4;
 'Poland'= 1;
 'Romania'= 1;")
+table(dat$continent, useNA = "always", deparse.level = 2)
 
 # assign value labels
 dat$continent <- factor(dat$continent,
@@ -123,7 +134,8 @@ dat$continent <- factor(dat$continent,
 table(dat$continent, useNA ="always")
 
 #Create new variable with 1=Europe 0=Non-Europe
-dat$europe <- recode(dat$continent, "1=1; 2=0; 3=0; 4=0; 5=0; 6=0;")
+dat$europe <- recode(dat$continent, "'Europe' = 'Europe'; 'North America'= 'Others'; 'South America'= 'Others';
+                     'Asia'= 'Others'; 'Australia'= 'Others'; 'Africa' = 'Others'; 'Australia' = 'Others';")
 # check 
 table(dat$europe, useNA ="always")
 
@@ -169,7 +181,8 @@ table(dat$continent, dat$faculty, deparse.level = 2, useNA = "always")
 
 # Find rows with multiple responses
 which(sub_fac == 12, arr.ind=TRUE)
-
+### NOTE: To be continued
+                    
 ### Faculty: Additional open answer
 table(dat$AP01_09a, useNA = "always")
 # Remove all special characters
@@ -184,7 +197,8 @@ dat$AP01_09a_re <- recode(dat$AP01_09a_re,
   'PharmaceuticalSciencesinImmunology'= 4; 
   'Pharmacy'= 4;'PhilosophischeFakultät'= 3;'Psychology'= 1;'sportsandscience'= 2;") 
 table(dat$AP01_09a_re)
-
+### NOTE: To be continued
+                    
 ##############################################################                 
 ### PhD-Startdate         
 table(dat$AP04_01,useNA = "always")
@@ -499,7 +513,7 @@ hist(dat$phdstage)
 # 60-70: mean, or lower boundary
 # MoKo
 dat$AP03_01 <- str_trim(dat$AP03_01)
-dat$AP03_01 <- recode(dat$AP03_01, "'26-30' = '28';
+dat$AP03_01 <- car::recode(dat$AP03_01, "'26-30' = '28';
                                     'totally different, over the last years, main profession is that of a teacher - more hours durin holidays, fewer during term' = '';
                                     '34-40' = '37';
                                     '50 hours/week' = '50';
@@ -545,7 +559,7 @@ describe(dat$AP03_01)
 # AP05 working hours Total               table(dat$AP05)
 # Moko
 dat$AP05_01 <- str_trim(dat$AP05_01)
-dat$AP05_01 <- recode(dat$AP05_01, "'26-30' = '28';
+dat$AP05_01 <- car::recode(dat$AP05_01, "'26-30' = '28';
                                     '50 hours/week' = '50';
                                     ''35' = '35';
                                     '50-60' = '55';
@@ -575,6 +589,11 @@ dat$AP05_01 <- recode(dat$AP05_01, "'26-30' = '28';
 dat$AP05_01 <- as.numeric(dat$AP05_01)
 describe(dat$AP05_01)
 
+## build difference between phd wporking hours and total working hours
+dat$timedif <- (dat$AP05_01 - dat$AP03_01)
+describe(dat$timedif)
+table(dat$timedif, useNA = "always")                   
+ 
 
 # EF01_08 Finance                           table(dat$EF01_08)
 # dat$EF01_08[dat$EF01_08!=""]
@@ -664,6 +683,277 @@ dat$OR02_01 <- as.numeric(dat$OR02_01)
 # SH07 suggestions                       table(dat$SH07)
 
 
+#### Plots
+##########################################
+###  Working hgours PhD
+p1 <- ggplot(dat, aes(x=AP03_01)) + 
+  geom_histogram()
+p1
+### Working hgours Total
+p2 <- ggplot(dat, aes(x=AP05_01)) + 
+  geom_histogram()
+p2
+### Difference between phd working hours and total working hours
+dif <- ggplot(dat, aes(x=timedif)) + 
+  geom_histogram()
+dif
+
+### Plot Stressors
+sub_ST <- c("ST02", "ST03", "ST04", "ST17", "ST09", "ST08")
+ST <- dat[sub_ST]
+# Build plot
+st <- likert(ST,  importance = FALSE) 
+summary(st)
+plot(st)
+likert.density.plot(st)
+
+### Plot Mental health
+table(dat$MH14)
+sub_MH <- c("MH12", "MH14", "MH16", "MH17", "MH18", "MH19","MH20","MH21")
+MH <- dat[sub_MH]
+# Build plot
+mh <- likert(MH) 
+summary(mh)
+plot(mh)
+likert.density.plot(mh)
+
+
+### Descriptives
+###########################################
+
+table(dat$EV01, useNA = "always", deparse.level = 2)
+describe(as.numeric(dat$EV01))
+table(dat$EV04, useNA = "always", deparse.level = 2)
+describe(as.numeric(dat$EV04))
+
+### Meetings with supervisor
+table (dat$ST16,useNA = "always")
+table (dat$MH10,useNA = "always")
+table (dat$MH11,useNA = "always")
+table (dat$MH12,useNA = "always")
+table (dat$MH14,useNA = "always")
+table (dat$MH15,useNA = "always")
+table (dat$MH16,useNA = "always")
+table (dat$MH17,useNA = "always")
+table (dat$MH18,useNA = "always")
+table (dat$MH19,useNA = "always")
+table (dat$MH20,useNA = "always")
+table (dat$MH21,useNA = "always")
+
+### Family education background
+table(dat$SD10, useNA = "always")
+dat$SD10_re <- recode(dat$SD10, "'1'=2; '2'=0;")
+table(dat$SD10_re, useNA = "always")
+
+### Section EV: Evaluation of your Ph.D.
+## Job, Life satisfcation
+sub_sat <- c("EV01", "EV04", "EV06", "EV07","EV08", "EV09")
+des_sat <- dat[sub_sat]
+describe(des_sat)
+
+### Stress
+sub_stress <- c("GH01", "GH02", "GH03", "GH04")
+des_stress <- dat[sub_stress]
+describe(des_stress)
+
+###Mental Health
+table (dat$MH05, useNA = "always")
+table (dat$MH07, useNA = "always")
+table(dat$MH10, useNA = "always")
+table(dat$MH11, useNA = "always")
+dat$MH12
+
+sub_pwb <- c("MH12", "MH15", "MH16", "MH17", "MH18", "MH19", "MH20", "MH21")
+des_pwb <- dat[sub_pwb]
+describe(des_pwb)
+                    
+##################################################
+### Code Plots Alvaro
+#################################################
+dat <-fread("...../mental_health_analysis-main/data_spimhak2021.csv")
+countries <- read.csv2(file="C:/...countries.csv")
+
+### Nationality
+table(dat$SD08, deparse.level = 2, useNA = "always")
+dat$SD08
+#uniqueN(dat$SD08)
+dat <- left_join(dat, countries, by="SD08")
+#uniqueN(dat$region)
+table(dat$region)
+dat$region= as.factor(dat$region)
+dat$region <- recode_factor(dat$region, "other text response" = "Italy")
+map <- map_data("world")
+#table(map$region)
+dat$region= as.factor(dat$region)
+dat$region <- recode_factor(dat$region, "China (People's Republic of China)" = "China")
+dat$region <- recode_factor(dat$region, "Italia" = "Italy")
+dat$region <- recode_factor(dat$region, "United Kingdom" = "UK")
+dat$region <- recode_factor(dat$region, "United States" = "USA")
+dat$region <- recode_factor(dat$region, "Bangladesch" = "Bangladesh")
+dat$region <- recode_factor(dat$region, "MÃ©xico" = "Mexico")
+dat$region <- recode_factor(dat$region, "Brasil" = "Brazil")
+dat_map <- left_join(dat, map, by="region")
+#dat_map <- dat_map %>% filter(dat_map$SD08 > 0)
+dat_map$CASE = as.factor(dat_map$CASE)
+dat_map$SD08 = as.factor(dat_map$SD08)
+dat_map$region = as.factor(dat_map$region)
+map_proportion <-  dat_map %>%
+  group_by(region) %>%
+  summarize(n = uniqueN(CASE)) %>%
+  mutate(proportion = n / sum(n))
+map_proportion$proportion = as.numeric(map_proportion$proportion)
+data_mapping <- left_join(map, map_proportion, by="region")
+data_mapping <- data_mapping %>%
+  mutate(range = case_when(n == 350 ~ ">300",
+                           n >= 14 ~ "14 - 16",
+                           n >= 10 ~ "10 - 13",
+                           n >= 7 ~ "7 - 9",
+                           n >=4 ~ "4 - 6",
+                           n < 4 ~ "1 - 3",
+                           TRUE ~ "0"))
+data_mapping$range <- factor(data_mapping$range, levels=c(">300", "14 - 16", "10 - 13", "7 - 9", "4 - 6", "1 - 3", "0"))
+world_mapping <- ggplot(data_mapping, aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill=range), color="black") +
+  labs(x="", y="",
+       title="Nationatilities") +
+  theme(axis.title.x = element_text(size = 22, margin = margin(t = 15, r = 0, b = 0, l = 0)),
+        axis.title.y = element_text(size = 22, margin = margin(t = 0, r = 15, b = 0, l = 0)),
+        axis.text = element_text(size = 20),
+        legend.text = element_text(size = 25),
+        legend.title = element_text(size = 30),
+        panel.border = element_rect(colour = "black", fill=NA),
+        legend.box.background = element_rect(colour = "black"),
+        plot.title = element_text(hjust = 0.5, face = "bold", size = 50))+
+  scale_fill_manual('NÂº of participnats',
+                    breaks = c(">300", "14 - 16", "10 - 13", "7 - 9", "4 - 6", "1 - 3", "0"),
+                    values=c("red", "orange", "yellow", "green", "blue", "purple", "gray"))
+ggsave("plot_nationalities.png", plot = last_plot(), width=30, height= 17, device="png")
+ggsave("plot_nationalities.eps", plot = last_plot(), width=20, height= 17, device="eps")
+world_mapping
+#EV01: Looking back, if I had not started my Ph.D. yet, I would do it again.
+dat$EV01= as.factor(dat$EV01)
+dat$EV01 <- recode_factor(dat$EV01, "-1" = "not sure")
+dat$EV01 <- recode_factor(dat$EV01, "1" = "strongly disagree")
+dat$EV01 <- recode_factor(dat$EV01, "2" = "disagree")
+dat$EV01 <- recode_factor(dat$EV01, "3" = "neither agree nor disagree")
+dat$EV01 <- recode_factor(dat$EV01, "4" = "agree")
+dat$EV01 <- recode_factor(dat$EV01, "5" = "strongly agree")
+EV01_proportion <-  dat %>%
+  group_by(EV01) %>%
+  summarize(n = uniqueN(CASE)) %>%
+  mutate(proportion = (n / sum(n)*100))
+EV01_plot <- ggplot(data=EV01_proportion, aes(x=EV01, y=proportion, fill=EV01)) +
+  geom_bar(stat="identity",  width = 0.5)+
+  labs(x="", y="Percentage",
+       title="Looking back, if I had not started my Ph.D. yet, I would do it again. ") +
+  theme_minimal()+
+  theme(axis.title.x = element_text(size = 35, margin = margin(t = 15, r = 0, b = 0, l = 0)),
+        axis.title.y = element_text(size = 40, margin = margin(t = 0, r = 15, b = 0, l = 0)),
+        axis.text = element_text(size = 30),
+        legend.text = element_text(size = 30),
+        legend.title = element_text(size = 35, face = "bold"),
+        panel.border = element_rect(colour = "black", fill=NA),
+        legend.box.background = element_rect(colour = "black"),
+        plot.title = element_text(hjust = 0.5, face = "bold", size = 50))+
+  scale_fill_manual('Rating scale',
+                    values=c("#003300", "#006600", "#000066","#CC6600", "#993300", "black"))
+ggsave("plot_EV01.png", plot = last_plot(), width=30, height= 17, device="png")
+ggsave("plot_EV01.eps", plot = last_plot(), width=20, height= 17, device="eps")
+EV01_plot
+
+#ST02: Do you feel supported by your supervisor?
+dat$ST02= as.factor(dat$ST02)
+dat$ST02 <- recode_factor(dat$ST02, "1" = "not at all")
+dat$ST02 <- recode_factor(dat$ST02, "2" = "rarely")
+dat$ST02 <- recode_factor(dat$ST02, "3" = "some of the time")
+dat$ST02 <- recode_factor(dat$ST02, "4" = "most of the time")
+dat$ST02 <- recode_factor(dat$ST02, "5" = "all of the time")
+ST02_proportion <-  dat %>%
+  group_by(ST02) %>%
+  summarize(n = uniqueN(CASE)) %>%
+  mutate(proportion = (n / sum(n)*100))
+ST02_plot <- ggplot(data=ST02_proportion, aes(x=ST02, y=proportion, fill=ST02)) +
+  geom_bar(stat="identity",  width = 0.5)+
+  labs(x="", y="Percentage",
+       title="Do you feel supported by your supervisor?") +
+  theme_minimal()+
+  theme(axis.title.x = element_text(size = 35, margin = margin(t = 15, r = 0, b = 0, l = 0)),
+        axis.title.y = element_text(size = 40, margin = margin(t = 0, r = 15, b = 0, l = 0)),
+        axis.text = element_text(size = 30),
+        legend.text = element_text(size = 30),
+        legend.title = element_text(size = 35, face = "bold"),
+        panel.border = element_rect(colour = "black", fill=NA),
+        legend.box.background = element_rect(colour = "black"),
+        plot.title = element_text(hjust = 0.5, face = "bold", size = 50))+
+  scale_fill_manual('Rating scale',
+                    values=c("#003300", "#006600", "#000066","#CC6600", "#993300", "black"))
+ggsave("plot_ST02.png", plot = last_plot(), width=30, height= 17, device="png")
+ggsave("plot_ST02.eps", plot = last_plot(), width=20, height= 17, device="eps")
+ST02_plot
+#ST07: Do you feel comfortable contacting your supervisor when you need help?
+dat$ST07= as.factor(dat$ST07)
+dat$ST07 <- recode_factor(dat$ST07, "1" = "not at all")
+dat$ST07 <- recode_factor(dat$ST07, "2" = "rarely")
+dat$ST07 <- recode_factor(dat$ST07, "3" = "some of the time")
+dat$ST07 <- recode_factor(dat$ST07, "4" = "most of the time")
+dat$ST07 <- recode_factor(dat$ST07, "5" = "all of the time")
+ST07_proportion <-  dat %>%
+  group_by(ST07) %>%
+  summarize(n = uniqueN(CASE)) %>%
+  mutate(proportion = (n / sum(n)*100))
+ST07_plot <- ggplot(data=ST07_proportion, aes(x=ST07, y=proportion, fill=ST07)) +
+  geom_bar(stat="identity",  width = 0.5)+
+  labs(x="", y="Percentage",
+       title="Do you feel comfortable contacting your supervisor when you need help?") +
+  theme_minimal()+
+  theme(axis.title.x = element_text(size = 35, margin = margin(t = 15, r = 0, b = 0, l = 0)),
+        axis.title.y = element_text(size = 40, margin = margin(t = 0, r = 15, b = 0, l = 0)),
+        axis.text = element_text(size = 30),
+        legend.text = element_text(size = 30),
+        legend.title = element_text(size = 35, face = "bold"),
+        panel.border = element_rect(colour = "black", fill=NA),
+        legend.box.background = element_rect(colour = "black"),
+        plot.title = element_text(hjust = 0.5, face = "bold", size = 50))+
+  scale_fill_manual('Rating scale',
+                    values=c("#003300", "#006600", "#000066","#CC6600", "#993300", "black"))
+ggsave("plot_ST07.png", plot = last_plot(), width=30, height= 17, device="png")
+ggsave("plot_ST07.eps", plot = last_plot(), width=20, height= 17, device="eps")
+ST07_plot
+#ST08: Has the behavior of your supervisor ever made you consider quitting your Ph.D.?
+dat$ST08= as.factor(dat$ST08)
+dat$ST08 <- recode_factor(dat$ST08, "1" = "not at all")
+dat$ST08 <- recode_factor(dat$ST08, "2" = "rarely")
+dat$ST08 <- recode_factor(dat$ST08, "3" = "some of the time")
+dat$ST08 <- recode_factor(dat$ST08, "4" = "most of the time")
+dat$ST08 <- recode_factor(dat$ST08, "5" = "all of the time")
+ST08_proportion <-  dat %>%
+  group_by(ST08) %>%
+  summarize(n = uniqueN(CASE)) %>%
+  mutate(proportion = (n / sum(n)*100))
+ST08_plot <- ggplot(data=ST08_proportion, aes(x=ST08, y=proportion, fill=ST08)) +
+  geom_bar(stat="identity",  width = 0.5)+
+  labs(x="", y="Percentage",
+       title="Has the behavior of your supervisor ever made you consider quitting your Ph.D.?") +
+  theme_minimal()+
+  theme(axis.title.x = element_text(size = 35, margin = margin(t = 15, r = 0, b = 0, l = 0)),
+        axis.title.y = element_text(size = 40, margin = margin(t = 0, r = 15, b = 0, l = 0)),
+        axis.text = element_text(size = 30),
+        legend.text = element_text(size = 30),
+        legend.title = element_text(size = 35, face = "bold"),
+        panel.border = element_rect(colour = "black", fill=NA),
+        legend.box.background = element_rect(colour = "black"),
+        plot.title = element_text(hjust = 0.5, face = "bold", size = 50))+
+  scale_fill_manual('Rating scale',
+                    values=c("#993300", "#CC6600", "#000066", "#006600", "#003300"))
+ggsave("plot_ST08.png", plot = last_plot(), width=30, height= 17, device="png")
+ggsave("plot_ST08.eps", plot = last_plot(), width=20, height= 17, device="eps")
+ST08_plot
+
+ 
+                    
+                    
+                    
+                    
 
 ###############################################################
 # potentially useful code snippets:
