@@ -11,10 +11,12 @@ library(car)
 library(stringr)
 library(ggplot2)
 library(likert) 
-
+recode <- car::recode
 
 ### Read data set 
-dat<-read.spss("C:/Daten/Mental/Mental_Health_Rawdata_v1.sav",use.value.labels=T, to.data.frame=T,use.missings=T)
+# dat<-read.spss("C:/Daten/Mental/Mental_Health_Rawdata_v1.sav",use.value.labels=T, to.data.frame=T,use.missings=T)
+dat<-read.spss("/home/cornelius/Documents/sustainability/mental_health/data_protected/Mental_Health_Rawdata_v1.sav",
+               use.value.labels=T, to.data.frame=T,use.missings=T)
 
 ### suggestion: 
 ### drop rows if the first 3 variables are missings AND total time (time_sum) is<=180s
@@ -41,11 +43,102 @@ dat <- dat[!mask,]
 ###############################################################
 # [SD02] Age "How old are you?" SD02_01 I am ... years old
 
+dat$age <- as.numeric(dat$SD02)
+table(dat$age, deparse.level = 2, useNA = "always")
+# check: values 1 and 3 are invalid -> recode
+dat$age <- ifelse(dat$age ==1 | dat$age ==3, NA,dat$age)
+table(dat$age, deparse.level = 2, useNA = "always")
+hist(dat$age)
+describe(dat$age)
 
 
 ###############################################################
 # [SD08] Nationality "What is your nationality?"
+table(dat$SD08, deparse.level = 2, useNA = "always")
 
+# Assign countries to continents
+# Labels: 1=Europe 2=North America  3=South America 4=Asia 5= Africa 6=Australia
+dat$continent <- recode(dat$SD08, 
+                        "'Afghanestan'=	4;
+                        'Albania'=	1;
+                        'Argentina'=	3;
+                        'Australia'=	6;
+                        'Austria'=	1;
+                        'Bangladesch'=	4;
+                        'Belgium'=	1;
+                        'Brasil'=	3;
+                        'Burundi'=	5;
+                        'Cameroons'=	5;
+                        'Canada'=	2;
+                        'Chile'=	3;
+                        'China (People`s Republic of China)'=	4;
+                        'Taiwan'=	4;
+                        'Colombia'=	3;
+                        'Costa Rica'=	3;
+                        'Croatia'=	1;
+                        'Cyprus'=	1;
+                        'Czech Republic'=	1;
+                        'Denmark'=	1;
+                        'Ecuador'=	3;
+                        'France'=	1;
+                        'Georgia'=	1;
+                        'Germany'=	1;
+                        'Greece'=	1;
+                        'Hungary'=	1;
+                        'India'=	4;
+                        'Iran'=	4;
+                        'Ireland'=	1;
+                        'Italia'=	1;
+                        'Japan'=	4;
+                        'Kenya'=	5;
+                        'North Korea'=	4;
+                        'South Korea'=	4;
+                        'Lebanon'=	4;
+                        'Luxembourg'=	1;
+                        'MÃƒÂ©xico'=	3;
+                        'Netherlands'=	1;
+                        'Pakistan'=	4;
+                        'Pitcairn Islands'=	6;
+                        'Portugal'=	1;
+                        'Russia'=	1;
+                        'Serbia'=	1;
+                        'Slovakia'=	1;
+                        'Vietnam'=	4;
+                        'Spain'=	1;
+                        'Sudan'=	5;
+                        'Sweden'=	1;
+                        'Switzerland'=	1;
+                        'Syria'=	4;
+                        'Turkey'=	4;
+                        'Ukraine'=	1;
+                        'Macedonia'=	1;
+                        'Egypt'=	5;
+                        'United Kingdom'=	1;
+                        'United States'=	2;
+                        'Yemen'=	5;
+                        'Kosovo'=	1;
+                        'Latvia'= 1;
+                        'New Zealand'= 6;
+                        'Philippines'= 4;
+                        'Poland'= 1;
+                        'Romania'= 1;")
+table(dat$continent, useNA = "always", deparse.level = 2)
+
+# assign value labels
+dat$continent <- factor(dat$continent,
+                        levels = c(1,2,3,4,5,6),
+                        labels = c("Europe","North America","South America","Asia","Africa","Australia"))
+table(dat$continent, useNA ="always")
+
+#Create new variable with 1=Europe 0=Non-Europe
+dat$europe <- recode(dat$continent, "'Europe' = 'Europe'; 'North America'= 'Others'; 'South America'= 'Others';
+                     'Asia'= 'Others'; 'Australia'= 'Others'; 'Africa' = 'Others'; 'Australia' = 'Others';")
+# check 
+table(dat$europe, useNA ="always")
+
+#Create new variable with 1=German, 0=Non-German, NA remain NA
+dat$german <- ifelse(dat$SD08 == 'Germany', 1,0)
+table(dat$german, useNA = "always")
 
 
 ###############################################################
@@ -53,10 +146,12 @@ dat <- dat[!mask,]
         ### 1 = academic (at least one parent/legal guardian has a university degree)
         ### 2 = non-academic (none of my parents/legal guardians has a university degree)
         ### -9 = Not answered
-
+table(dat$SD10, useNA = "always")
+dat$SD10_re <- recode(dat$SD10, "'1'=2; '2'=0;")
+table(dat$SD10_re, useNA = "always")
 
 ###############################################################
-# [SD11] Formale Bildung (einfach) "Did you move to Tübingen for your Ph.D.?"
+# [SD11] Formale Bildung (einfach) "Did you move to T?bingen for your Ph.D.?"
         ### 1 = no
         ### 9 = yes, from another place in Germany
         ### 3 = yes, from another country
@@ -485,7 +580,7 @@ dat <- dat[!mask,]
 ### 1 = Not checked; 2 = Checked
 
 # [CO07] ConfirmationPHD: Residual option (negative) or number of selected options
-### CO07_01 I hereby confirm, that I am a Ph.D. student at the University of Tübingen.
+### CO07_01 I hereby confirm, that I am a Ph.D. student at the University of T?bingen.
 ### 1 = Not checked; 2 = Checked
 
 
