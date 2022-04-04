@@ -169,6 +169,7 @@ table(dat$german, useNA = "always")
 # Country will be dropped in the end
 data_to_drop <- append(data_to_drop, "SD08")
 
+# Todo: decide which level to keep in the end. 
 
 ###############################################################
 # [SD10] Family education background "What is your family's academic background?"
@@ -222,6 +223,11 @@ table(dat$SD11, deparse.level = 2, useNA = "always")
 ###############################################################
 # [SD13] Care-taking "Do you have a child/a person in your family you have to take care of?"
         ### 1 = no; 2 = yes; -9 = Not answered
+# recode to 
+  ### 0 = no
+  ### 1 = yes, from another place in Germany
+  ### -1 = Not answered
+dat$SD13 <- recode(dat_n$SD13, "'1'=0; '2'=1;'-9'=-1")
 
 table(dat$SD13, deparse.level = 2, useNA = "always")
 
@@ -236,6 +242,14 @@ table(dat$SD13, deparse.level = 2, useNA = "always")
         ### 1 = Not checked
         ### 2 = Checked
         ### SD14_08a Other, please specify (free text)
+# new variable: living
+      ### 1: Alone
+      ### 2: Together with parents
+      ### 3: Together with partner
+      ### 4: Student accommodation
+      ### 5: Shared flat
+      ### 6: together with family
+
 
 table(dat$SD14, deparse.level = 2, useNA = "always") 
 dat$living[dat$SD14_01 == 'ausgewählt'] <- '1' 
@@ -246,11 +260,14 @@ dat$living[dat$SD14_05 == 'ausgewählt'] <- '5'
 dat$living[dat$SD14_08 == 'ausgewählt'] <- '6' 
 dat$living[dat$CASE == '1141'] <- '3' 
 table(dat$living, deparse.level = 2, useNA = "always") 
+
+# Todo: include factors?
 # assign value labels 
-dat$living <- factor(dat$living, 
-                     levels = c(1,2,3,4,5,6), 
-                     labels = c("Alone","Together with parents","Together with partner","Student accommodation","Shared flat","Together with family")) 
+#dat$living <- factor(dat$living, 
+#                     levels = c(1,2,3,4,5,6), 
+#                     labels = c("Alone","Together with parents","Together with partner","Student accommodation","Shared flat","Together with family")) 
 table(dat$living, useNA ="always") 
+
 
 
 table(dat$SD14, deparse.level = 2, useNA = "always")
@@ -421,6 +438,7 @@ dat$AP05_01 <- car::recode(dat$AP05_01, "'26-30' = '28';
 dat$AP05_01 <- as.numeric(dat$AP05_01)
 describe(dat$AP05_01)
 
+### new variable: timedif
 ## build difference between phd wporking hours and total working hours
 dat$timedif <- (dat$AP05_01 - dat$AP03_01)
 describe(dat$timedif)
@@ -429,6 +447,12 @@ table(dat$timedif, useNA = "always")
 ###############################################################
 # [AP04] Start Ph.D."When did you start your Ph.D.?"
       ### AP04_01 
+# create new variables to coarse the data:
+  ## startyear: year of the start of the PhD
+  ## phdstage: Time spent as a phD 
+    ### 1 = 0-6months of PhD; 
+    ### 2 = 7-12 months; 
+    ### 3 = 13-18months; etc.
 
 table(dat$AP04_01,useNA = "always")
 dat$AP04_01 <- as.character(dat$AP04_01)
@@ -711,6 +735,7 @@ table(dat$startmonth, useNA = "always")
 # Date of the survey 2021*12+11 = 24263 months Note: 11 for Nov. because survey took place between Oct.-Dec.
 dat$yearstotal <- (dat$startyear*12)
 dat$phd_month <- (24263 - (dat$yearstotal +dat$startmonth))
+
 table(dat$phd_month, useNA = "always")
 describe(dat$phd_month)
 hist(dat$phd_month)
@@ -737,6 +762,10 @@ dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month >=79, 15, dat$ph
 table(dat$phdstage, useNA = "always")
 hist(dat$phdstage)
 
+data_to_drop <- append(data_to_drop, "AP04_01")
+data_to_drop <- append(data_to_drop, "startmonth")
+data_to_drop <- append(data_to_drop, "phdmonth")
+
 
 ###############################################################
 ### Section EF: Employment/Financial Situation
@@ -753,28 +782,31 @@ hist(dat$phdstage)
       ### 8 = Other, please specify:
       ###-9 = Not answered
       ### EF01_08 Other, please specify
+      ### if multiple matches in open answers: other
 
-# Q: what to do if multiple matches? currently: other
+dat$EF01 <- dat_n$EF01
+
+# match open answers to categories
 dat$EF01_08 <- str_trim(dat$EF01_08)
 #dat$EF01[dat$EF01_08 == 'first three years Scholarship (not employed), now temporary part time employment (50%)'] <- ''
-dat$EF01[dat$EF01_08 == "Grant based stipend"] <- 'Scholarship (employed, paying social security)'
+dat$EF01[dat$EF01_08 == "Grant based stipend"] <- 6
 #dat$EF01[dat$EF01_08 == "travelling fees"] <- ''
 #dat$EF01[dat$EF01_08 == "cooperation with industry"] <- ''
 #dat$EF01[dat$EF01_08 == "bis vor kurzem mit Vollstipendium, jetzt Hiwi-Vertrag"] <- ''
 #dat$EF01[dat$EF01_08 == "lecture contract"] <- ''
-dat$EF01[dat$EF01_08 == "working half time out of university"] <- 'Not employed'
-#dat$EF01[dat$EF01_08 == "external Ph.D.student"] <- 'Not employed'
-dat$EF01[dat$EF01_08 == "ALG1" ] <- 'Not employed'
+dat$EF01[dat$EF01_08 == "working half time out of university"] <- 5
+#dat$EF01[dat$EF01_08 == "external Ph.D.student"] <- 5
+dat$EF01[dat$EF01_08 == "ALG1" ] <- 5
 #dat$EF01[dat$EF01_08 == "12 months scholarship for the whole PhD duration"  ] <- ''
-dat$EF01[dat$EF01_08 == "mini-job" ] <- 'Not employed'
-dat$EF01[dat$EF01_08 == "previously with a DFG grant (3 y) and short contract through Senckenberg"  ] <- 'Temporary employment'
-dat$EF01[dat$EF01_08 ==  "Private money"   ] <- 'Not employed'
-#dat$EF01[dat$EF01_08 == "temporary employment, now unemployed"  ] <- 'Not employed'
-dat$EF01[dat$EF01_08 == "50 % Temporary employment"  ] <- 'Temporary employment'
-dat$EF01[dat$EF01_08 == "DFG Grant, I dont know how it fits on the ones above"  ] <- 'Temporary employment'
-dat$EF01[dat$EF01_08 == "self-founded"   ] <- 'Not employed'
-dat$EF01[dat$EF01_08 ==  "Freelance employment" ] <- 'Not employed'
-dat$EF01[dat$EF01_08 == 'family (husband) financial support'] <- 'Not employed'
+dat$EF01[dat$EF01_08 == "mini-job" ] <- 5
+dat$EF01[dat$EF01_08 == "previously with a DFG grant (3 y) and short contract through Senckenberg"  ] <- 2
+dat$EF01[dat$EF01_08 ==  "Private money"   ] <- 5
+#dat$EF01[dat$EF01_08 == "temporary employment, now unemployed"  ] <- 5
+dat$EF01[dat$EF01_08 == "50 % Temporary employment"  ] <- 2
+dat$EF01[dat$EF01_08 == "DFG Grant, I dont know how it fits on the ones above"  ] <- 2
+dat$EF01[dat$EF01_08 == "self-founded"   ] <- 5
+dat$EF01[dat$EF01_08 ==  "Freelance employment" ] <- 5
+dat$EF01[dat$EF01_08 == 'family (husband) financial support'] <- 5
 
 table(dat$EF01, useNA = "always")
 
@@ -824,7 +856,11 @@ table(dat$EF03_01, useNA = "always")
 ###############################################################
 # [EF04] Other employment "Do you have any other paid employment which is unrelated to your Ph.D.?"
       ### EF04 Other employment
-      ### 1 = no  2 = yes -9 = Not answered
+      ### 1 = no  2 = yes 
+# recode to 0 = no, 1 = yes, NA = Now answered 
+
+dat$EF04 <- recode(dat_n$EF04, "'1'=0; '2'=1; ")
+
 table(dat$EF04, useNA = "always")
 
 ###############################################################
@@ -843,7 +879,8 @@ table(dat$EF04, useNA = "always")
 ###############################################################
 ### Section EV: Evaluation of your Ph.D.
 ###############################################################
-   ### scale until EV08
+   ### scale in EV01, EV04, EV06, EV07, EV08
+      # (EV04 was shifted by one. now fixed.) 
       ### 1 = strongly disagree
       ### 2 = disagree
       ### 3 = neither agree nor disagree
@@ -853,19 +890,29 @@ table(dat$EF04, useNA = "always")
       ### -9 = Not answered
 
 # [EV01] PhD again "Looking back, if I had not started my Ph.D. yet, I would do it again."
+dat$EV01 <- dat_n$EV01
+table(dat$EV01)
 
 # [EV04] Regret "I regret having started a Ph.D."
+dat$EV04 <- dat_n$EV04-1
+table(dat$EV04)
 
 ### Please evaluate in the scale the following statements regarding your Ph.D.:
 
 # [EV06] Job-satisfaction1 "I enjoy being at work." 
+dat$EV06 <- dat_n$EV06
+table(dat_n$EV06)
+
 
 # [EV07] Job-satisfaction2 "I am content with the job I have."
+dat$EV07 <- dat_n$EV07
+table(dat$EV07)
 
 # [EV08] Job-satisfaction3 "I am satisfied with my job."
+dat$EV08 <- dat_n$EV08
+table(dat_n$EV08)
 
 # [EV09] Life-satisfaction "How satisfied are you with your life at the moment?"
-
     ### 1 = not satisfied at all
     ### 2 = slightly satisfied
     ### 3 = moderately satisfied
@@ -873,9 +920,15 @@ table(dat$EF04, useNA = "always")
     ### 5 = totally satisfied
     ### -9 = Not answered^
 
+dat$EV09 <- dat_n$EV09
+table(dat_n$EV09)
+
 # [EV05] PhD somewhere else "Do you think doing your Ph.D. in/at a different country/university would offer better conditions?"
     ### 1 = no; 2 = yes; 3 = not sure; -9 = Not answered
-
+# recode to
+    ### 0 = no; 1 = yes; 2 = not sure; -9 = Not answered
+dat$EV05 <- recode(dat_n$EV05, "'1'=0; '2'=1;'3'=2 ")
+table(dat$EV05)
 
 ###############################################################
 ### Section WG: Structure of working group
@@ -883,12 +936,25 @@ table(dat$EF04, useNA = "always")
 
 # [WG01] Professional support "Are there colleagues in your department/research center that support you professionally?"
     ### 1 = no;  2 = yes;  -9 = Not answered
+# recode to
+    ### 0 = no; 1 = yes;  NA = Not answered
+dat$WG01 <- recode(dat_n$WG01, "'1'=0; '2'=1; ")
 table(dat$WG01, useNA = 'always')
+
 # [WG02] Emotional support "Are there colleagues in your department/research center that support you emotionally?"
     ### 1 = no;  2 = yes;  -9 = Not answered
+# recode to
+    ### 0 = no; 1 = yes; NA = Not answered
+dat$WG02 <- recode(dat_n$WG02, "'1'=0; '2'=1; ")
+table(dat$WG02, useNA = 'always')
 
 # [WG03] Work alone "Do you mainly work alone on your project?"
     ### 1 = no;  2 = yes;  -9 = Not answered
+# recode to
+    ### 0 = no; 1 = yes; NA = Not answered
+# TODO: this variable is missing in the data??????
+# also missing in sosci survey!
+
 
 
 ###############################################################
