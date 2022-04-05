@@ -46,6 +46,11 @@ dat_n <- dat_n[!mask,]
 # Define empty list, in which all variables to delete are stored
 data_to_drop <- c()
 
+# Create completely new table which will be the final one to share
+dat_new <- data.frame(dat$CASE)
+names(dat_new)[1] <- "CASE"
+
+rm(list = ls())
 ###############################################################
 ### Section SD: Sociodemografics
 ###############################################################
@@ -53,7 +58,7 @@ data_to_drop <- c()
 ###############################################################
 # [SD01] Gender "Which gender do you identify with?"
         ### 1 = diverse; 2 = female; 3 = male; 4 = rather not say; -9 = Not answered
-dat$SD01 <- dat_n$SD01 
+dat_new$SD01 <- dat_n$SD01 
 
 
 ###############################################################
@@ -63,6 +68,8 @@ dat$age <- as.numeric(dat$SD02)
 table(dat$age, deparse.level = 2, useNA = "always")
 # check: value 3 is invalid -> recode
 dat$age <- ifelse( dat$age ==3, NA,dat$age)
+dat_new$age <- dat$age
+
 table(dat$age, deparse.level = 2, useNA = "always")
 hist(dat$age)
 describe(dat$age)
@@ -152,19 +159,30 @@ dat$continent <- factor(dat$continent,
                         labels = c("Europe","North America","South America","Asia","Africa","Australia"))
 table(dat$continent, useNA ="always")
 
-# Create new variable with coarsed continent
-dat$continent_coarsed <- recode(dat$continent, "'Europe' = 'Europe'; 'North America'= 'Others'; 'South America'= 'Others';
-                     'Asia'= 'Asia'; 'Australia'= 'Others'; 'Africa' = 'Others'; 'Australia' = 'Others';")
+# Create new variable continent_coarsed with coarsed continent
+    ### 1 = Europe
+    ### 2 = Asia
+    ### 3 = Others
+dat$continent_coarsed <- recode(dat$continent, "'Europe' = 1; 'North America'= 3; 'South America'= 3;
+                     'Asia'= 4; 'Australia'= 3; 'Africa' = 3; 'Australia' = 3")
 
-#Create new variable with 1=Europe 0=Non-Europe
-dat$europe <- recode(dat$continent, "'Europe' = 'Europe'; 'North America'= 'Others'; 'South America'= 'Others';
-                     'Asia'= 'Others'; 'Australia'= 'Others'; 'Africa' = 'Others'; 'Australia' = 'Others';")
+#Create new variable europe
+    ### 1=Europe 
+    ### 0=Non-Europe
+dat$europe <- recode(dat$continent, "'Europe' = 1; 'North America'= 0; 'South America'= 0;
+                     'Asia'= 0; 'Australia'= 0; 'Africa' = 0; 'Australia' = 0;")
 # check 
 table(dat$europe, useNA ="always")
 
-#Create new variable with 1=German, 0=Non-German, NA remain NA
+#Create new variable german with 
+    ### 1=German, 
+    ### 0=Non-German, 
+    ### NA remain NA
 dat$german <- ifelse(dat$SD08 == 'Germany', 1,0)
 table(dat$german, useNA = "always")
+
+# add to new dataframe
+dat_new <- cbind(dat_new, dat[c('german', 'europe', 'continent_coarsed')])
 
 # Country will be dropped in the end
 data_to_drop <- append(data_to_drop, "SD08")
@@ -180,9 +198,7 @@ data_to_drop <- append(data_to_drop, "SD08")
         ### 0 = non-academic
         ### 1 = academic
 table(dat_n$SD10, useNA = "always")
-dat$SD10 <- recode(dat_n$SD10, "'1'=1; '2'=0;")
-table(dat$SD10_re, useNA = "always")
-
+dat_new$SD10 <- recode(dat_n$SD10, "'1'=1; '2'=0;")
 
 ###############################################################
 # [SD11] Formale Bildung (einfach) "Did you move to T?bingen for your Ph.D.?"
@@ -194,10 +210,10 @@ table(dat$SD10_re, useNA = "always")
         ### 0 = no
         ### 1 = yes, from another place in Germany
         ### 2 = yes, from another country
-        ### -1 = Not answered
+        ### NA = Not answered
 table(dat_n$SD11, useNA = "always")
-dat$SD11 <- recode(dat_n$SD11, "'1'=0; '9'=1;'3'=2;'-9'=-1")
-table(dat_n$SD11, useNA = "always")
+dat_new$SD11 <- recode(dat_n$SD11, "'1'=0; '9'=1;'3'=2;'-9'=-1")
+table(dat_new$SD11, useNA = "always")
 table(dat$SD11, deparse.level = 2, useNA = "always")
 
 
@@ -227,7 +243,7 @@ table(dat$SD11, deparse.level = 2, useNA = "always")
   ### 0 = no
   ### 1 = yes, from another place in Germany
   ### -1 = Not answered
-dat$SD13 <- recode(dat_n$SD13, "'1'=0; '2'=1;'-9'=-1")
+dat_new$SD13 <- recode(dat_n$SD13, "'1'=0; '2'=1;'-9'=-1")
 
 table(dat$SD13, deparse.level = 2, useNA = "always")
 
@@ -252,14 +268,14 @@ table(dat$SD13, deparse.level = 2, useNA = "always")
 
 
 table(dat$SD14, deparse.level = 2, useNA = "always") 
-dat$living[dat$SD14_01 == 'ausgewählt'] <- '1' 
-dat$living[dat$SD14_02 == 'ausgewählt'] <- '2' 
-dat$living[dat$SD14_03 == 'ausgewählt'] <- '3' 
-dat$living[dat$SD14_04 == 'ausgewählt'] <- '4' 
-dat$living[dat$SD14_05 == 'ausgewählt'] <- '5' 
-dat$living[dat$SD14_08 == 'ausgewählt'] <- '6' 
-dat$living[dat$CASE == '1141'] <- '3' 
-table(dat$living, deparse.level = 2, useNA = "always") 
+dat_new$living[dat$SD14_01 == 'ausgewählt'] <- '1' 
+dat_new$living[dat$SD14_02 == 'ausgewählt'] <- '2' 
+dat_new$living[dat$SD14_03 == 'ausgewählt'] <- '3' 
+dat_new$living[dat$SD14_04 == 'ausgewählt'] <- '4' 
+dat_new$living[dat$SD14_05 == 'ausgewählt'] <- '5' 
+dat_new$living[dat$SD14_08 == 'ausgewählt'] <- '6' 
+dat_new$living[dat$CASE == '1141'] <- '3' 
+table(dat_new$living, deparse.level = 2, useNA = "always") 
 
 # Todo: include factors?
 # assign value labels 
@@ -349,13 +365,18 @@ table(dat$AP01_09a_re)
 ### NOTE: To be continued
 # TODO
 
+# TODO add to new dataframe
 
 ###############################################################
 # [AP02] Choice of Topic "Did you choose the topic of your Ph.D. yourself?"
         ### 1 = no 2 = yes -9 = Not answered
+# recode to   
+    ### 0 = no
+    ### 1 = yes
+    ### NA = Not answered
 
-table(dat$AP02)
-
+table(dat_n$AP02, useNA = "always")
+dat_new$AP02 <- recode(dat_n$AP02, "'1'=0; '2'=1;'-9'=-1")
 
 ###############################################################
 # [AP03] Hours per week Ph.D "How many hours a week do you spend on your Ph.D.?"
@@ -401,8 +422,8 @@ dat$AP03_01 <- car::recode(dat$AP03_01, "'26-30' = '28';
                                     '15-20' = '17';
                                     '16 (unpaid)' = '16';
                                     '18-20' = '19'")
-dat$AP03_01 <- as.numeric(dat$AP03_01)
-describe(dat$AP03_01)
+dat_new$AP03_01 <- as.numeric(dat$AP03_01)
+describe(dat_new$AP03_01)
 
 ###############################################################
 #[AP05] Hours per week work "How many hours a week do you work in total?"
@@ -435,13 +456,14 @@ dat$AP05_01 <- car::recode(dat$AP05_01, "'26-30' = '28';
                                     '42.5' = '42';
                                     '>50' = '50';
                                     ")
-dat$AP05_01 <- as.numeric(dat$AP05_01)
-describe(dat$AP05_01)
+dat_new$AP05_01 <- as.numeric(dat$AP05_01)
+describe(dat_new$AP05_01)
 
-### new variable: timedif
-## build difference between phd wporking hours and total working hours
-dat$timedif <- (dat$AP05_01 - dat$AP03_01)
-describe(dat$timedif)
+# new variable: timedif
+    ## build difference between phd wporking hours and total working hours
+dat_new$timedif <- (dat_new$AP05_01 - dat_new$AP03_01)
+
+describe(dat_new$timedif)
 table(dat$timedif, useNA = "always")      
 
 ###############################################################
@@ -741,9 +763,10 @@ describe(dat$phd_month)
 hist(dat$phd_month)
 
 #Create new variable: Time spent as a phD 
-# 1 = 0-6months of PhD; 
-# 2 = 7-12 months; 
-# 3 = 13-18months; etc.
+      ### 1 = 0-6months of PhD; 
+      ### 2 = 7-12 months; 
+      ### 3 = 13-18months; etc.
+
 dat$phdstage <- NA
 dat$phdstage <- ifelse(dat$phd_month <=6, 1,dat$phdstage)
 dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=12, 2, dat$phdstage)
@@ -761,6 +784,9 @@ dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=78, 14, dat$ph
 dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month >=79, 15, dat$phdstage)
 table(dat$phdstage, useNA = "always")
 hist(dat$phdstage)
+
+# append to new data
+dat_new$phdstage <- dat$phdstage
 
 data_to_drop <- append(data_to_drop, "AP04_01")
 data_to_drop <- append(data_to_drop, "startmonth")
@@ -810,6 +836,7 @@ dat$EF01[dat$EF01_08 == 'family (husband) financial support'] <- 5
 
 table(dat$EF01, useNA = "always")
 
+dat_new$EF01 <- dat$EF01
 
 ###############################################################
 # [EF02] Length of Contract "If you only have a temporary employment: What is the total length of your contract (in months)?"
@@ -824,8 +851,8 @@ dat$EF02_01 <- recode(dat$EF02_01, "'36 months' = '36';
                       '1-3' = '2';
                       '0' = '' ")
 
-dat$EF02_01 <- as.numeric(dat$EF02_01)
-table(dat$EF02_01, useNA = "always")
+dat_new$EF02_01 <- as.numeric(dat$EF02_01)
+table(dat_new$EF02_01, useNA = "always")
 
 ###############################################################
 # [EF06] Length of scholarship "If you have a scholarship: What is the total length of your current scholarship (in months)?"
@@ -836,7 +863,7 @@ dat$EF06_01 <- recode(dat$EF06_01, "'36 months' = '36';
                       '23 months' = '23';
                       '36 (DFG) previously' = '36';
                       '0' = '' ")
-dat$EF06_01 <- as.numeric(dat$EF06_01)
+dat_new$EF06_01 <- as.numeric(dat$EF06_01)
 
 ###############################################################
 # [EF03] % Full time "What is the percentage your contract covers in terms of full-time employment?"
@@ -849,9 +876,9 @@ dat$EF03_01 <- recode(dat$EF03_01, "'< 50' = '50';
                       '60 and 50' = '55';
                       '57,5' = '57.5';
                       '0' = '-';")
-dat$EF03_01 <- as.numeric(dat$EF03_01)
+dat_new$EF03_01 <- as.numeric(dat$EF03_01)
 
-table(dat$EF03_01, useNA = "always")
+table(dat_new$EF03_01, useNA = "always")
 
 ###############################################################
 # [EF04] Other employment "Do you have any other paid employment which is unrelated to your Ph.D.?"
@@ -859,9 +886,9 @@ table(dat$EF03_01, useNA = "always")
       ### 1 = no  2 = yes 
 # recode to 0 = no, 1 = yes, NA = Now answered 
 
-dat$EF04 <- recode(dat_n$EF04, "'1'=0; '2'=1; ")
+dat_new$EF04 <- recode(dat_n$EF04, "'1'=0; '2'=1; ")
 
-table(dat$EF04, useNA = "always")
+table(dat_new$EF04, useNA = "always")
 
 ###############################################################
 # [EF05] Reason other employment "Why did you decide to have a side-job?"
@@ -890,27 +917,18 @@ table(dat$EF04, useNA = "always")
       ### -9 = Not answered
 
 # [EV01] PhD again "Looking back, if I had not started my Ph.D. yet, I would do it again."
-dat$EV01 <- dat_n$EV01
-table(dat$EV01)
-
 # [EV04] Regret "I regret having started a Ph.D."
-dat$EV04 <- dat_n$EV04-1
-table(dat$EV04)
 
 ### Please evaluate in the scale the following statements regarding your Ph.D.:
 
 # [EV06] Job-satisfaction1 "I enjoy being at work." 
-dat$EV06 <- dat_n$EV06
-table(dat_n$EV06)
-
-
 # [EV07] Job-satisfaction2 "I am content with the job I have."
-dat$EV07 <- dat_n$EV07
-table(dat$EV07)
-
 # [EV08] Job-satisfaction3 "I am satisfied with my job."
-dat$EV08 <- dat_n$EV08
-table(dat_n$EV08)
+
+dat_new <- cbind(dat_new, dat_n[c('EV01', 'EV06', 'EV07','EV08')])
+dat_new$EV04 <- dat_n$EV04-1 
+
+
 
 # [EV09] Life-satisfaction "How satisfied are you with your life at the moment?"
     ### 1 = not satisfied at all
@@ -920,14 +938,14 @@ table(dat_n$EV08)
     ### 5 = totally satisfied
     ### -9 = Not answered^
 
-dat$EV09 <- dat_n$EV09
+dat_new$EV09 <- dat_n$EV09
 table(dat_n$EV09)
 
 # [EV05] PhD somewhere else "Do you think doing your Ph.D. in/at a different country/university would offer better conditions?"
     ### 1 = no; 2 = yes; 3 = not sure; -9 = Not answered
 # recode to
     ### 0 = no; 1 = yes; 2 = not sure; -9 = Not answered
-dat$EV05 <- recode(dat_n$EV05, "'1'=0; '2'=1;'3'=2 ")
+dat_new$EV05 <- recode(dat_n$EV05, "'1'=0; '2'=1;'3'=2 ")
 table(dat$EV05)
 
 ###############################################################
@@ -938,14 +956,14 @@ table(dat$EV05)
     ### 1 = no;  2 = yes;  -9 = Not answered
 # recode to
     ### 0 = no; 1 = yes;  NA = Not answered
-dat$WG01 <- recode(dat_n$WG01, "'1'=0; '2'=1; ")
+dat_new$WG01 <- recode(dat_n$WG01, "'1'=0; '2'=1; ")
 table(dat$WG01, useNA = 'always')
 
 # [WG02] Emotional support "Are there colleagues in your department/research center that support you emotionally?"
     ### 1 = no;  2 = yes;  -9 = Not answered
 # recode to
     ### 0 = no; 1 = yes; NA = Not answered
-dat$WG02 <- recode(dat_n$WG02, "'1'=0; '2'=1; ")
+dat_new$WG02 <- recode(dat_n$WG02, "'1'=0; '2'=1; ")
 table(dat$WG02, useNA = 'always')
 
 # [WG03] Work alone "Do you mainly work alone on your project?"
@@ -965,8 +983,7 @@ table(dat$WG02, useNA = 'always')
   ### 3 = sometimes
   ### 4 = fairly often
   ### 5 = very often
-  ### -9 = Not answered
-
+  ### NA = Not answered
 
 # [GH01] Stress1 "...how often have you felt that you were unable to control the important things in your life?"
 
@@ -976,13 +993,15 @@ table(dat$WG02, useNA = 'always')
 
 # [GH04] Stress4 "...how often have you felt difficulties were piling up so high that you could not overcome them?"
 
+dat_new <- cbind(dat_new, dat_n[c('GH01', 'GH02', 'GH03','GH04')])
+
+table(dat_new$GH04, useNA = "always")
 
 ###############################################################
 ### Section OR: Other responsibilities
 ###############################################################
 
 # [OR01] Reponsibilities besides PhD "What other responsibilities do you have besides working on your research topic/project?" (MC)
-
     ### OR01_01 Teaching
     ### OR01_02 Supervision of other students
     ### OR01_03 Administration
@@ -995,8 +1014,9 @@ table(dat$WG02, useNA = 'always')
 
 # TODO
 # see open question procedure
+# leave them and add other columns for open question. potentially merge them. 
 
-table(dat$OR01_08a)
+table(dat_n$OR01)
 
 ###############################################################
 
@@ -1012,7 +1032,7 @@ dat$OR02_01 <- recode(dat$OR02_01, "'15-30' = '22.5';
                       '5-10' = '7.5';
                       '60%' = '60';
                       '66,67' = '66.67';")
-dat$OR02_01 <- as.numeric(dat$OR02_01)
+dat_new$OR02_01 <- as.numeric(dat$OR02_01)
 
 ###############################################################
 ### Section ST: Stressors
@@ -1023,8 +1043,7 @@ dat$OR02_01 <- as.numeric(dat$OR02_01)
     ### 3 = some of the time
     ### 4 = most of the time
     ### 5 = all of the time
-    ###-9 = Not answered
-
+    ### NA = Not answered
 # [ST01] Institutional-stressor1 "Have you ever felt looked down on by your supervisor?"
 # [ST02] Institutional-stressor2 "Do you feel supported by your supervisor?"
 # [ST03] Institutional-stressor3 "Do you feel your supervisor is interested in your topic?"
@@ -1036,6 +1055,9 @@ dat$OR02_01 <- as.numeric(dat$OR02_01)
 # [ST08] Institutional-stressor8 "Has the behavior of your supervisor ever made you consider quitting your Ph.D.?"
 # [ST09] Institutional-stressor9 "Do you have regular meetings with your supervisor(s)?"
 
+dat_new <- cbind(dat_new, dat_n[c('ST01', 'ST02', 'ST03','ST04','ST05','ST06','ST07','ST08','ST09')])
+table(dat_new$ST09, useNA = "always")
+
 # [ST16] Institutional-stressor10 "How often do you have meetings with your supervisor(s)?"
     ### 1 = at least once a week
     ### 2 = at least once a month
@@ -1044,6 +1066,8 @@ dat$OR02_01 <- as.numeric(dat$OR02_01)
     ### 5 = at least once a year
     ### 6 = less than once a year
     ###-9 = Not answered
+dat_new$ST16 <- dat_n$ST16
+# Todo check this
 
 
 
@@ -1064,6 +1088,9 @@ dat$OR02_01 <- as.numeric(dat$OR02_01)
 # [ST14] Job-insecurity2 "There is a risk that I will have to leave my present job in the year to come."
 
 # [ST15] Job-insecurity3 "I feel uneasy about losing my job in the near future."
+
+dat_new <- cbind(dat_new, dat_n[c('ST11', 'ST12', 'ST13','ST14','ST15')])
+# TDOO: check these
 
 
 ###############################################################
