@@ -1065,11 +1065,9 @@ table(dat_new$ST09, useNA = "always")
     ### 4 = at least every six months
     ### 5 = at least once a year
     ### 6 = less than once a year
-    ###-9 = Not answered
+    ### NA = Not answered
 dat_new$ST16 <- dat_n$ST16
-# Todo check this
-
-
+table(dat_new$ST16, useNA = 'always')
 
 ### Scale for [ST11] to [ST15]
     ### 1 = strongly disagree
@@ -1077,7 +1075,7 @@ dat_new$ST16 <- dat_n$ST16
     ### 3 = neither agree nor disagree
     ### 4 = agree
     ### 5 = strongly agree
-    ### -9 = Not answered
+    ### NA = Not answered
 
 # [ST11] Systemic-stressor1 "The lack of permanent/long-term contracts in academi..."
 
@@ -1090,7 +1088,7 @@ dat_new$ST16 <- dat_n$ST16
 # [ST15] Job-insecurity3 "I feel uneasy about losing my job in the near future."
 
 dat_new <- cbind(dat_new, dat_n[c('ST11', 'ST12', 'ST13','ST14','ST15')])
-# TDOO: check these
+table(dat_n$ST15, useNA = "always")
 
 
 ###############################################################
@@ -1103,14 +1101,20 @@ dat_new <- cbind(dat_new, dat_n[c('ST11', 'ST12', 'ST13','ST14','ST15')])
       ### 3 = some of the time
       ### 4 = most of the time
       ### 5 = all of the time
-      ### -9 = Not answered
-
+      ### NA = Not answered
+dat_new$MH01 <- dat_n$MH01
+table(dat_new$MH01, useNA = 'always')
 
 # [MH02] Mental health 2 "Has your stress level increased since you started your Ph.D.?"
-
+    ### 0 = No
+    ### 1 = Yes
+dat_new$MH02 <- recode(dat_n$MH02, "'1'=0; '2'=1; ")
+table(dat_n$MH02, useNA = 'always')
 
 # [MH03] Mental health 3 "What is/are the cause(s) of your stress?"
 # [MH03_01]
+
+# TODO: include open answer preprocessing
 
 
 # [MH04] Mental health 4 "Do you have anyone at your institute to consult about your work-related stress?" (MC)
@@ -1119,19 +1123,35 @@ dat_new <- cbind(dat_new, dat_n[c('ST11', 'ST12', 'ST13','ST14','ST15')])
       ### MH04_03 Admins / Coordination
       ### MH04_04 Supervisor
       ### MH04_05 Other, please specify
-      ### 1 = Not checked
-      ### 2 = Checked
+      ### 0 = Not checked
+      ### 1 = Checked
       ### MH04_05a Other, please specify (free text)
+
+dat_new$MH04_01 <- recode(dat_n$MH04_01, "'1'=0; '2'=1; ")
+dat_new$MH04_02 <- recode(dat_n$MH04_02, "'1'=0; '2'=1; ")
+dat_new$MH04_03 <- recode(dat_n$MH04_03, "'1'=0; '2'=1; ")
+dat_new$MH04_04 <- recode(dat_n$MH04_04, "'1'=0; '2'=1; ")
+dat_new$MH04_05 <- recode(dat_n$MH04_05, "'1'=0; '2'=1; ")
+
+# MH04_05a Other, please specify (free text)
+# TODO: open answer preprocessing
+
 
 # [MH05] Mental health 5 "Do you feel your mental health has declined due to the Ph.D.?"
       ### 1 = not at all
       ### 2 = somehow
       ### 3 = plenty
       ### 4 = severely
-      ### -9 = Not answered
+      ### NA = Not answered
+
+dat_new$MH05 <- dat_n$MH05
+table(dat$MH05, useNA = 'always')
+
 
 # [MH06] Mental health 6 "What would need to change to improve your mental health status?" 
       ### MH06_01 Free Text
+
+# TODO: include open answer preprocessing
 
 # [MH07] Mental health 7 "Do you know other Ph.D. students who are struggling with their mental health?"
       ### 1 = nobody
@@ -1139,7 +1159,11 @@ dat_new <- cbind(dat_new, dat_n[c('ST11', 'ST12', 'ST13','ST14','ST15')])
       ### 3 = many
       ### 4 = most
       ### 5 = all
-      ### -9 = Not answered
+      ### NA = Not answered
+
+dat_new$MH07 <- dat_n$MH07
+table(dat_new$MH07, useNA = 'always')
+
 
 # [MH08] Mental health 8 "Do you think your mental health problems negatively affect your quality of work?" 
       ### 1 = never
@@ -1147,8 +1171,10 @@ dat_new <- cbind(dat_new, dat_n[c('ST11', 'ST12', 'ST13','ST14','ST15')])
       ### 3 = sometimes
       ### 4 = fairly often
       ### 5 = very often
-      ### -9 = Not answered
+      ### NA = Not answered
 
+dat_new$MH08 <- dat_n$MH08
+table(dat$MH08, useNA = 'always')
 
 # [MH09] Mental health 9 "Do you think that some special services (e.g., time management courses, coaching, etc.) or structural change..." (MC)
       ### MH09_01 no
@@ -1158,27 +1184,48 @@ dat_new <- cbind(dat_new, dat_n[c('ST11', 'ST12', 'ST13','ST14','ST15')])
       ### MH09_05 stress management courses
       ### MH09_08 structural changes
       ### MH09_09 Other, please specify
-      ### 1 = Not checked; 2 = Checked
+      ### 0 = Not checked; 1 = Checked
       ### MH09_09a Other, please specify (free text)
+
+dat_new$MH09_01 <- recode(dat_n$MH09_01, "'1'=0; '2'=1; ")
+dat_new$MH09_02 <- recode(dat_n$MH09_02, "'1'=0; '2'=1; ")
+dat_new$MH09_03 <- recode(dat_n$MH09_03, "'1'=0; '2'=1; ")
+dat_new$MH09_04 <- recode(dat_n$MH09_04, "'1'=0; '2'=1; ")
+dat_new$MH09_05 <- recode(dat_n$MH09_05, "'1'=0; '2'=1; ")
+dat_new$MH09_08 <- recode(dat_n$MH09_08, "'1'=0; '2'=1; ")
+dat_new$MH09_09 <- recode(dat_n$MH09_09, "'1'=0; '2'=1; ")
+
+### MH09_09a Other, please specify (free text)
+# TODO: open answer
 
 
 # [MH10] Psychotherapy "Are you currently in psychotherapy?"
-      ### 1 = no; 2 = yes; -9 = Not answered
+      ### 0 = no; 1 = yes; NA = Not answered
+dat_new$MH10 <- recode(dat_n$MH10, "'1'=0; '2'=1; ")
+table(dat_new$MH10, useNA = 'always')
 
 
 # [MH11] Diagnosis "Have you ever been diagnosed with a mental disorder?"
-      ### 1 = no; 2 = yes; -9 = Not answered
+      ### 0 = no; 1 = yes; NA = Not answered
+dat_new$MH11 <- recode(dat_n$MH11, "'1'=0; '2'=1; ")
+table(dat$MH11, useNA = 'always')
 
 
+############### PHQ
 # [MH12] PHQ_2_1 "Little interest or pleasure in doing things"
-      # same scale until 
+      # same scale for  'MH12', 'MH14','MH15','MH16','MH17','MH18','MH19','MH20','MH21'
       ### 1 = Not at all
       ### 2 = Several days
       ### 3 = More than half the days
       ### 4 = Nearly every day
-      ### -9 = Not answered
+      ### NA = Not answered
 
 # [MH15] PHQ_9_Filter "Feeling nervous, anxious, or on edge?"
+    # scale for  [MH15] 
+    ### 1 = Not at all
+    ### 2 = Several days
+    ### 3 = More than half the days
+    ### NA = Not answered
 
 # [MH16] PHQ_9_1 "Being so restless that it's hard to sit still"
 
@@ -1186,16 +1233,24 @@ dat_new <- cbind(dat_new, dat_n[c('ST11', 'ST12', 'ST13','ST14','ST15')])
 
 # [MH18] PHQ_9_3 "Muscle tension or muscle pain"
 
+# [MH19] PHQ_9_4 "Trouble falling asleep or sleeping through"
+
 # [MH20] PHQ_9_5 "Trouble concentrating, e.g., on reading or watching TV"
 
 # [MH21] PHQ_9_6 "Becoming easily annoyed or irritable"
 
 # [MH14] PHQ_2_2 "Feeling down, depressed or hopeless"
 
+dat_new <- cbind(dat_new, dat_n[c('MH12', 'MH14','MH15','MH16','MH17','MH18','MH19',
+                                  'MH20','MH21')])
+
+table(dat_new$MH21, useNA = "always")
 
 ###############################################################
 ### Section SH: Seeking Help
 ###############################################################
+
+# TODO: until here processed. 
 
 # [SH01] Seeking-help1 "Have you already tried to improve your situation?" 
     ### 1 = never
