@@ -50,7 +50,6 @@ data_to_drop <- c()
 dat_new <- data.frame(dat$CASE)
 names(dat_new)[1] <- "CASE"
 
-rm(list = ls())
 ###############################################################
 ### Section SD: Sociodemografics
 ###############################################################
@@ -187,7 +186,7 @@ dat_new <- cbind(dat_new, dat[c('german', 'europe', 'continent_coarsed')])
 # Country will be dropped in the end
 data_to_drop <- append(data_to_drop, "SD08")
 
-# Todo: decide which level to keep in the end. 
+# Todo #1: decide which level to keep in the end. 
 
 ###############################################################
 # [SD10] Family education background "What is your family's academic background?"
@@ -277,7 +276,7 @@ dat_new$living[dat$SD14_08 == 'ausgewählt'] <- '6'
 dat_new$living[dat$CASE == '1141'] <- '3' 
 table(dat_new$living, deparse.level = 2, useNA = "always") 
 
-# Todo: include factors?
+# Todo #2: include factors?
 # assign value labels 
 #dat$living <- factor(dat$living, 
 #                     levels = c(1,2,3,4,5,6), 
@@ -346,7 +345,7 @@ table(dat$continent, dat$faculty, deparse.level = 2, useNA = "always")
 # Find rows with multiple responses
 which(sub_fac == 12, arr.ind=TRUE)
 ### NOTE: To be continued
-# TODO
+# TODO #3
 
 ### Faculty: Additional open answer
 table(dat$AP01_09a, useNA = "always")
@@ -363,9 +362,9 @@ dat$AP01_09a_re <- recode(dat$AP01_09a_re,
   'Pharmacy'= 4;'PhilosophischeFakultät'= 3;'Psychology'= 1;'sportsandscience'= 2;") 
 table(dat$AP01_09a_re)
 ### NOTE: To be continued
-# TODO
+# TODO #4
 
-# TODO add to new dataframe
+# TODO #5 add to new dataframe
 
 ###############################################################
 # [AP02] Choice of Topic "Did you choose the topic of your Ph.D. yourself?"
@@ -900,7 +899,7 @@ table(dat_new$EF04, useNA = "always")
       ### 1 = Not checked
       ### 2 = Checked
       ### EF05_04a Other, please specify (free text)
-# TODO
+# TODO #6
 # see open question procedure
 
 ###############################################################
@@ -970,7 +969,7 @@ table(dat$WG02, useNA = 'always')
     ### 1 = no;  2 = yes;  -9 = Not answered
 # recode to
     ### 0 = no; 1 = yes; NA = Not answered
-# TODO: this variable is missing in the data??????
+# TODO #7 : this variable is missing in the data??????
 # also missing in sosci survey!
 
 
@@ -1012,7 +1011,7 @@ table(dat_new$GH04, useNA = "always")
     ### 2 = Checked
     ### OR01_08a Other, please specify (free text)
 
-# TODO
+# TODO #8
 # see open question procedure
 # leave them and add other columns for open question. potentially merge them. 
 
@@ -1114,7 +1113,7 @@ table(dat_n$MH02, useNA = 'always')
 # [MH03] Mental health 3 "What is/are the cause(s) of your stress?"
 # [MH03_01]
 
-# TODO: include open answer preprocessing
+# TODO #9: include open answer preprocessing
 
 
 # [MH04] Mental health 4 "Do you have anyone at your institute to consult about your work-related stress?" (MC)
@@ -1134,7 +1133,7 @@ dat_new$MH04_04 <- recode(dat_n$MH04_04, "'1'=0; '2'=1; ")
 dat_new$MH04_05 <- recode(dat_n$MH04_05, "'1'=0; '2'=1; ")
 
 # MH04_05a Other, please specify (free text)
-# TODO: open answer preprocessing
+# TODO #10: open answer preprocessing
 
 
 # [MH05] Mental health 5 "Do you feel your mental health has declined due to the Ph.D.?"
@@ -1151,7 +1150,7 @@ table(dat$MH05, useNA = 'always')
 # [MH06] Mental health 6 "What would need to change to improve your mental health status?" 
       ### MH06_01 Free Text
 
-# TODO: include open answer preprocessing
+# TODO #11: include open answer preprocessing
 
 # [MH07] Mental health 7 "Do you know other Ph.D. students who are struggling with their mental health?"
       ### 1 = nobody
@@ -1196,7 +1195,7 @@ dat_new$MH09_08 <- recode(dat_n$MH09_08, "'1'=0; '2'=1; ")
 dat_new$MH09_09 <- recode(dat_n$MH09_09, "'1'=0; '2'=1; ")
 
 ### MH09_09a Other, please specify (free text)
-# TODO: open answer
+# TODO #12: open answer
 
 
 # [MH10] Psychotherapy "Are you currently in psychotherapy?"
@@ -1250,18 +1249,19 @@ table(dat_new$MH21, useNA = "always")
 ### Section SH: Seeking Help
 ###############################################################
 
-# TODO: until here processed. 
-
 # [SH01] Seeking-help1 "Have you already tried to improve your situation?" 
     ### 1 = never
     ### 2 = almost never
     ### 3 = sometimes
     ### 4 = fairly often
     ### 5 = very often
-    ### -9 = Not answered
+    ### NA = Not answered
+
 
 # [SH02] Seeking-help2 "Have you heard of the consultation services at the university?"
     ### 1 = no; 2 = yes; -9 = Not answered
+dat_new$SH02 <- recode(dat_n$SH02, "'1'=0; '2'=1; ")
+table(dat_new$SH02, useNA = 'always')
 
 # [SH04] Seeking-help3 "How much do you know about the consultation services at the university?"
     ### 1 = nothing
@@ -1269,26 +1269,37 @@ table(dat_new$MH21, useNA = "always")
     ### 3 = something
     ### 4 = plenty
     ### 5 = a lot
-    ### -9 = Not answered 
+    ### NA = Not answered 
+dat_new$SH04 <- dat_n$SH04
+table(dat_new$SH04, useNA = 'always')
+
 
 # [SH05] Seeking-help4 "Have you sought help from a specialist?"
-    ### 1 = no; 2 = yes; -9 = Not answered
+    ### 1 = no; 2 = yes; NA = Not answered
+dat_new$SH05 <- recode(dat_n$SH05, "'1'=0; '2'=1; ")
+table(dat$SH05, useNA = 'always')
 
 # [SH10] Corona "Did the Covid-19 pandemic affect your general situation?"
     ### 1 = yes, it improved my general situation
     ### 2 = yes, it worsened my general situation
     ### 3 = yes, but it neither worsened nor improved my general situation
     ### 4 = no
-    ### -9 = Not answered
+    ### NA = Not answered
+dat_new$SH10 <- dat_n$SH10
+table(dat_n$SH10, useNA = 'always')
 
 # [SH06] Seeking-help5 "Do you have anyone to talk to about your issues?"
     ### 1 = no; 2 = yes; -9 = Not answered
+dat_new$SH06 <- recode(dat_n$SH06, "'1'=0; '2'=1; ")
+table(dat_new$SH06, useNA = 'always')
 
 # [SH07] Seeking-help6 "What could be done to improve your situation? Feel free to express your opinion and feelings here."
     ### SH07_01 [01] Free text
+# todo #13 : open question
 
 # [SH09]Seeking-help7 "Do you have any further comments?"
     ### SH09_01 [01] Free text
+# todo #14 : open question
 
 # [SH11] Corona2 "Do you think the answers you have provided in this survey have been affected by the Covid-19 pandemic?"
     ### 1 = Very likely
@@ -1296,8 +1307,9 @@ table(dat_new$MH21, useNA = "always")
     ### 3 = Neutral
     ### 4 = Not likely
     ### 5 = Very unlikely
-    ### -9 = Not answered
-
+    ### NA = Not answered
+dat_new$SH11 <- dat_n$SH11
+table(dat$SH11, useNA = 'always')
 
 
 ###############################################################
@@ -1307,23 +1319,23 @@ table(dat_new$MH21, useNA = "always")
 # [CO05] Consent: Residual option (negative) or number of selected options
 ### CO05_01 I have been informed about the study and the procedure. I hereby agree to the collection
 ### and processing of my above-mentioned data. Consequently, I would like to voluntarily participate in this study.
-### 1 = Not checked; 2 = Checked
+### recoded: 0 = Not checked; 1 = Checked
+dat_new$CO05_01 <- recode(dat_n$CO05_01, "'1'=0; '2'=1; ")
+table(dat_new$CO05_01, useNA = 'always')
+
+
 
 # [CO07] ConfirmationPHD: Residual option (negative) or number of selected options
 ### CO07_01 I hereby confirm, that I am a Ph.D. student at the University of T?bingen.
-### 1 = Not checked; 2 = Checked
-
-
-###############################################################
-### Delete data which was processed and not needed
-###############################################################
-data_to_drop
-dat<-dat[ , !(names(dat) %in% data_to_drop)]
-
+### recoded: 1 = Not checked; 2 = Checked
+dat_new$CO07_01 <- recode(dat_n$CO07_01, "'1'=0; '2'=1; ")
+table(dat$CO07_01, useNA = 'always')
 
 ############################### END ###########################
 ### Export fully anonymous data set as SAV and CSV file    ###
 
+
+rm(list = ls())
 
 
 ##############################################################
