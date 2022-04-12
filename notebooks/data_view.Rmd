@@ -1,466 +1,145 @@
-#######################################################
-# R script Mental Health                              #
-# sustainAbility PhD Initivative                      #
-# R version                                           #
-#######################################################
+---
+title: "Data view of the Mental Health Study"
+output: html_notebook
+---
 
-### Activate packages 
+Load packages:
+```{r}
 library(foreign)
 library(psych)
 library(car)
 library(stringr)
 library(ggplot2)
 library(likert) 
-recode <- car::recode
+```
 
-#######################################################
-### Read data set 
-#######################################################
+Load the data:
+```{r}
+dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_data_v0.csv")
+```
+---
 
-# Read data including the labels
-# dat<-read.spss("C:/Daten/Mental/Mental_Health_Rawdata_v1.sav",use.value.labels=T, to.data.frame=T,use.missings=T)
-dat<-read.spss("/home/cornelius/Documents/sustainability/mental_health/data_protected/Mental_Health_Rawdata_v1.sav",
-               use.value.labels=T, to.data.frame=T,use.missings=T)
+# Section SD: Sociodemografics
 
-# Read data w/o labels
-dat_n<-read.spss("/home/cornelius/Documents/sustainability/mental_health/data_protected/Mental_Health_Rawdata_v1.sav",
-               use.value.labels=F, to.data.frame=T,use.missings=T)
-
-##################################################### 
-### Rough filtering out non-answering participants
-#####################################################
-### suggestion: 
-### drop rows if the first 3 variables are missings AND total time (time_sum) is<=180s
-dat$drop_filter <- NA
-dat$drop_filter <- ifelse(is.na(dat$SD01== T) & is.na(dat$SD02_01== T) & is.na(dat$SD08== T) & dat$TIME_SUM <= 180, 0,1)
-dat_n$drop_filter <- dat$drop_filter  
-table(dat$drop_filter, useNA = "always") # N = 64 will be dropped as they have not started the questionnaire
-dat <- subset(dat, drop_filter==1)
-dat_n <- subset(dat_n, drop_filter==1)
-
-# Drop test run with SD02_01 (age) == 1
-mask <-  ((!is.na(dat$SD02_01==1) & dat$SD02_01==1))
-dat <- dat[!mask,]
-dat_n <- dat_n[!mask,]
-
-# Define empty list, in which all variables to delete are stored
-data_to_drop <- c()
-
-# Create completely new table which will be the final one to share
-dat_new <- data.frame(dat$CASE)
-names(dat_new)[1] <- "CASE"
+#### [SD01] Gender "Which gender do you identify with?"
+      1 = diverse; 
+      2 = female; 
+      3 = male; 
+      4 = rather not say; 
+      NA = Not answered
+```{r}
+table(dat$SD01, useNA='always' )
+barplot(table(dat$SD01))
+```
 
 ###############################################################
-### Section SD: Sociodemografics
-###############################################################
+#### SD02 [age] "How old are you?" SD02_01 I am ... years old
 
-###############################################################
-# [SD01] Gender "Which gender do you identify with?"
-        ### 1 = diverse; 2 = female; 3 = male; 4 = rather not say; NA = Not answered
-dat_new$SD01 <- dat_n$SD01 
+```{r}
+describe(dat$age)
+hist(dat$age)
+```
 
 
-###############################################################
-# [SD02] Age "How old are you?" SD02_01 I am ... years old
+#### [SD08] Nationality "What is your nationality?"
+- europe: 1=Europe 0=Non-Europe
+- german:  1=German, 0=Non-German
+- continent_coarsed: 1 = Europe, 2 = Asia, 3 = Others
 
-dat$age <- as.numeric(dat$SD02)
-table(dat$age, deparse.level = 2, useNA = "always")
-# check: value 3 is invalid -> recode
-dat$age <- ifelse( dat$age ==3, NA,dat$age)
-dat_new$age <- dat$age
+```{r}
+table(dat$europe, deparse.level = 2, useNA = "always")
+table(dat$german, deparse.level = 2, useNA = "always")
+table(dat$continent_coarsed, deparse.level = 2, useNA = "always")
+```
 
-###############################################################
-# [SD08] Nationality "What is your nationality?"
-# Recode to 4 variables:
-# continent: "Europe","North America","South America","Asia","Africa","Australia"
-# europe: with 1=Europe 0=Non-Europe
-# german:  1=German, 0=Non-German
-# continent_coarsed: "Europe","Asia","Other"
+#### [SD10] Family education background "What is your family's academic background?"
+      1 = academic (at least one parent/legal guardian has a university degree)
+      0 = non-academic (none of my parents/legal guardians has a university degree)
+      NA = Not answered
 
-# Assign countries to continents
-# Labels: 1=Europe 2=North America  3=South America 4=Asia 5= Africa 6=Australia
-dat$continent <- recode(dat$SD08, 
-                        "'Afghanestan'=	4;
-                        'Albania'=	1;
-                        'Argentina'=	3;
-                        'Australia'=	6;
-                        'Austria'=	1;
-                        'Bangladesch'=	4;
-                        'Belgium'=	1;
-                        'Brasil'=	3;
-                        'Burundi'=	5;
-                        'Cameroons'=	5;
-                        'Canada'=	2;
-                        'Chile'=	3;
-                        'China (People`s Republic of China)'=	4;
-                        'Taiwan'=	4;
-                        'Colombia'=	3;
-                        'Costa Rica'=	3;
-                        'Croatia'=	1;
-                        'Cyprus'=	1;
-                        'Czech Republic'=	1;
-                        'Denmark'=	1;
-                        'Ecuador'=	3;
-                        'France'=	1;
-                        'Georgia'=	1;
-                        'Germany'=	1;
-                        'Greece'=	1;
-                        'Hungary'=	1;
-                        'India'=	4;
-                        'Iran'=	4;
-                        'Ireland'=	1;
-                        'Italia'=	1;
-                        'Japan'=	4;
-                        'Kenya'=	5;
-                        'North Korea'=	4;
-                        'South Korea'=	4;
-                        'Lebanon'=	4;
-                        'Luxembourg'=	1;
-                        'MÃ©xico'=	3;
-                        'Netherlands'=	1;
-                        'Pakistan'=	4;
-                        'Pitcairn Islands'=	6;
-                        'Portugal'=	1;
-                        'Russia'=	1;
-                        'Serbia'=	1;
-                        'Slovakia'=	1;
-                        'Vietnam'=	4;
-                        'Spain'=	1;
-                        'Sudan'=	5;
-                        'Sweden'=	1;
-                        'Switzerland'=	1;
-                        'Syria'=	4;
-                        'Turkey'=	4;
-                        'Ukraine'=	1;
-                        'Macedonia'=	1;
-                        'Egypt'=	5;
-                        'United Kingdom'=	1;
-                        'United States'=	2;
-                        'Yemen'=	5;
-                        'Kosovo'=	1;
-                        'Latvia'= 1;
-                        'New Zealand'= 6;
-                        'Philippines'= 4;
-                        'Poland'= 1;
-                        'Romania'= 1;")
-table(dat$continent, useNA = "always", deparse.level = 2)
+```{r}
+table(dat$SD10, useNA = "always")
+```
 
-# assign value labels
-dat$continent <- factor(dat$continent,
-                        levels = c(1,2,3,4,5,6),
-                        labels = c("Europe","North America","South America","Asia","Africa","Australia"))
-table(dat$continent, useNA ="always")
-
-# Create new variable continent_coarsed with coarsed continent
-    ### 1 = Europe
-    ### 2 = Asia
-    ### 3 = Others
-dat$continent_coarsed <- recode(dat$continent, "'Europe' = 1; 'North America'= 3; 'South America'= 3;
-                     'Asia'= 2; 'Australia'= 3; 'Africa' = 3; 'Australia' = 3")
-
-#Create new variable europe
-    ### 1=Europe 
-    ### 0=Non-Europe
-dat$europe <- recode(dat$continent, "'Europe' = 1; 'North America'= 0; 'South America'= 0;
-                     'Asia'= 0; 'Australia'= 0; 'Africa' = 0; 'Australia' = 0;")
-# check 
-table(dat$europe, useNA ="always")
-
-#Create new variable german with 
-    ### 1=German, 
-    ### 0=Non-German, 
-    ### NA remain NA
-dat$german <- ifelse(dat$SD08 == 'Germany', 1,0)
-table(dat$german, useNA = "always")
-
-# add to new dataframe
-dat_new <- cbind(dat_new, dat[c('german', 'europe', 'continent_coarsed')])
-
-# Country will be dropped in the end
-data_to_drop <- append(data_to_drop, "SD08")
-
-# Todo #1: decide which level to keep in the end. 
-
-###############################################################
-# [SD10] Family education background "What is your family's academic background?"
-        ### 1 = academic (at least one parent/legal guardian has a university degree)
-        ### 2 = non-academic (none of my parents/legal guardians has a university degree)
-        ### NA = Not answered
-# recode to 
-        ### 0 = non-academic
-        ### 1 = academic
-table(dat_n$SD10, useNA = "always")
-dat_new$SD10 <- recode(dat_n$SD10, "'1'=1; '2'=0;")
-
-###############################################################
-# [SD11] Formale Bildung (einfach) "Did you move to T?bingen for your Ph.D.?"
-        ### 1 = no
-        ### 9 = yes, from another place in Germany
-        ### 3 = yes, from another country
-        ### NA = Not answered
-# recode to 
-        ### 0 = no
-        ### 1 = yes, from another place in Germany
-        ### 2 = yes, from another country
-        ### NA = Not answered
-table(dat_n$SD11, useNA = "always")
-dat_new$SD11 <- recode(dat_n$SD11, "'1'=0; '9'=1;'3'=2;'NA'=-1")
-table(dat_new$SD11, useNA = "always")
+#### [SD11] Formale Bildung (einfach) "Did you move to T?bingen for your Ph.D.?"
+      0 = no
+      1 = yes, from another place in Germany
+      2 = yes, from another country
+      NA = Not answered
+      
+```{r}
 table(dat$SD11, deparse.level = 2, useNA = "always")
+```
 
 
-###############################################################
-# [SD12] Beruflicher Bildungsabschluss "What professional qualifications do you have?"
-        ### 11 = University degree
-        ### 10 = Vocational university/university of applied sciences degree
-        ### 9 = Master/technical certification or equivalent vocational qualification
-        ### 8 = General vocational qualification
-        ### 7 = Specialized vocational qualification
-        ### 2 = Vocational training period with diploma
-        ### 3 = (Compact) vocational training program/course
-        ### 4 = Completed industrial or agricultural apprenticeship
-        ### 5 = Completed commerical traineeship
-        ### 6 = Internship, practical training
-        ### 1 = No professional qualifications
-        ### 12 = Other degree:
-        ###  NA = Not answered
-        ### SD12_12 Other degree. Free text
-
-# This variable was not in the final survey. 
-
-###############################################################
-# [SD13] Care-taking "Do you have a child/a person in your family you have to take care of?"
-        ### 1 = no; 2 = yes; NA = Not answered
-# recode to 
-  ### 0 = no
-  ### 1 = yes, from another place in Germany
-  ### -1 = Not answered
-dat_new$SD13 <- recode(dat_n$SD13, "'1'=0; '2'=1;'-9'=-1")
-
+#### [SD13] Care-taking "Do you have a child/a person in your family you have to take care of?"
+      0 = no
+      1 = yes, from another place in Germany
+      NA = Not answered
+```{r}
 table(dat$SD13, deparse.level = 2, useNA = "always")
-
-###############################################################
-# [SD14] Living-arrangement "What is your housing situation?" (MC)
-        ### SD14_01 Alone
-        ### SD14_02 Together with parents
-        ### SD14_03 Together with partner
-        ### SD14_04 Student accommodation
-        ### SD14_05 Shared flat
-        ### SD14_08 Other, please specify
-        ### 1 = Not checked
-        ### 2 = Checked
-        ### SD14_08a Other, please specify (free text)
-# new variable: living
-      ### 1: Alone
-      ### 2: Together with parents
-      ### 3: Together with partner
-      ### 4: Student accommodation
-      ### 5: Shared flat
-      ### 6: together with family
-
-
-table(dat$SD14, deparse.level = 2, useNA = "always") 
-dat_new$living[dat$SD14_01 == 'ausgewählt'] <- '1' 
-dat_new$living[dat$SD14_02 == 'ausgewählt'] <- '2' 
-dat_new$living[dat$SD14_03 == 'ausgewählt'] <- '3' 
-dat_new$living[dat$SD14_04 == 'ausgewählt'] <- '4' 
-dat_new$living[dat$SD14_05 == 'ausgewählt'] <- '5' 
-dat_new$living[dat$SD14_08 == 'ausgewählt'] <- '6' 
-dat_new$living[dat$CASE == '1141'] <- '3' 
-table(dat_new$living, deparse.level = 2, useNA = "always") 
-
-# Todo #2: include factors?
-# assign value labels 
-#dat$living <- factor(dat$living, 
-#                     levels = c(1,2,3,4,5,6), 
-#                     labels = c("Alone","Together with parents","Together with partner","Student accommodation","Shared flat","Together with family")) 
-table(dat$living, useNA ="always") 
+```
 
 
 
-table(dat$SD14, deparse.level = 2, useNA = "always")
+#### SD14 [living] Living-arrangement "What is your housing situation?" (MC)
+      1: Alone
+      2: Together with parents
+      3: Together with partner
+      4: Student accommodation
+      5: Shared flat
+      6: together with family
+      NA: not answered
+
+```{r}
+table(dat$living, deparse.level = 2, useNA = "always")
+```
+
+---
+
+# Section AP: About your PhD
+
+#### [AP01] Faculty "Which faculty are your studies associated with?" (MC)
+
+```{r}
+
+```
+TODO #4
+
+TODO #5 add to new dataframe
 
 
+#### [AP02] Choice of Topic "Did you choose the topic of your Ph.D. yourself?"
+      0 = no
+      1 = yes
+      NA = Not answered
+```{r}
+table(dat$AP02, useNA = "always")
+```
 
-###############################################################
-### Section AP: About your PhD
-###############################################################
 
-###############################################################
-# [AP01] Faculty "Which faculty are your studies associated with?" (MC)
-        ### AP01_01 Protestant Theology
-        ### AP01_02 Catholic Theology
-        ### AP01_03 Law
-        ### AP01_04 Medicine
-        ### AP01_05 Humanities
-        ### AP01_06 Economics and Social Sciences
-        ### AP01_07 Science
-        ### AP01_08 Center for Islamic Theology (ZITh)
-        ### AP01_09 Other, please specify
-        ### 1 = Not checked
-        ### 2 = Checked
-        ### AP01_09a Other, please specify (free text)
+#### [AP03] Hours per week Ph.D "How many hours a week do you spend on your Ph.D.?"
+        AP03_01 ... hours/week
+        
+```{r}
+table(dat$AP03_01)
+describe(dat$AP03_01)
+```
 
-# Create a subset and transform to numeric
-sub_fac <- c("AP01_01","AP01_02","AP01_03","AP01_04","AP01_05","AP01_06","AP01_07","AP01_08","AP01_09")
-sub_fac <- dat[sub_fac]
-sub_fac[] <- lapply(sub_fac, function(x) as.numeric(x))
+#### [AP05] Hours per week work "How many hours a week do you work in total?"
+- AP05_01 ... hours/week
+- timedif: build difference between phd wporking hours and total working hours
+```{r}
+hist(dat$AP05_01)
+```
 
-### Frequencies for each faculty
-table(sub_fac$AP01_01, useNA = "always") # Protestant Theology n = 11
-table(sub_fac$AP01_02, useNA = "always") # Catholic Theology n = 4
-table(sub_fac$AP01_03, useNA = "always") # Law n = 20
-table(sub_fac$AP01_04, useNA = "always") # Medicine n = 34
-table(sub_fac$AP01_05, useNA = "always") # Humanities n = 77
-table(sub_fac$AP01_06, useNA = "always") # Economics and Social Sciences n = 68
-table(sub_fac$AP01_07, useNA = "always") # Science n = 353
-table(sub_fac$AP01_08, useNA = "always") # Center for Islamic Theology (ZITh) n = 0
-table(sub_fac$AP01_09, useNA = "always") # other n = 18
+```{r}
+describe(dat$timedif)
+```
 
-# Check multiple responses
-sub_fac$check_sum <- rowSums(sub_fac[,1:9],na.rm=F) 
-table(sub_fac$check_sum, useNA = "always") # N= 26 have more than one subject
 
-# Create one new variable with  1 = Science  # 2 = Economic and Social Sciences  # 3 = Humanities
-# 4 = Medicine  # 5 = Law  # 6 = Others  # 7 = Two faculties
-
-sub_fac$faculty <- NA
-sub_fac$faculty <- ifelse(sub_fac$AP01_01 == 2 | sub_fac$AP01_02 == 2, 6,sub_fac$faculty)
-table(sub_fac$faculty, useNA = "always")
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_03 == 2, 5,sub_fac$faculty)
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_04 == 2, 4,sub_fac$faculty)
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_05 == 2, 3,sub_fac$faculty)
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_06 == 2, 2,sub_fac$faculty)
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_07 == 2, 1,sub_fac$faculty)
-dat$faculty <- sub_fac$faculty 
-table(dat$continent, dat$faculty, deparse.level = 2, useNA = "always")
-
-# Find rows with multiple responses
-which(sub_fac == 12, arr.ind=TRUE)
-### NOTE: To be continued
-# TODO #3
-
-### Faculty: Additional open answer
-table(dat$AP01_09a, useNA = "always")
-# Remove all special characters
-dat$AP01_09a_re <- str_replace_all(dat$AP01_09a, "[^[:alnum:]]", "") 
-# Recode open answers to faculties
-dat$AP01_09a_re <- recode(dat$AP01_09a_re,
-                          "'AICenter'= 1; 'Biochemistry'= 1; 'CIN'= 1; 'geoscience'= 1;
-  'Geoscience'= 1; 'GraduateTrainingCentreforNeuroscience'= 1; 'GraduateTrainingCentreofNeuroscience'= 1;
-  'HistoryCulturalStudies'= 3; 'HistoryCulturalTheory'= 3; 'Kunstgeschichte'= 3;
-  'mathematicsandnaturalsciencesMNF'= 1; 'mathematischnaturwissenschaftlichefakultaet'= 1;
-  'movedtoJenaUniversityclinicsforPsychiatrystillgraduatingfromGTC'= 1;
-  'PharmaceuticalSciencesinImmunology'= 4; 
-  'Pharmacy'= 4;'PhilosophischeFakultät'= 3;'Psychology'= 1;'sportsandscience'= 2;") 
-table(dat$AP01_09a_re)
-### NOTE: To be continued
-# TODO #4
-
-# TODO #5 add to new dataframe
-
-###############################################################
-# [AP02] Choice of Topic "Did you choose the topic of your Ph.D. yourself?"
-        ### 1 = no 2 = yes NA = Not answered
-# recode to   
-    ### 0 = no
-    ### 1 = yes
-    ### NA = Not answered
-
-table(dat_n$AP02, useNA = "always")
-dat_new$AP02 <- recode(dat_n$AP02, "'1'=0; '2'=1;'-9'=-1")
-
-###############################################################
-# [AP03] Hours per week Ph.D "How many hours a week do you spend on your Ph.D.?"
-        ### AP03_01 ... hours/week
-dat$AP03_01 <- str_trim(dat$AP03_01)
-dat$AP03_01 <- car::recode(dat$AP03_01, "'26-30' = '28';
-                                    'totally different, over the last years, main profession is that of a teacher - more hours durin holidays, fewer during term' = '';
-                                    '34-40' = '37';
-                                    '50 hours/week' = '50';
-                                    '50-60' = '55';
-                                    '35h' = '35';
-                                    '5-10' = '7';
-                                    '40-45' = '42';
-                                    '45 - 50' = '47';
-                                    '35-40' = '37';
-                                    '50+' = '50';
-                                    '40-50' = '45';
-                                    '20-45' = '32';
-                                    '18-20' = '19';
-                                    '45-50' = '47';
-                                    '50 or more' = '50';
-                                    '40-52' = '46';
-                                    '50+' = '50';
-                                    '45-55' = '50';
-                                    '35-40' = '37';
-                                    'ca 35' = '35';
-                                    '60-90' = '75';
-                                    '24-30' = '27';
-                                    '40-60' = '50';
-                                    '50-60' = '55';
-                                    '39.6' = '39';
-                                    '40-42' = '41';
-                                    '30-40' = '35';
-                                    '50-70' = '60';
-                                    '45-60' = '52';
-                                    '40+' = '40';
-                                    '20/30' = '25';
-                                    '42.5' = '42';
-                                    '35-50' = '42';
-                                    '15-25' = '20';
-                                    '~30' = '30';
-                                    '>50' = '50';
-                                    '15-20' = '17';
-                                    '16 (unpaid)' = '16';
-                                    '18-20' = '19'")
-dat_new$AP03_01 <- as.numeric(dat$AP03_01)
-describe(dat_new$AP03_01)
-
-###############################################################
-#[AP05] Hours per week work "How many hours a week do you work in total?"
-      ### AP05_01 ... hours/week
-dat$AP05_01 <- str_trim(dat$AP05_01)
-dat$AP05_01 <- car::recode(dat$AP05_01, "'26-30' = '28';
-                                    '50 hours/week' = '50';
-                                    ''35' = '35';
-                                    '50-60' = '55';
-                                    '40-45' = '42';
-                                    '35-40' = '37';
-                                    '45-50' = '47';
-                                    '35-40' = '37';
-                                    '50+' = '50';
-                                    '20-45' = '32';
-                                    '50 or more' = '50';
-                                    '40-52' = '46';
-                                    '37-42' = '39';
-                                    '45-55' = '50';
-                                    'ca 40' = '40';
-                                    '60-90' = '75';
-                                    '36-40' = '38';
-                                    '40-60' = '50';
-                                    '40-50' = '45';
-                                    '54-74' = '64';
-                                    '40 (paid)' = '40';
-                                    '50-70' = '60';
-                                    '40+' = '40';
-                                    '40/50' = '45';
-                                    '42.5' = '42';
-                                    '>50' = '50';
-                                    ")
-dat_new$AP05_01 <- as.numeric(dat$AP05_01)
-describe(dat_new$AP05_01)
-
-# new variable: timedif
-    ## build difference between phd wporking hours and total working hours
-dat_new$timedif <- (dat_new$AP05_01 - dat_new$AP03_01)
-
-describe(dat_new$timedif)
-table(dat$timedif, useNA = "always")      
-
-###############################################################
-# [AP04] Start Ph.D."When did you start your Ph.D.?"
-      ### AP04_01 
+#### [AP04] Start Ph.D."When did you start your Ph.D.?"
+      ## AP04_01 
 # create new variables to coarse the data:
   ## startyear: year of the start of the PhD
   ## phdstage: Time spent as a phD 
@@ -751,6 +430,8 @@ dat$yearstotal <- (dat$startyear*12)
 dat$phd_month <- (24263 - (dat$yearstotal +dat$startmonth))
 
 table(dat$phd_month, useNA = "always")
+describe(dat$phd_month)
+hist(dat$phd_month)
 
 #Create new variable: Time spent as a phD 
       ### 1 = 0-6months of PhD; 
@@ -773,6 +454,7 @@ dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=72, 13, dat$ph
 dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=78, 14, dat$phdstage)
 dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month >=79, 15, dat$phdstage)
 table(dat$phdstage, useNA = "always")
+hist(dat$phdstage)
 
 # append to new data
 dat_new$phdstage <- dat$phdstage
