@@ -218,17 +218,44 @@ pre code {
 <p>Load packages:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShsZW1vbilcblxuYGBgIn0= -->
-<pre class="r"><code>library(lemon)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShmb3JlaWduKVxubGlicmFyeShwc3ljaClcbmxpYnJhcnkoY2FyKVxuXG5gYGAifQ== -->
+<pre class="r"><code>library(foreign)
+library(psych)
+library(car)
 </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYbGVtb27igJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmdncGxvdDLigJk6XG5cbiAgICBDb29yZENhcnRlc2lhbiwgZWxlbWVudF9yZW5kZXJcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiBjYXJEYXRhXG5cbkF0dGFjaGluZyBwYWNrYWdlOiDigJhjYXLigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3QgaXMgbWFza2VkIGZyb20g4oCYcGFja2FnZTpwc3ljaOKAmTpcblxuICAgIGxvZ2l0XG4ifQ== -->
+<pre><code>Loading required package: carData
+
+Attaching package: ‘car’
+
+The following object is masked from ‘package:psych’:
+
+    logit</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzdHJpbmdyKVxubGlicmFyeShnZ3Bsb3QyKVxuYGBgIn0= -->
+<pre class="r"><code>library(stringr)
+library(ggplot2)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYZ2dwbG90MuKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6cHN5Y2jigJk6XG5cbiAgICAlKyUsIGFscGhhXG4ifQ== -->
 <pre><code>
-Attaching package: ‘lemon’
+Attaching package: ‘ggplot2’
 
-The following objects are masked from ‘package:ggplot2’:
+The following objects are masked from ‘package:psych’:
 
-    CoordCartesian, element_render</code></pre>
+    %+%, alpha</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShsaWtlcnQpIFxuYGBgIn0= -->
+<pre class="r"><code>library(likert) </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiB4dGFibGVcblxuQXR0YWNoaW5nIHBhY2thZ2U6IOKAmGxpa2VydOKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdCBpcyBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmNhcuKAmTpcblxuICAgIHJlY29kZVxuIn0= -->
+<pre><code>Loading required package: xtable
+
+Attaching package: ‘likert’
+
+The following object is masked from ‘package:car’:
+
+    recode</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -257,9 +284,6 @@ The following objects are masked from ‘package:ggplot2’:
 <!-- rnb-plot-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<div id="section" class="section level63">
-<p class="heading"></p>
-</div>
 </div>
 <div id="sd02-age-how-old-are-you-sd02_01-i-am-years-old" class="section level4">
 <h4>SD02 [age] “How old are you?” SD02_01 I am … years old</h4>
@@ -489,105 +513,148 @@ hist(dat$age)</code></pre>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="ap04-start-ph.d.when-did-you-start-your-ph.d." class="section level4">
-<h4>[AP04] Start Ph.D.“When did you start your Ph.D.?”</h4>
-<pre><code>  ## AP04_01 </code></pre>
+<div id="ap04-phdstage-start-ph.d.when-did-you-start-your-ph.d." class="section level4">
+<h4>AP04 [phdstage] Start Ph.D.“When did you start your Ph.D.?”</h4>
+<ul>
+<li><p>phdstage: Time spent as a PhD</p>
+<pre><code>  1 = 0-6 months  
+  2 = 7-12 months 
+  3 = 13-18 months
+  ...
+  13 = 72-78 months
+  14 = &gt;79 months</code></pre></li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JHBoZHN0YWdlLHVzZU5BID0gXCJhbHdheXNcIilcblxuYGBgIn0= -->
+<pre class="r"><code>table(dat$phdstage,useNA = &quot;always&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0ICAgIDUgICAgNiAgICA3ICAgIDggICAgOSAgIDEwICAgMTIgICAxMyAgIDE0ICAgMTUgPE5BPiBcbiAgNTEgICA2MSAgIDU5ICAgNzIgICA3MiAgIDQ4ICAgNTQgICA0MyAgIDI0ICAgMTMgICAxMSAgICA1ICAgIDkgICAxOCAgIDQ5IFxuIn0= -->
+<pre><code>
+   1    2    3    4    5    6    7    8    9   10   12   13   14   15 &lt;NA&gt; 
+  51   61   59   72   72   48   54   43   24   13   11    5    9   18   49 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGlzdChkYXQkcGhkc3RhZ2UpXG5gYGAifQ== -->
+<pre class="r"><code>hist(dat$phdstage)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-plot-begin eyJoZWlnaHQiOjQzMi42MzI5LCJ3aWR0aCI6NzAwLCJzaXplX2JlaGF2aW9yIjowLCJjb25kaXRpb25zIjpbXX0= -->
+<p><img src="data:image/png;base64,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" /></p>
+<!-- rnb-plot-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 </div>
-<div id="create-new-variables-to-coarse-the-data" class="section level1">
-<h1>create new variables to coarse the data:</h1>
-<p>## startyear: year of the start of the PhD ## phdstage: Time spent as a phD ### 1 = 0-6months of PhD; ### 2 = 7-12 months; ### 3 = 13-18months; etc.</p>
-<p>table(dat<span class="math inline">\(AP04_01,useNA = &quot;always&quot;) dat\)</span>AP04_01 &lt;- as.character(dat<span class="math inline">\(AP04_01) dat\)</span>AP04_01 &lt;- str_replace_all(dat<span class="math inline">\(AP04_01, &quot;[^[:alnum:]]&quot;, &quot;&quot;) dat\)</span>startyear &lt;- recode(dat<span class="math inline">\(AP04_01,&quot;&#39;01012017&#39; = 2017;  &#39;01012018&#39; = 2018;  &#39;01012021&#39; = 2021;  &#39;01022019&#39; = 2019;  &#39;01022020&#39; = 2020;  &#39;01052015&#39; = 2015;  &#39;01062019&#39; = 2019;  &#39;01082019&#39; = 2019;  &#39;012021&#39; = 2021;  &#39;01012015&#39; = 2015;  &#39;01042021&#39; = 2021;  &#39;01102019&#39; = 2019;  &#39;0120&#39; = 2020;  &#39;012014&#39; = 2014;  &#39;012015&#39; = 2015;  &#39;012016&#39; = 2016;  &#39;012017&#39; = 2017;  &#39;012018&#39; = 2018;  &#39;012019&#39; = 2019;  &#39;012020&#39; = 2020;  &#39;012021&#39; = 2021;  &#39;022019&#39; = 2019;  &#39;022021&#39; = 2021;  &#39;022013&#39; = 2013;  &#39;022016&#39; = 2016;  &#39;022017&#39; = 2017;  &#39;022018&#39; = 2018;  &#39;022019&#39; = 2019;  &#39;022020&#39; = 2020;  &#39;022021&#39; = 2021;  &#39;03042019&#39; = 2019;  &#39;032018&#39; = 2018;  &#39;032017&#39; = 2017;  &#39;032018&#39; = 2018;  &#39;032019&#39; = 2019;  &#39;032020&#39; = 2020;  &#39;032021&#39; = 2021;  &#39;042013&#39; = 2013;  &#39;042021&#39; = 2021;  &#39;042013&#39; = 2013;  &#39;042014&#39; = 2014;  &#39;042015&#39; = 2015;  &#39;042016&#39; = 2016;  &#39;042017&#39; = 2017;  &#39;042018&#39; = 2018;  &#39;042019&#39; = 2019;  &#39;042020&#39; = 2020;  &#39;042021&#39; = 2021;  &#39;0421&#39; = 2021;  &#39;052021&#39; = 2021;  &#39;052014&#39; = 2014;  &#39;052015&#39; = 2015;  &#39;052016&#39; = 2016;  &#39;052018&#39; = 2018;  &#39;052019&#39; = 2019;  &#39;052020&#39; = 2020;  &#39;052021&#39; = 2021;  &#39;062011&#39; = 2011;  &#39;062013&#39; = 2013;  &#39;062016&#39; = 2016;  &#39;062017&#39; = 2017;  &#39;062018&#39; = 2018;  &#39;062019&#39; = 2019;  &#39;062020&#39; = 2020;  &#39;062021&#39; = 2021;  &#39;072014&#39; = 2014;  &#39;072017&#39; = 2017;  &#39;072018&#39; = 2018;  &#39;072019&#39; = 2019;  &#39;072020&#39; = 2020;  &#39;072021&#39; = 2021;  &#39;072020&#39; = 2020;  &#39;082015&#39; = 2015;  &#39;082016&#39; = 2016;  &#39;082017&#39; = 2017;  &#39;082018&#39; = 2018;  &#39;082019&#39; = 2019;  &#39;082020&#39; = 2020;  &#39;092019&#39; = 2019;  &#39;092021&#39; = 2021;  &#39;092011&#39; = 2011;  &#39;092015&#39; = 2015;  &#39;092016&#39; = 2016;  &#39;092017&#39; = 2017;  &#39;092018&#39; = 2018;  &#39;092019&#39; = 2019;  &#39;092020&#39; = 2020;  &#39;092021&#39; = 2021;  &#39;0920216&#39; = 2016;  &#39;1&#39; = NA;  &#39;12020&#39; = 2020;  &#39;102019&#39; = 2019;  &#39;102020&#39; = 2020;  &#39;1018&#39; = 2018;  &#39;102010&#39; = 2010;  &#39;102014&#39; = 2014;  &#39;102015&#39; = 2015;  &#39;102016&#39; = 2016;  &#39;102017&#39; = 2017;  &#39;102018&#39; = 2018;  &#39;102019&#39; = 2019;  &#39;102020&#39; = 2020;  &#39;102021&#39; = 2021;  &#39;1021&#39; = 2021;  &#39;102018&#39; = 2018;  &#39;102019&#39; = 2019;  &#39;111220&#39; = 2020;  &#39;112019&#39; = 2019;  &#39;112015&#39; = 2015;  &#39;112016&#39; = 2016;  &#39;112017&#39; = 2017;  &#39;112018&#39; = 2018;  &#39;112019&#39; = 2019;  &#39;112020&#39; = 2020;  &#39;112021&#39; = 2021;  &#39;112019&#39; = 2019;  &#39;122017&#39; = 2017;  &#39;122012&#39; = 2012;  &#39;122016&#39; = 2016;  &#39;122017&#39; = 2017;  &#39;122018&#39; = 2018;  &#39;122019&#39; = 2019;  &#39;122020&#39; = 2020;  &#39;15032018&#39; = 2018;  &#39;15052015&#39; = 2015;  &#39;151116&#39; = 2016;  &#39;2014&#39; = NA; # no months  &#39;2015&#39; = NA;  &#39;2016&#39; = NA;  &#39;2017&#39; = NA;  &#39;2018&#39; = NA;  &#39;2019&#39; = NA;  &#39;2020&#39; = NA;  &#39;62018&#39; = 2018;  &#39;&#39; = NA;&quot;) table(dat\)</span>startyear, useNA = “always”)</p>
-<p>dat<span class="math inline">\(startmonth &lt;- recode(dat\)</span>AP04_01,“‘01012017’ = 1; ‘01012018’ =1; ‘01012021’ =1; ‘01022019’ =2; ‘01022020’ =2; ‘01052015’ =5; ‘01062019’ =6; ‘01082019’ =8; ‘012021’ = 1; ‘01012015’ = 1; ‘01042021’ = 4; ‘01102019’ = 10; ‘0120’ = 1; ‘012014’ = 1; ‘012015’ = 1; ‘012016’ = 1; ‘012017’ = 1; ‘012018’ = 1; ‘012019’ = 1; ‘012020’ = 1; ‘012021’ = 1; ‘022019’ = 2; ‘022021’ = 2; ‘022013’ = 2; ‘022016’ = 2; ‘022017’ = 2; ‘022018’ = 2; ‘022019’ = 2; ‘022020’ = 2; ‘022021’ = 2; ‘03042019’ = 4; ‘032018’ = 3; ‘032017’ = 3; ‘032018’ = 3; ‘032019’ = 3; ‘032020’ = 3; ‘032021’ = 3; ‘042013’ = 4; ‘042021’ = 4; ‘042013’ = 4; ‘042014’ = 4; ‘042015’ = 4; ‘042016’ = 4; ‘042017’ = 4; ‘042018’ = 4; ‘042019’ = 4; ‘042020’ = 4; ‘042021’ = 4; ‘0421’ = 4; ‘052021’ = 5; ‘052014’ = 5; ‘052015’ = 5; ‘052016’ = 5; ‘052018’ = 5; ‘052019’ = 5; ‘052020’ = 5; ‘052021’ = 5; ‘062011’ = 6; ‘062013’ = 6; ‘062016’ = 6; ‘062017’ = 6; ‘062018’ = 6; ‘062019’ = 6; ‘062020’ = 6; ‘062021’ = 6; ‘072014’ = 7; ‘072017’ = 7; ‘072018’ = 7; ‘072019’ = 7; ‘072020’ = 7; ‘072021’ = 7; ‘072020’ = 7; ‘082015’ = 8; ‘082016’ = 8; ‘082017’ = 8; ‘082018’ = 8; ‘082019’ = 8; ‘082020’ = 8; ‘092019’ = 9; ‘092021’ = 9; ‘092011’ = 9; ‘092015’ = 9; ‘092016’ = 9; ‘092017’ = 9; ‘092018’ = 9; ‘092019’ = 9; ‘092020’ = 9; ‘092021’ = 9; ‘0920216’ = 9; ‘1’ = NA; ‘12020’ = 1; ‘102019’ = 10; ‘102020’ = 10; ‘1018’ = 10; ‘102010’ = 10; ‘102014’ = 10; ‘102015’ = 10; ‘102016’ = 10; ‘102017’ = 10; ‘102018’ = 10; ‘102019’ = 10; ‘102020’ = 10; ‘102021’ = 10; ‘1021’ = 10; ‘102018’ = 10; ‘102019’ = 10; ‘111220’ = 11; ‘112019’ = 11; ‘112015’ = 11; ‘112016’ = 11; ‘112017’ = 11; ‘112018’ = 11; ‘112019’ = 11; ‘112020’ = 11; ‘112021’ = 11; ‘112019’ = 11; ‘122017’ = 12; ‘122012’ = 12; ‘122016’ = 12; ‘122017’ = 12; ‘122018’ = 12; ‘122019’ = 12; ‘122020’ = 12; ‘15032018’ = 3; ‘15052015’ = 5; ‘151116’ = 11; ‘2014’ = NA; ‘2015’ = NA; ‘2016’ = NA; ‘2017’ = NA; ‘2018’ = NA; ‘2019’ = NA; ‘2020’ = NA; ‘62018’ = 6; ’’ = NA;”) table(dat$startmonth, useNA = “always”)</p>
+<div id="section-ef-employmentfinancial-situation" class="section level1">
+<h1>Section EF: Employment/Financial Situation</h1>
+<div id="ef01-contract-type-how-are-you-financed-contract-type-only-related-to-your-ph.d." class="section level4">
+<h4>[EF01] Contract Type “How are you financed? (Contract type only related to your Ph.D.)”</h4>
+<pre><code>    1 = Permanent employment
+    2 = Temporary employment
+    3 = Hourly employment
+    6 = Scholarship (employed, paying social security)
+    7 = Scholarship (not employed)
+    5 = Not employed
+    8 = Others
+    NA = Not answered
+    Remark: if multiple matches in open answers: other</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JEVGMDEsIHVzZU5BID0gXCJhbHdheXNcIilcblxuYGBgIn0= -->
+<pre class="r"><code>table(dat$EF01, useNA = &quot;always&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA1ICAgIDYgICAgNyAgICA4IDxOQT4gXG4gIDQ1ICAzODYgICAgMyAgIDM4ICAgMzAgICA0MSAgICA4ICAgMzggXG4ifQ== -->
+<pre><code>
+   1    2    3    5    6    7    8 &lt;NA&gt; 
+  45  386    3   38   30   41    8   38 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="date-of-the-survey-20211211-24263-months-note-11-for-nov.-because-survey-took-place-between-oct.-dec." class="section level1">
-<h1>Date of the survey 2021*12+11 = 24263 months Note: 11 for Nov. because survey took place between Oct.-Dec.</h1>
-<p>dat<span class="math inline">\(yearstotal &lt;- (dat\)</span>startyear*12) dat<span class="math inline">\(phd_month &lt;- (24263 - (dat\)</span>yearstotal +dat$startmonth))</p>
-<p>table(dat<span class="math inline">\(phd_month, useNA = &quot;always&quot;) describe(dat\)</span>phd_month) hist(dat$phd_month)</p>
-<p>#Create new variable: Time spent as a phD ### 1 = 0-6months of PhD; ### 2 = 7-12 months; ### 3 = 13-18months; etc.</p>
-<p>dat<span class="math inline">\(phdstage &lt;- NA dat\)</span>phdstage &lt;- ifelse(dat<span class="math inline">\(phd_month &lt;=6, 1,dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=12, 2, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=18, 3, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=24, 4, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=30, 5, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=36, 6, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=42, 7, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=48, 8, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=54, 9, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=60, 10, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=66, 12, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=72, 13, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &lt;=78, 14, dat\)</span>phdstage) dat<span class="math inline">\(phdstage &lt;- ifelse(is.na(dat\)</span>phdstage == T) &amp; dat<span class="math inline">\(phd_month &gt;=79, 15, dat\)</span>phdstage) table(dat<span class="math inline">\(phdstage, useNA = &quot;always&quot;) hist(dat\)</span>phdstage)</p>
+<div id="ef02-length-of-contract-if-you-only-have-a-temporary-employment-what-is-the-total-length-of-your-contract-in-months" class="section level4">
+<h4>[EF02] Length of Contract “If you only have a temporary employment: What is the total length of your contract (in months)?”</h4>
+<pre><code>    EF02_01 ... months
+  </code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JEVGMDJfMDEsIHVzZU5BID0gXCJhbHdheXNcIilcblxuYGBgIn0= -->
+<pre class="r"><code>table(dat$EF02_01, useNA = &quot;always&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAyICAgIDMgICAgNCAgICA2ICAgMTAgICAxMSAgIDEyICAgMTQgICAxNSAgIDE3ICAgMTggICAxOSAgIDIwICAgMjEgICAyMiAgIDIzICAgMjQgICAyNyAgIDI4ICAgMzAgICAzMyAgIDM0ICAgMzUgICAzNiAgIDM5ICAgNDAgXG4gICAxICAgIDIgICAgMiAgICA5ICAgIDEgICAgMSAgIDI1ICAgIDIgICAgMiAgICAxICAgIDIgICAgMSAgICAxICAgIDIgICAgMSAgICAxICAgMzAgICAgMSAgICAxICAgIDMgICAgMSAgICAxICAgIDMgIDIxNSAgICAyICAgIDUgXG4gIDQxICAgNDIgNDIuNSAgIDQzICAgNDQgICA0NSAgIDQ3ICAgNDggICA1MCAgIDUxICAgNTIgICA1MyAgIDU0ICAgNTYgICA2MCAgIDY2ICAgNjcgICA3MSA8TkE+IFxuICAgMSAgIDExICAgIDEgICAgMiAgICAxICAgIDUgICAgMSAgIDMzICAgIDIgICAgMSAgICAxICAgIDEgICAgNCAgICAxICAgIDcgICAgMSAgICAyICAgIDEgIDE5NyBcbiJ9 -->
+<pre><code>
+   2    3    4    6   10   11   12   14   15   17   18   19   20   21   22   23   24   27   28   30   33   34   35   36   39   40 
+   1    2    2    9    1    1   25    2    2    1    2    1    1    2    1    1   30    1    1    3    1    1    3  215    2    5 
+  41   42 42.5   43   44   45   47   48   50   51   52   53   54   56   60   66   67   71 &lt;NA&gt; 
+   1   11    1    2    1    5    1   33    2    1    1    1    4    1    7    1    2    1  197 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGlzdChkYXQkRUYwMl8wMSlcbmBgYCJ9 -->
+<pre class="r"><code>hist(dat$EF02_01)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-plot-begin eyJoZWlnaHQiOjQzMi42MzI5LCJ3aWR0aCI6NzAwLCJzaXplX2JlaGF2aW9yIjowLCJjb25kaXRpb25zIjpbXX0= -->
+<p><img src="data:image/png;base64,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" /></p>
+<!-- rnb-plot-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="append-to-new-data" class="section level1">
-<h1>append to new data</h1>
-<p>dat_new<span class="math inline">\(phdstage &lt;- dat\)</span>phdstage</p>
-<p>data_to_drop &lt;- append(data_to_drop, “AP04_01”) data_to_drop &lt;- append(data_to_drop, “startmonth”) data_to_drop &lt;- append(data_to_drop, “phdmonth”)</p>
-<div id="section-1" class="section level63">
-<p class="heading"></p>
+<div id="ef06-length-of-scholarship-if-you-have-a-scholarship-what-is-the-total-length-of-your-current-scholarship-in-months" class="section level4">
+<h4>[EF06] Length of scholarship “If you have a scholarship: What is the total length of your current scholarship (in months)?”</h4>
+<pre><code>    EF06_01 ... months</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JEVGMDZfMDEsIHVzZU5BID0gXCJhbHdheXNcIilcblxuYGBgIn0= -->
+<pre class="r"><code>table(dat$EF06_01, useNA = &quot;always&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICA2ICAgMTIgICAyMyAgIDI0ICAgMjYgICAyNyAgIDMwICAgMzYgICAzOCAgIDQyICAgNDUgICA0OCAgIDU0ICAgNjAgPE5BPiBcbiAgIDEgICAgNSAgICAxICAgIDggICAgMSAgICAxICAgIDIgICAzNyAgICAxICAgIDIgICAgMSAgIDEwICAgIDIgICAgMSAgNTE2IFxuIn0= -->
+<pre><code>
+   6   12   23   24   26   27   30   36   38   42   45   48   54   60 &lt;NA&gt; 
+   1    5    1    8    1    1    2   37    1    2    1   10    2    1  516 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="section-ef-employmentfinancial-situation" class="section level3">
-<h3>Section EF: Employment/Financial Situation</h3>
-<div id="section-2" class="section level63">
-<p class="heading"></p>
+<div id="ef03-full-time-what-is-the-percentage-your-contract-covers-in-terms-of-full-time-employment" class="section level4">
+<h4>[EF03] % Full time “What is the percentage your contract covers in terms of full-time employment?”</h4>
+<pre><code>    EF03_01 ... %</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JEVGMDNfMDEpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$EF03_01)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gIDEwICAgMTEgICAxNiAgIDE3ICAgMjAgICAyMSAgIDIyICAgMjUgICAzMCAgIDMzICAgNDAgICA1MCAgIDU1ICAgNTcgNTcuNSAgIDYwICAgNjEgNjIuNSAgIDY1ICAgNjYgICA2NyAgIDcwICAgNzUgICA4MCAgIDgyICAgODUgXG4gICAxICAgIDEgICAgMSAgICAxICAgIDEgICAgMSAgICAxICAgIDcgICAgMSAgICAxICAgIDEgIDEyOSAgICAxICAgIDEgICAgMSAgIDIzICAgIDEgICAgMSAgMTgxICAgIDQgICAgMyAgICA0ICAgNTEgICAgNSAgICAxICAgIDYgXG44Ny41ICAgOTAgIDEwMCBcbiAgIDEgICAgMSAgIDMwIFxuIn0= -->
+<pre><code>
+  10   11   16   17   20   21   22   25   30   33   40   50   55   57 57.5   60   61 62.5   65   66   67   70   75   80   82   85 
+   1    1    1    1    1    1    1    7    1    1    1  129    1    1    1   23    1    1  181    4    3    4   51    5    1    6 
+87.5   90  100 
+   1    1   30 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="section-3" class="section level63">
-<p class="heading"></p>
+<div id="ef04-other-employment-do-you-have-any-other-paid-employment-which-is-unrelated-to-your-ph.d." class="section level4">
+<h4>[EF04] Other employment “Do you have any other paid employment which is unrelated to your Ph.D.?”</h4>
+<pre><code>    0 = no
+    1 = yes
+    NA = Now answered </code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JEVGMDQsIHVzZU5BID0gXCJhbHdheXNcIilcblxuYGBgIn0= -->
+<pre class="r"><code>table(dat$EF04, useNA = &quot;always&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAwICAgIDEgPE5BPiBcbiA0NjIgICA5MCAgIDM3IFxuIn0= -->
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 462   90   37 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-</div>
-</div>
-<div id="ef01-contract-type-how-are-you-financed-contract-type-only-related-to-your-ph.d." class="section level1">
-<h1>[EF01] Contract Type “How are you financed? (Contract type only related to your Ph.D.)”</h1>
-<pre><code>  ### 1 = Permanent employment
-  ### 2 = Temporary employment
-  ### 3 = Hourly employment
-  ### 6 = Scholarship (employed, paying social security)
-  ### 7 = Scholarship (not employed)
-  ### 5 = Not employed
-  ### 8 = Other, please specify:
-  ###NA = Not answered
-  ### EF01_08 Other, please specify
-  ### if multiple matches in open answers: other</code></pre>
-<p>dat<span class="math inline">\(EF01 &lt;- dat_n\)</span>EF01</p>
-</div>
-<div id="match-open-answers-to-categories" class="section level1">
-<h1>match open answers to categories</h1>
-<p>dat<span class="math inline">\(EF01_08 &lt;- str_trim(dat\)</span>EF01_08) #dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == ‘first three years Scholarship (not employed), now temporary part time employment (50%)’] &lt;- ’’ dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “Grant based stipend”] &lt;- 6 #dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “travelling fees”] &lt;- ’’ #dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “cooperation with industry”] &lt;- ’’ #dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “bis vor kurzem mit Vollstipendium, jetzt Hiwi-Vertrag”] &lt;- ’’ #dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “lecture contract”] &lt;- ’’ dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “working half time out of university”] &lt;- 5 #dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “external Ph.D.student”] &lt;- 5 dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “ALG1” ] &lt;- 5 #dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “12 months scholarship for the whole PhD duration” ] &lt;- ’’ dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “mini-job” ] &lt;- 5 dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “previously with a DFG grant (3 y) and short contract through Senckenberg” ] &lt;- 2 dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “Private money” ] &lt;- 5 #dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “temporary employment, now unemployed” ] &lt;- 5 dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “50 % Temporary employment” ] &lt;- 2 dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “DFG Grant, I dont know how it fits on the ones above” ] &lt;- 2 dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “self-founded” ] &lt;- 5 dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == “Freelance employment” ] &lt;- 5 dat<span class="math inline">\(EF01[dat\)</span>EF01_08 == ‘family (husband) financial support’] &lt;- 5</p>
-<p>table(dat$EF01, useNA = “always”)</p>
-<p>dat_new<span class="math inline">\(EF01 &lt;- dat\)</span>EF01</p>
-<div id="section-4" class="section level63">
-<p class="heading"></p>
-</div>
-</div>
-<div id="ef02-length-of-contract-if-you-only-have-a-temporary-employment-what-is-the-total-length-of-your-contract-in-months" class="section level1">
-<h1>[EF02] Length of Contract “If you only have a temporary employment: What is the total length of your contract (in months)?”</h1>
-<pre><code>  ### EF02_01 ... months</code></pre>
-<p>dat<span class="math inline">\(EF02_01 &lt;- str_trim(dat\)</span>EF02_01) dat<span class="math inline">\(EF02_01 &lt;- recode(dat\)</span>EF02_01, “‘36 months’ = ‘36’; ‘24 (posdoc/Marie Curie)’ = ‘24’; ‘28 Months’ = ‘28’; ‘36 + 12 +5’ = ‘53’; ‘36 + 15’ = ‘51’; ‘36+12’=‘48’; ‘1-3’ = ‘2’; ‘0’ = ’’”)</p>
-<p>dat_new<span class="math inline">\(EF02_01 &lt;- as.numeric(dat\)</span>EF02_01) table(dat_new$EF02_01, useNA = “always”)</p>
-<div id="section-5" class="section level63">
-<p class="heading"></p>
-</div>
-</div>
-<div id="ef06-length-of-scholarship-if-you-have-a-scholarship-what-is-the-total-length-of-your-current-scholarship-in-months" class="section level1">
-<h1>[EF06] Length of scholarship “If you have a scholarship: What is the total length of your current scholarship (in months)?”</h1>
-<pre><code> ### EF06_01 ... months</code></pre>
-<p>dat<span class="math inline">\(EF06_01 &lt;- str_trim(dat\)</span>EF06_01) dat<span class="math inline">\(EF06_01 &lt;- recode(dat\)</span>EF06_01, “‘36 months’ = ‘36’; ‘36-48’ = ‘42’; ‘23 months’ = ‘23’; ‘36 (DFG) previously’ = ‘36’; ‘0’ = ’’”) dat_new<span class="math inline">\(EF06_01 &lt;- as.numeric(dat\)</span>EF06_01)</p>
-<div id="section-6" class="section level63">
-<p class="heading"></p>
-</div>
-</div>
-<div id="ef03-full-time-what-is-the-percentage-your-contract-covers-in-terms-of-full-time-employment" class="section level1">
-<h1>[EF03] % Full time “What is the percentage your contract covers in terms of full-time employment?”</h1>
-<pre><code>  ### EF03_01 ... %</code></pre>
-<p>dat<span class="math inline">\(EF03_01 &lt;- str_trim(dat\)</span>EF03_01) dat<span class="math inline">\(EF03_01 &lt;- recode(dat\)</span>EF03_01, “‘&lt; 50’ = ‘50’; ‘DFG was 60%’ = ‘60’; ‘65 %, 75% since 2021’ = ‘70’; ‘87,5’ = ‘87.5’; ‘60 and 50’ = ‘55’; ‘57,5’ = ‘57.5’; ‘0’ = ‘-’;”) dat_new<span class="math inline">\(EF03_01 &lt;- as.numeric(dat\)</span>EF03_01)</p>
-<p>table(dat_new$EF03_01, useNA = “always”)</p>
-<div id="section-7" class="section level63">
-<p class="heading"></p>
-</div>
-</div>
-<div id="ef04-other-employment-do-you-have-any-other-paid-employment-which-is-unrelated-to-your-ph.d." class="section level1">
-<h1>[EF04] Other employment “Do you have any other paid employment which is unrelated to your Ph.D.?”</h1>
-<pre><code>  ### EF04 Other employment
-  ### 1 = no  2 = yes </code></pre>
-</div>
-<div id="recode-to-0-no-1-yes-na-now-answered" class="section level1">
-<h1>recode to 0 = no, 1 = yes, NA = Now answered</h1>
-<p>dat_new<span class="math inline">\(EF04 &lt;- recode(dat_n\)</span>EF04, “‘1’=0; ‘2’=1;”)</p>
-<p>table(dat_new$EF04, useNA = “always”)</p>
-<div id="section-8" class="section level63">
-<p class="heading"></p>
-</div>
-</div>
-<div id="ef05-reason-other-employment-why-did-you-decide-to-have-a-side-job" class="section level1">
-<h1>[EF05] Reason other employment “Why did you decide to have a side-job?”</h1>
+<div id="ef05-reason-other-employment-why-did-you-decide-to-have-a-side-job" class="section level4">
+<h4>[EF05] Reason other employment “Why did you decide to have a side-job?”</h4>
 <pre><code>  ### EF05 shows how often 1,2,3 etc. options where ticked.
   ### EF05_01 Earning money
   ### EF05_02 For the CV
@@ -597,136 +664,172 @@ hist(dat$age)</code></pre>
   ### 2 = Checked
   ### EF05_04a Other, please specify (free text)</code></pre>
 </div>
+</div>
 <div id="todo-6" class="section level1">
 <h1>TODO #6</h1>
+<p>see open question procedure</p>
 </div>
-<div id="see-open-question-procedure" class="section level1">
-<h1>see open question procedure</h1>
-<div id="section-9" class="section level63">
-<p class="heading"></p>
+<div id="section-ev-evaluation-of-your-ph.d." class="section level1">
+<h1>Section EV: Evaluation of your Ph.D.</h1>
+<ul>
+<li><p>scale in EV01, EV04, EV06, EV07, EV08</p>
+<pre><code>  1 = strongly disagree
+  2 = disagree
+  3 = neither agree nor disagree
+  4 = agree
+  5 = strongly agree
+  -1 = not sure
+  NA = Not answered</code></pre></li>
+<li><p>[EV01] PhD again “Looking back, if I had not started my Ph.D. yet, I would do it again.”</p></li>
+<li><p>[EV04] Regret “I regret having started a Ph.D.”</p></li>
+</ul>
+<p>Please evaluate in the scale the following statements regarding your Ph.D.:</p>
+<ul>
+<li>[EV06] Job-satisfaction1 “I enjoy being at work.”</li>
+<li>[EV07] Job-satisfaction2 “I am content with the job I have.”</li>
+<li>[EV08] Job-satisfaction3 “I am satisfied with my job.”</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JEVWMDQsIHVzZU5BID0gXCJhbHdheXNcIilcblxuYGBgIn0= -->
+<pre class="r"><code>table(dat$EV04, useNA = &quot;always&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0ICAgIDUgPE5BPiBcbiAxMzAgIDIxNiAgMTAxICAgNDggICAxNSAgIDc5IFxuIn0= -->
+<pre><code>
+   1    2    3    4    5 &lt;NA&gt; 
+ 130  216  101   48   15   79 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="ev09-life-satisfaction-how-satisfied-are-you-with-your-life-at-the-moment" class="section level4">
+<h4>[EV09] Life-satisfaction “How satisfied are you with your life at the moment?”</h4>
+<pre><code>    1 = not satisfied at all
+    2 = slightly satisfied
+    3 = moderately satisfied
+    4 = very satisfied
+    5 = totally satisfied
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JEVWMDksIHVzZU5BID0gXCJhbHdheXNcIilcblxuYGBgIn0= -->
+<pre class="r"><code>table(dat$EV09, useNA = &quot;always&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0ICAgIDUgPE5BPiBcbiAgNTYgIDExNCAgMjIyICAxMjcgICAxMyAgIDU3IFxuIn0= -->
+<pre><code>
+   1    2    3    4    5 &lt;NA&gt; 
+  56  114  222  127   13   57 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="section-ev-evaluation-of-your-ph.d." class="section level3">
-<h3>Section EV: Evaluation of your Ph.D.</h3>
-<div id="section-10" class="section level63">
-<p class="heading"></p>
-<p>### scale in EV01, EV04, EV06, EV07, EV08 # (EV04 was shifted by one. now fixed.) ### 1 = strongly disagree ### 2 = disagree ### 3 = neither agree nor disagree ### 4 = agree ### 5 = strongly agree ### -1 = not sure ### NA = Not answered</p>
+<div id="ev05-phd-somewhere-else-do-you-think-doing-your-ph.d.-inat-a-different-countryuniversity-would-offer-better-conditions" class="section level4">
+<h4>[EV05] PhD somewhere else “Do you think doing your Ph.D. in/at a different country/university would offer better conditions?”</h4>
+<pre><code>    0 = no; 
+    1 = yes; 
+    2 = not sure; 
+    NA = Not answered
+    </code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JEVWMDUsIHVzZU5BID0gXCJhbHdheXNcIilcblxuYGBgIn0= -->
+<pre class="r"><code>table(dat$EV05, useNA = &quot;always&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAwICAgIDEgICAgMiA8TkE+IFxuIDE4NyAgMTM1ICAyMTcgICA1MCBcbiJ9 -->
+<pre><code>
+   0    1    2 &lt;NA&gt; 
+ 187  135  217   50 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 </div>
+<div id="section-wg-structure-of-working-group" class="section level1">
+<h1>Section WG: Structure of working group</h1>
+<div id="wg01-professional-support-are-there-colleagues-in-your-departmentresearch-center-that-support-you-professionally" class="section level4">
+<h4>[WG01] Professional support “Are there colleagues in your department/research center that support you professionally?”</h4>
+<pre><code>    0 = no; 
+    1 = yes;  
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFdHMDEsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$WG01, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAwICAgIDEgPE5BPiBcbiAxMTcgIDQxMSAgIDYxIFxuIn0= -->
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 117  411   61 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="ev01-phd-again-looking-back-if-i-had-not-started-my-ph.d.-yet-i-would-do-it-again." class="section level1">
-<h1>[EV01] PhD again “Looking back, if I had not started my Ph.D. yet, I would do it again.”</h1>
+<div id="wg02-emotional-support-are-there-colleagues-in-your-departmentresearch-center-that-support-you-emotionally" class="section level4">
+<h4>[WG02] Emotional support “Are there colleagues in your department/research center that support you emotionally?”</h4>
+<pre><code>    0 = no; 
+    1 = yes; 
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFdHMDIsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$WG02, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAwICAgIDEgPE5BPiBcbiAxODUgIDM0MyAgIDYxIFxuIn0= -->
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 185  343   61 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="ev04-regret-i-regret-having-started-a-ph.d." class="section level1">
-<h1>[EV04] Regret “I regret having started a Ph.D.”</h1>
-<div id="please-evaluate-in-the-scale-the-following-statements-regarding-your-ph.d." class="section level3">
-<h3>Please evaluate in the scale the following statements regarding your Ph.D.:</h3>
+<div id="wg03-work-alone-do-you-mainly-work-alone-on-your-project" class="section level4">
+<h4>[WG03] Work alone “Do you mainly work alone on your project?”</h4>
+<pre><code>    0 = no; 
+    1 = yes; 
+    NA = Not answered</code></pre>
 </div>
-</div>
-<div id="ev06-job-satisfaction1-i-enjoy-being-at-work." class="section level1">
-<h1>[EV06] Job-satisfaction1 “I enjoy being at work.”</h1>
-</div>
-<div id="ev07-job-satisfaction2-i-am-content-with-the-job-i-have." class="section level1">
-<h1>[EV07] Job-satisfaction2 “I am content with the job I have.”</h1>
-</div>
-<div id="ev08-job-satisfaction3-i-am-satisfied-with-my-job." class="section level1">
-<h1>[EV08] Job-satisfaction3 “I am satisfied with my job.”</h1>
-<p>dat_new &lt;- cbind(dat_new, dat_n[c(‘EV01’, ‘EV06’, ‘EV07’,‘EV08’)]) dat_new<span class="math inline">\(EV04 &lt;- dat_n\)</span>EV04-1</p>
-</div>
-<div id="ev09-life-satisfaction-how-satisfied-are-you-with-your-life-at-the-moment" class="section level1">
-<h1>[EV09] Life-satisfaction “How satisfied are you with your life at the moment?”</h1>
-<pre><code>### 1 = not satisfied at all
-### 2 = slightly satisfied
-### 3 = moderately satisfied
-### 4 = very satisfied
-### 5 = totally satisfied
-### NA = Not answered^</code></pre>
-<p>dat_new<span class="math inline">\(EV09 &lt;- dat_n\)</span>EV09 table(dat_n$EV09)</p>
-</div>
-<div id="ev05-phd-somewhere-else-do-you-think-doing-your-ph.d.-inat-a-different-countryuniversity-would-offer-better-conditions" class="section level1">
-<h1>[EV05] PhD somewhere else “Do you think doing your Ph.D. in/at a different country/university would offer better conditions?”</h1>
-<pre><code>### 1 = no; 2 = yes; 3 = not sure; NA = Not answered</code></pre>
-</div>
-<div id="recode-to" class="section level1">
-<h1>recode to</h1>
-<pre><code>### 0 = no; 1 = yes; 2 = not sure; NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(EV05 &lt;- recode(dat_n\)</span>EV05, “‘1’=0; ‘2’=1;‘3’=2”) table(dat$EV05)</p>
-<div id="section-11" class="section level63">
-<p class="heading"></p>
-</div>
-<div id="section-wg-structure-of-working-group" class="section level3">
-<h3>Section WG: Structure of working group</h3>
-<div id="section-12" class="section level63">
-<p class="heading"></p>
-</div>
-</div>
-</div>
-<div id="wg01-professional-support-are-there-colleagues-in-your-departmentresearch-center-that-support-you-professionally" class="section level1">
-<h1>[WG01] Professional support “Are there colleagues in your department/research center that support you professionally?”</h1>
-<pre><code>### 1 = no;  2 = yes;  NA = Not answered</code></pre>
-</div>
-<div id="recode-to-1" class="section level1">
-<h1>recode to</h1>
-<pre><code>### 0 = no; 1 = yes;  NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(WG01 &lt;- recode(dat_n\)</span>WG01, “‘1’=0; ‘2’=1;”) table(dat$WG01, useNA = ‘always’)</p>
-</div>
-<div id="wg02-emotional-support-are-there-colleagues-in-your-departmentresearch-center-that-support-you-emotionally" class="section level1">
-<h1>[WG02] Emotional support “Are there colleagues in your department/research center that support you emotionally?”</h1>
-<pre><code>### 1 = no;  2 = yes;  NA = Not answered</code></pre>
-</div>
-<div id="recode-to-2" class="section level1">
-<h1>recode to</h1>
-<pre><code>### 0 = no; 1 = yes; NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(WG02 &lt;- recode(dat_n\)</span>WG02, “‘1’=0; ‘2’=1;”) table(dat$WG02, useNA = ‘always’)</p>
-</div>
-<div id="wg03-work-alone-do-you-mainly-work-alone-on-your-project" class="section level1">
-<h1>[WG03] Work alone “Do you mainly work alone on your project?”</h1>
-<pre><code>### 1 = no;  2 = yes;  NA = Not answered</code></pre>
-</div>
-<div id="recode-to-3" class="section level1">
-<h1>recode to</h1>
-<pre><code>### 0 = no; 1 = yes; NA = Not answered</code></pre>
 </div>
 <div id="todo-7-this-variable-is-missing-in-the-data" class="section level1">
 <h1>TODO #7 : this variable is missing in the data??????</h1>
+<p>also missing in sosci survey!</p>
 </div>
-<div id="also-missing-in-sosci-survey" class="section level1">
-<h1>also missing in sosci survey!</h1>
-<div id="section-13" class="section level63">
-<p class="heading"></p>
+<div id="section-gh-general-health" class="section level1">
+<h1>Section GH: General Health</h1>
+<ul>
+<li><p>scale in GH01, GH02, GH03, GH04</p>
+<pre><code>  1 = never
+  2 = almost never
+  3 = sometimes
+  4 = fairly often
+  5 = very often
+  NA = Not answered</code></pre></li>
+<li><p>[GH01] Stress1 “…how often have you felt that you were unable to control the important things in your life?”</p></li>
+<li><p>[GH02] Stress2 “…how often have you felt confident about your ability to handle your personal problems?”</p></li>
+<li><p>[GH03] Stress3 “…how often have you felt that things were going your way?”</p></li>
+<li><p>[GH04] Stress4 “…how often have you felt difficulties were piling up so high that you could not overcome them?”</p></li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JEdIMDEsIHVzZU5BID0gXCJhbHdheXNcIilcblxuYGBgIn0= -->
+<pre class="r"><code>table(dat$GH01, useNA = &quot;always&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0ICAgIDUgPE5BPiBcbiAgMTUgICA4OCAgMjIyICAxNTEgICA0NiAgIDY3IFxuIn0= -->
+<pre><code>
+   1    2    3    4    5 &lt;NA&gt; 
+  15   88  222  151   46   67 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="section-gh-general-health" class="section level3">
-<h3>Section GH: General Health</h3>
-<div id="section-14" class="section level63">
-<p class="heading"></p>
-<p>### 1 = never ### 2 = almost never ### 3 = sometimes ### 4 = fairly often ### 5 = very often ### NA = Not answered</p>
-</div>
-</div>
-</div>
-<div id="gh01-stress1-how-often-have-you-felt-that-you-were-unable-to-control-the-important-things-in-your-life" class="section level1">
-<h1>[GH01] Stress1 “…how often have you felt that you were unable to control the important things in your life?”</h1>
-</div>
-<div id="gh02-stress2-how-often-have-you-felt-confident-about-your-ability-to-handle-your-personal-problems" class="section level1">
-<h1>[GH02] Stress2 “…how often have you felt confident about your ability to handle your personal problems?”</h1>
-</div>
-<div id="gh03-stress3-how-often-have-you-felt-that-things-were-going-your-way" class="section level1">
-<h1>[GH03] Stress3 “…how often have you felt that things were going your way?”</h1>
-</div>
-<div id="gh04-stress4-how-often-have-you-felt-difficulties-were-piling-up-so-high-that-you-could-not-overcome-them" class="section level1">
-<h1>[GH04] Stress4 “…how often have you felt difficulties were piling up so high that you could not overcome them?”</h1>
-<p>dat_new &lt;- cbind(dat_new, dat_n[c(‘GH01’, ‘GH02’, ‘GH03’,‘GH04’)])</p>
-<p>table(dat_new$GH04, useNA = “always”)</p>
-<div id="section-15" class="section level63">
-<p class="heading"></p>
-</div>
-<div id="section-or-other-responsibilities" class="section level3">
-<h3>Section OR: Other responsibilities</h3>
-<div id="section-16" class="section level63">
-<p class="heading"></p>
-</div>
-</div>
-</div>
-<div id="or01-reponsibilities-besides-phd-what-other-responsibilities-do-you-have-besides-working-on-your-research-topicproject-mc" class="section level1">
-<h1>[OR01] Reponsibilities besides PhD “What other responsibilities do you have besides working on your research topic/project?” (MC)</h1>
+<div id="section-or-other-responsibilities" class="section level1">
+<h1>Section OR: Other responsibilities</h1>
+<div id="or01-reponsibilities-besides-phd-what-other-responsibilities-do-you-have-besides-working-on-your-research-topicproject" class="section level4">
+<h4>[OR01] Reponsibilities besides PhD “What other responsibilities do you have besides working on your research topic/project?”</h4>
 <pre><code>### OR01_01 Teaching
 ### OR01_02 Supervision of other students
 ### OR01_03 Administration
@@ -736,389 +839,611 @@ hist(dat$age)</code></pre>
 ### 1 = Not checked
 ### 2 = Checked
 ### OR01_08a Other, please specify (free text)</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JE9SMDFfMDEpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$OR01_01)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiPCB0YWJsZSBvZiBleHRlbnQgMCA+XG4ifQ== -->
+<pre><code>&lt; table of extent 0 &gt;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
 </div>
 <div id="todo-8" class="section level1">
 <h1>TODO #8</h1>
 </div>
-<div id="see-open-question-procedure-1" class="section level1">
+<div id="see-open-question-procedure" class="section level1">
 <h1>see open question procedure</h1>
 </div>
 <div id="leave-them-and-add-other-columns-for-open-question.-potentially-merge-them." class="section level1">
 <h1>leave them and add other columns for open question. potentially merge them.</h1>
-<p>table(dat_n$OR01)</p>
-<div id="section-17" class="section level63">
-<p class="heading"></p>
+<div id="or02-time-other-responsibilities-how-much-time-do-you-spend-on-other-responsibilities-besides-your-research-activities" class="section level4">
+<h4>[OR02] Time other responsibilities “How much time do you spend on other responsibilities besides your research activities?”</h4>
+<pre><code>    OR02_01 ... %</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-plot-begin eyJoZWlnaHQiOjQzMi42MzI5LCJ3aWR0aCI6NzAwLCJzaXplX2JlaGF2aW9yIjowLCJjb25kaXRpb25zIjpbXX0= -->
+<p><img src="data:image/png;base64,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" /></p>
+<!-- rnb-plot-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 </div>
-<div id="or02-time-other-responsibilities-how-much-time-do-you-spend-on-other-responsibilities-besides-your-research-activities" class="section level1">
-<h1>[OR02] Time other responsibilities “How much time do you spend on other responsibilities besides your research activities?”</h1>
-<pre><code>### OR02_01 ... %</code></pre>
-<p>dat<span class="math inline">\(OR02_01 &lt;- str_trim(dat\)</span>OR02_01) dat<span class="math inline">\(OR02_01 &lt;- recode(dat\)</span>OR02_01, “‘15-30’ = ‘22.5’; ‘20-30’ = ‘25’; ‘20-60’ = ‘40’; ‘30-70’ = ‘50’; ‘30%’ = ‘30’; ‘5-10’ = ‘7.5’; ‘60%’ = ‘60’; ‘66,67’ = ‘66.67’;”) dat_new<span class="math inline">\(OR02_01 &lt;- as.numeric(dat\)</span>OR02_01)</p>
-<div id="section-18" class="section level63">
-<p class="heading"></p>
+<div id="section-st-stressors" class="section level1">
+<h1>Section ST: Stressors</h1>
+<div id="st01-institutional-stressor1-have-you-ever-felt-looked-down-on-by-your-supervisor" class="section level4">
+<h4>[ST01] Institutional-stressor1 “Have you ever felt looked down on by your supervisor?”</h4>
 </div>
-<div id="section-st-stressors" class="section level3">
-<h3>Section ST: Stressors</h3>
-<div id="section-19" class="section level63">
-<p class="heading"></p>
+<div id="st02-institutional-stressor2-do-you-feel-supported-by-your-supervisor" class="section level4">
+<h4>[ST02] Institutional-stressor2 “Do you feel supported by your supervisor?”</h4>
+</div>
+<div id="st03-institutional-stressor3-do-you-feel-your-supervisor-is-interested-in-your-topic" class="section level4">
+<h4>[ST03] Institutional-stressor3 “Do you feel your supervisor is interested in your topic?”</h4>
+</div>
+<div id="st04-institutional-stressor4-have-you-ever-felt-mistreated-e.g.-insulted-shouted-at-undervalued-by-your-supervisor" class="section level4">
+<h4>[ST04] Institutional-stressor4 “Have you ever felt mistreated (e.g., insulted, shouted at, undervalued) by your supervisor?”</h4>
+</div>
+<div id="st17-institutional-stressor4_coll-have-you-ever-felt-mistreated-e.g.-insulted-shouted-at-undervalued-by-your-colleagues" class="section level4">
+<h4>[ST17] Institutional-stressor4_coll “Have you ever felt mistreated (e.g., insulted, shouted at, undervalued) by your colleagues?”</h4>
+</div>
+<div id="st05-institutional-stressor5-does-your-supervisor-encourage-you-to-participate-in-career-building-opportunities-such-as-conferences-summ" class="section level4">
+<h4>[ST05] Institutional-stressor5 “Does your supervisor encourage you to participate in career-building opportunities such as conferences, summ…”</h4>
+</div>
+<div id="st06-institutional-stressor6-based-on-your-experiences-in-academia-so-far-do-you-reconsider-your-career-path" class="section level4">
+<h4>[ST06] Institutional-stressor6 “Based on your experiences in academia so far, do you reconsider your career path?”</h4>
+</div>
+<div id="st07-institutional-stressor7-do-you-feel-comfortable-contacting-your-supervisor-when-you-need-help" class="section level4">
+<h4>[ST07] Institutional-stressor7 “Do you feel comfortable contacting your supervisor when you need help?”</h4>
+</div>
+<div id="st08-institutional-stressor8-has-the-behavior-of-your-supervisor-ever-made-you-consider-quitting-your-ph.d." class="section level4">
+<h4>[ST08] Institutional-stressor8 “Has the behavior of your supervisor ever made you consider quitting your Ph.D.?”</h4>
+</div>
+<div id="st09-institutional-stressor9-do-you-have-regular-meetings-with-your-supervisors" class="section level4">
+<h4>[ST09] Institutional-stressor9 “Do you have regular meetings with your supervisor(s)?”</h4>
+<pre><code>    Scale for [ST01] to [ST09] and [ST17]:
+    1 = not at all
+    2 = rarely
+    3 = some of the time
+    4 = most of the time
+    5 = all of the time
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFNUMTcsIHVzZU5BID0gXCJhbHdheXNcIilcblxuYGBgIn0= -->
+<pre class="r"><code>table(dat$ST17, useNA = &quot;always&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48TkE+IFxuICAgMCBcbiJ9 -->
+<pre><code>
+&lt;NA&gt; 
+   0 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="st16-institutional-stressor10-how-often-do-you-have-meetings-with-your-supervisors" class="section level4">
+<h4>[ST16] Institutional-stressor10 “How often do you have meetings with your supervisor(s)?”</h4>
+<pre><code>    1 = at least once a week
+    2 = at least once a month
+    3 = at least every three months
+    4 = at least every six months
+    5 = at least once a year
+    6 = less than once a year
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFNUMTYsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$ST16, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0ICAgIDUgICAgNiA8TkE+IFxuIDEzMyAgMTg3ICAgOTkgICA2MiAgIDIxICAgMTAgICA3NyBcbiJ9 -->
+<pre><code>
+   1    2    3    4    5    6 &lt;NA&gt; 
+ 133  187   99   62   21   10   77 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="st11-systemic-stressor1-the-lack-of-permanentlong-term-contracts-in-academi" class="section level4">
+<h4>[ST11] Systemic-stressor1 “The lack of permanent/long-term contracts in academi…”</h4>
+</div>
+<div id="st12-systemic-stressor2-i-believe-having-a-ph.d.-will-help-me-to-find-a-good-job." class="section level4">
+<h4>[ST12] Systemic-stressor2 I believe having a Ph.D. will help me to find a good job.&quot;&quot;</h4>
+</div>
+<div id="st13-job-insecurity1-please-evaluate-in-the-scale-the-following-statements-regarding-your-ph.d.i-am-worried-about-having-to-le" class="section level4">
+<h4>[ST13] Job-insecurity1 “Please evaluate in the scale the following statements regarding your Ph.D.:”I am worried about having to le…&quot;</h4>
+</div>
+<div id="st14-job-insecurity2-there-is-a-risk-that-i-will-have-to-leave-my-present-job-in-the-year-to-come." class="section level4">
+<h4>[ST14] Job-insecurity2 “There is a risk that I will have to leave my present job in the year to come.”</h4>
+</div>
+<div id="st15-job-insecurity3-i-feel-uneasy-about-losing-my-job-in-the-near-future." class="section level4">
+<h4>[ST15] Job-insecurity3 “I feel uneasy about losing my job in the near future.”</h4>
+<pre><code>    Scale for [ST11] to [ST15]
+    1 = strongly disagree
+    2 = disagree
+    3 = neither agree nor disagree
+    4 = agree
+    5 = strongly agree
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFNUMTEpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$ST11)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gIDEgICAyICAgMyAgIDQgICA1IFxuIDE2ICAzNyAgNDggMTE1IDI5NiBcbiJ9 -->
+<pre><code>
+  1   2   3   4   5 
+ 16  37  48 115 296 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 </div>
-<div id="scale-for-st01-to-st09" class="section level3">
-<h3>Scale for [ST01] to [ST09]</h3>
-<pre><code>### 1 = not at all
-### 2 = rarely
-### 3 = some of the time
-### 4 = most of the time
-### 5 = all of the time
-### NA = Not answered</code></pre>
+<div id="section-mh-mental-health" class="section level1">
+<h1>Section MH: Mental Health</h1>
+<div id="mh01-mental-health-1-how-often-do-you-feel-stressed-since-you-have-started-your-ph.d." class="section level4">
+<h4>[MH01] Mental health 1 “How often do you feel stressed since you have started your Ph.D.?”</h4>
+<pre><code>    1 = not at all
+    2 = rarely
+    3 = some of the time
+    4 = most of the time
+    5 = all of the time
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JE1IMDEsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$MH01, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0ICAgIDUgPE5BPiBcbiAgIDEgICAyNCAgMjEyICAyMjcgICAzNyAgIDg4IFxuIn0= -->
+<pre><code>
+   1    2    3    4    5 &lt;NA&gt; 
+   1   24  212  227   37   88 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
+<div id="mh02-mental-health-2-has-your-stress-level-increased-since-you-started-your-ph.d." class="section level4">
+<h4>[MH02] Mental health 2 “Has your stress level increased since you started your Ph.D.?”</h4>
+<pre><code>    0 = No
+    1 = Yes</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JE1IMDIsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$MH02, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAwICAgIDEgPE5BPiBcbiAxMTggIDM4MyAgIDg4IFxuIn0= -->
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 118  383   88 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="st01-institutional-stressor1-have-you-ever-felt-looked-down-on-by-your-supervisor" class="section level1">
-<h1>[ST01] Institutional-stressor1 “Have you ever felt looked down on by your supervisor?”</h1>
+<div id="mh03-mental-health-3-what-isare-the-causes-of-your-stress" class="section level4">
+<h4>[MH03] Mental health 3 “What is/are the cause(s) of your stress?”</h4>
 </div>
-<div id="st02-institutional-stressor2-do-you-feel-supported-by-your-supervisor" class="section level1">
-<h1>[ST02] Institutional-stressor2 “Do you feel supported by your supervisor?”</h1>
-</div>
-<div id="st03-institutional-stressor3-do-you-feel-your-supervisor-is-interested-in-your-topic" class="section level1">
-<h1>[ST03] Institutional-stressor3 “Do you feel your supervisor is interested in your topic?”</h1>
-</div>
-<div id="st04-institutional-stressor4-have-you-ever-felt-mistreated-e.g.-insulted-shouted-at-undervalued-by-your-supervisor" class="section level1">
-<h1>[ST04] Institutional-stressor4 “Have you ever felt mistreated (e.g., insulted, shouted at, undervalued) by your supervisor?”</h1>
-</div>
-<div id="st17-institutional-stressor4_coll-have-you-ever-felt-mistreated-e.g.-insulted-shouted-at-undervalued-by-your-colleagues" class="section level1">
-<h1>[ST17] Institutional-stressor4_coll “Have you ever felt mistreated (e.g., insulted, shouted at, undervalued) by your colleagues?”</h1>
-</div>
-<div id="st05-institutional-stressor5-does-your-supervisor-encourage-you-to-participate-in-career-building-opportunities-such-as-conferences-summ" class="section level1">
-<h1>[ST05] Institutional-stressor5 “Does your supervisor encourage you to participate in career-building opportunities such as conferences, summ…”</h1>
-</div>
-<div id="st06-institutional-stressor6-based-on-your-experiences-in-academia-so-far-do-you-reconsider-your-career-path" class="section level1">
-<h1>[ST06] Institutional-stressor6 “Based on your experiences in academia so far, do you reconsider your career path?”</h1>
-</div>
-<div id="st07-institutional-stressor7-do-you-feel-comfortable-contacting-your-supervisor-when-you-need-help" class="section level1">
-<h1>[ST07] Institutional-stressor7 “Do you feel comfortable contacting your supervisor when you need help?”</h1>
-</div>
-<div id="st08-institutional-stressor8-has-the-behavior-of-your-supervisor-ever-made-you-consider-quitting-your-ph.d." class="section level1">
-<h1>[ST08] Institutional-stressor8 “Has the behavior of your supervisor ever made you consider quitting your Ph.D.?”</h1>
-</div>
-<div id="st09-institutional-stressor9-do-you-have-regular-meetings-with-your-supervisors" class="section level1">
-<h1>[ST09] Institutional-stressor9 “Do you have regular meetings with your supervisor(s)?”</h1>
-<p>dat_new &lt;- cbind(dat_new, dat_n[c(‘ST01’, ‘ST02’, ‘ST03’,‘ST04’,‘ST05’,‘ST06’,‘ST07’,‘ST08’,‘ST09’)]) table(dat_new$ST09, useNA = “always”)</p>
-</div>
-<div id="st16-institutional-stressor10-how-often-do-you-have-meetings-with-your-supervisors" class="section level1">
-<h1>[ST16] Institutional-stressor10 “How often do you have meetings with your supervisor(s)?”</h1>
-<pre><code>### 1 = at least once a week
-### 2 = at least once a month
-### 3 = at least every three months
-### 4 = at least every six months
-### 5 = at least once a year
-### 6 = less than once a year
-### NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(ST16 &lt;- dat_n\)</span>ST16 table(dat_new$ST16, useNA = ‘always’)</p>
-<div id="scale-for-st11-to-st15" class="section level3">
-<h3>Scale for [ST11] to [ST15]</h3>
-<pre><code>### 1 = strongly disagree
-### 2 = disagree
-### 3 = neither agree nor disagree
-### 4 = agree
-### 5 = strongly agree
-### NA = Not answered</code></pre>
-</div>
-</div>
-<div id="st11-systemic-stressor1-the-lack-of-permanentlong-term-contracts-in-academi" class="section level1">
-<h1>[ST11] Systemic-stressor1 “The lack of permanent/long-term contracts in academi…”</h1>
-</div>
-<div id="st12-systemic-stressor2-i-believe-having-a-ph.d.-will-help-me-to-find-a-good-job." class="section level1">
-<h1>[ST12] Systemic-stressor2 I believe having a Ph.D. will help me to find a good job.&quot;&quot;</h1>
-</div>
-<div id="st13-job-insecurity1-please-evaluate-in-the-scale-the-following-statements-regarding-your-ph.d.i-am-worried-about-having-to-le" class="section level1">
-<h1>[ST13] Job-insecurity1 “Please evaluate in the scale the following statements regarding your Ph.D.:”I am worried about having to le…&quot;</h1>
-</div>
-<div id="st14-job-insecurity2-there-is-a-risk-that-i-will-have-to-leave-my-present-job-in-the-year-to-come." class="section level1">
-<h1>[ST14] Job-insecurity2 “There is a risk that I will have to leave my present job in the year to come.”</h1>
-</div>
-<div id="st15-job-insecurity3-i-feel-uneasy-about-losing-my-job-in-the-near-future." class="section level1">
-<h1>[ST15] Job-insecurity3 “I feel uneasy about losing my job in the near future.”</h1>
-<p>dat_new &lt;- cbind(dat_new, dat_n[c(‘ST11’, ‘ST12’, ‘ST13’,‘ST14’,‘ST15’)]) table(dat_n$ST15, useNA = “always”)</p>
-<div id="section-20" class="section level63">
-<p class="heading"></p>
-</div>
-<div id="section-mh-mental-health" class="section level3">
-<h3>Section MH: Mental Health</h3>
-<div id="section-21" class="section level63">
-<p class="heading"></p>
-</div>
-</div>
-</div>
-<div id="mh01-mental-health-1-how-often-do-you-feel-stressed-since-you-have-started-your-ph.d." class="section level1">
-<h1>[MH01] Mental health 1 “How often do you feel stressed since you have started your Ph.D.?”</h1>
-<pre><code>  ### 1 = not at all
-  ### 2 = rarely
-  ### 3 = some of the time
-  ### 4 = most of the time
-  ### 5 = all of the time
-  ### NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(MH01 &lt;- dat_n\)</span>MH01 table(dat_new$MH01, useNA = ‘always’)</p>
-</div>
-<div id="mh02-mental-health-2-has-your-stress-level-increased-since-you-started-your-ph.d." class="section level1">
-<h1>[MH02] Mental health 2 “Has your stress level increased since you started your Ph.D.?”</h1>
-<pre><code>### 0 = No
-### 1 = Yes</code></pre>
-<p>dat_new<span class="math inline">\(MH02 &lt;- recode(dat_n\)</span>MH02, “‘1’=0; ‘2’=1;”) table(dat_n$MH02, useNA = ‘always’)</p>
-</div>
-<div id="mh03-mental-health-3-what-isare-the-causes-of-your-stress" class="section level1">
-<h1>[MH03] Mental health 3 “What is/are the cause(s) of your stress?”</h1>
 </div>
 <div id="mh03_01" class="section level1">
 <h1>[MH03_01]</h1>
 </div>
 <div id="todo-9-include-open-answer-preprocessing" class="section level1">
 <h1>TODO #9: include open answer preprocessing</h1>
+<div id="mh04-mental-health-4-do-you-have-anyone-at-your-institute-to-consult-about-your-work-related-stress-mc" class="section level4">
+<h4>[MH04] Mental health 4 “Do you have anyone at your institute to consult about your work-related stress?” (MC)</h4>
+<pre><code>    MH04_01 Nobody
+    MH04_02 Colleagues
+    MH04_03 Admins / Coordination
+    MH04_04 Supervisor
+    MH04_05 Other, please specify
+    0 = Not checked
+    1 = Checked
+    MH04_05a Other, please specify (free text)</code></pre>
 </div>
-<div id="mh04-mental-health-4-do-you-have-anyone-at-your-institute-to-consult-about-your-work-related-stress-mc" class="section level1">
-<h1>[MH04] Mental health 4 “Do you have anyone at your institute to consult about your work-related stress?” (MC)</h1>
-<pre><code>  ### MH04_01 Nobody
-  ### MH04_02 Colleagues
-  ### MH04_03 Admins / Coordination
-  ### MH04_04 Supervisor
-  ### MH04_05 Other, please specify
-  ### 0 = Not checked
-  ### 1 = Checked
-  ### MH04_05a Other, please specify (free text)</code></pre>
-<p>dat_new<span class="math inline">\(MH04_01 &lt;- recode(dat_n\)</span>MH04_01, “‘1’=0; ‘2’=1;”) dat_new<span class="math inline">\(MH04_02 &lt;- recode(dat_n\)</span>MH04_02, “‘1’=0; ‘2’=1;”) dat_new<span class="math inline">\(MH04_03 &lt;- recode(dat_n\)</span>MH04_03, “‘1’=0; ‘2’=1;”) dat_new<span class="math inline">\(MH04_04 &lt;- recode(dat_n\)</span>MH04_04, “‘1’=0; ‘2’=1;”) dat_new<span class="math inline">\(MH04_05 &lt;- recode(dat_n\)</span>MH04_05, “‘1’=0; ‘2’=1;”)</p>
-</div>
-<div id="mh04_05a-other-please-specify-free-text" class="section level1">
-<h1>MH04_05a Other, please specify (free text)</h1>
 </div>
 <div id="todo-10-open-answer-preprocessing" class="section level1">
 <h1>TODO #10: open answer preprocessing</h1>
+<div id="mh05-mental-health-5-do-you-feel-your-mental-health-has-declined-due-to-the-ph.d." class="section level4">
+<h4>[MH05] Mental health 5 “Do you feel your mental health has declined due to the Ph.D.?”</h4>
+<pre><code>    1 = not at all
+    2 = somehow
+    3 = plenty
+    4 = severely
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JE1IMDUsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$MH05, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0IDxOQT4gXG4gMTIxICAyMDEgIDExMSAgIDY2ICAgOTAgXG4ifQ== -->
+<pre><code>
+   1    2    3    4 &lt;NA&gt; 
+ 121  201  111   66   90 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="mh05-mental-health-5-do-you-feel-your-mental-health-has-declined-due-to-the-ph.d." class="section level1">
-<h1>[MH05] Mental health 5 “Do you feel your mental health has declined due to the Ph.D.?”</h1>
-<pre><code>  ### 1 = not at all
-  ### 2 = somehow
-  ### 3 = plenty
-  ### 4 = severely
-  ### NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(MH05 &lt;- dat_n\)</span>MH05 table(dat$MH05, useNA = ‘always’)</p>
+<div id="mh06-mental-health-6-what-would-need-to-change-to-improve-your-mental-health-status" class="section level4">
+<h4>[MH06] Mental health 6 “What would need to change to improve your mental health status?”</h4>
+<pre><code>    MH06_01 Free Text</code></pre>
 </div>
-<div id="mh06-mental-health-6-what-would-need-to-change-to-improve-your-mental-health-status" class="section level1">
-<h1>[MH06] Mental health 6 “What would need to change to improve your mental health status?”</h1>
-<pre><code>  ### MH06_01 Free Text</code></pre>
 </div>
 <div id="todo-11-include-open-answer-preprocessing" class="section level1">
 <h1>TODO #11: include open answer preprocessing</h1>
+<div id="mh07-mental-health-7-do-you-know-other-ph.d.-students-who-are-struggling-with-their-mental-health" class="section level4">
+<h4>[MH07] Mental health 7 “Do you know other Ph.D. students who are struggling with their mental health?”</h4>
+<pre><code>    1 = nobody
+    2 = some
+    3 = many
+    4 = most
+    5 = all
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JE1IMDcsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$MH07, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0ICAgIDUgPE5BPiBcbiAgNTYgIDIxMyAgMTMyICAgODcgICAxMCAgIDkxIFxuIn0= -->
+<pre><code>
+   1    2    3    4    5 &lt;NA&gt; 
+  56  213  132   87   10   91 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="mh07-mental-health-7-do-you-know-other-ph.d.-students-who-are-struggling-with-their-mental-health" class="section level1">
-<h1>[MH07] Mental health 7 “Do you know other Ph.D. students who are struggling with their mental health?”</h1>
-<pre><code>  ### 1 = nobody
-  ### 2 = some
-  ### 3 = many
-  ### 4 = most
-  ### 5 = all
-  ### NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(MH07 &lt;- dat_n\)</span>MH07 table(dat_new$MH07, useNA = ‘always’)</p>
+<div id="mh08-mental-health-8-do-you-think-your-mental-health-problems-negatively-affect-your-quality-of-work" class="section level4">
+<h4>[MH08] Mental health 8 “Do you think your mental health problems negatively affect your quality of work?”</h4>
+<pre><code>    1 = never
+    2 = almost never
+    3 = sometimes
+    4 = fairly often
+    5 = very often
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JE1IMDgsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$MH08, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0ICAgIDUgPE5BPiBcbiAgMzEgICA3NSAgMTg5ICAxMjYgICA3NSAgIDkzIFxuIn0= -->
+<pre><code>
+   1    2    3    4    5 &lt;NA&gt; 
+  31   75  189  126   75   93 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="mh08-mental-health-8-do-you-think-your-mental-health-problems-negatively-affect-your-quality-of-work" class="section level1">
-<h1>[MH08] Mental health 8 “Do you think your mental health problems negatively affect your quality of work?”</h1>
-<pre><code>  ### 1 = never
-  ### 2 = almost never
-  ### 3 = sometimes
-  ### 4 = fairly often
-  ### 5 = very often
-  ### NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(MH08 &lt;- dat_n\)</span>MH08 table(dat$MH08, useNA = ‘always’)</p>
-</div>
-<div id="mh09-mental-health-9-do-you-think-that-some-special-services-e.g.-time-management-courses-coaching-etc.-or-structural-change-mc" class="section level1">
-<h1>[MH09] Mental health 9 “Do you think that some special services (e.g., time management courses, coaching, etc.) or structural change…” (MC)</h1>
-<pre><code>  ### MH09_01 no
-  ### MH09_02 personalised coaching
-  ### MH09_03 mentoring
-  ### MH09_04 time management courses
-  ### MH09_05 stress management courses
-  ### MH09_08 structural changes
-  ### MH09_09 Other, please specify
-  ### 0 = Not checked; 1 = Checked
-  ### MH09_09a Other, please specify (free text)</code></pre>
-<p>dat_new<span class="math inline">\(MH09_01 &lt;- recode(dat_n\)</span>MH09_01, “‘1’=0; ‘2’=1;”) dat_new<span class="math inline">\(MH09_02 &lt;- recode(dat_n\)</span>MH09_02, “‘1’=0; ‘2’=1;”) dat_new<span class="math inline">\(MH09_03 &lt;- recode(dat_n\)</span>MH09_03, “‘1’=0; ‘2’=1;”) dat_new<span class="math inline">\(MH09_04 &lt;- recode(dat_n\)</span>MH09_04, “‘1’=0; ‘2’=1;”) dat_new<span class="math inline">\(MH09_05 &lt;- recode(dat_n\)</span>MH09_05, “‘1’=0; ‘2’=1;”) dat_new<span class="math inline">\(MH09_08 &lt;- recode(dat_n\)</span>MH09_08, “‘1’=0; ‘2’=1;”) dat_new<span class="math inline">\(MH09_09 &lt;- recode(dat_n\)</span>MH09_09, “‘1’=0; ‘2’=1;”)</p>
-<div id="mh09_09a-other-please-specify-free-text" class="section level3">
-<h3>MH09_09a Other, please specify (free text)</h3>
-</div>
-</div>
-<div id="todo-12-open-answer" class="section level1">
-<h1>TODO #12: open answer</h1>
-</div>
-<div id="mh10-psychotherapy-are-you-currently-in-psychotherapy" class="section level1">
-<h1>[MH10] Psychotherapy “Are you currently in psychotherapy?”</h1>
-<pre><code>  ### 0 = no; 1 = yes; NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(MH10 &lt;- recode(dat_n\)</span>MH10, “‘1’=0; ‘2’=1;”) table(dat_new$MH10, useNA = ‘always’)</p>
-</div>
-<div id="mh11-diagnosis-have-you-ever-been-diagnosed-with-a-mental-disorder" class="section level1">
-<h1>[MH11] Diagnosis “Have you ever been diagnosed with a mental disorder?”</h1>
-<pre><code>  ### 0 = no; 1 = yes; NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(MH11 &lt;- recode(dat_n\)</span>MH11, “‘1’=0; ‘2’=1;”) table(dat$MH11, useNA = ‘always’)</p>
-<div id="phq" class="section level15">
-<p class="heading">PHQ</p>
-</div>
-</div>
-<div id="mh12-phq_2_1-little-interest-or-pleasure-in-doing-things" class="section level1">
-<h1>[MH12] PHQ_2_1 “Little interest or pleasure in doing things”</h1>
-<pre><code>  # same scale for  &#39;MH12&#39;, &#39;MH14&#39;,&#39;MH15&#39;,&#39;MH16&#39;,&#39;MH17&#39;,&#39;MH18&#39;,&#39;MH19&#39;,&#39;MH20&#39;,&#39;MH21&#39;
-  ### 1 = Not at all
-  ### 2 = Several days
-  ### 3 = More than half the days
-  ### 4 = Nearly every day
-  ### NA = Not answered</code></pre>
-</div>
-<div id="mh15-phq_9_filter-feeling-nervous-anxious-or-on-edge" class="section level1">
-<h1>[MH15] PHQ_9_Filter “Feeling nervous, anxious, or on edge?”</h1>
-<pre><code># scale for  [MH15] 
-### 1 = Not at all
-### 2 = Several days
-### 3 = More than half the days
-### NA = Not answered</code></pre>
-</div>
-<div id="mh16-phq_9_1-being-so-restless-that-its-hard-to-sit-still" class="section level1">
-<h1>[MH16] PHQ_9_1 “Being so restless that it’s hard to sit still”</h1>
-</div>
-<div id="mh17-phq_9_2-being-tired-easily" class="section level1">
-<h1>[MH17] PHQ_9_2 “Being tired easily”</h1>
-</div>
-<div id="mh18-phq_9_3-muscle-tension-or-muscle-pain" class="section level1">
-<h1>[MH18] PHQ_9_3 “Muscle tension or muscle pain”</h1>
-</div>
-<div id="mh19-phq_9_4-trouble-falling-asleep-or-sleeping-through" class="section level1">
-<h1>[MH19] PHQ_9_4 “Trouble falling asleep or sleeping through”</h1>
-</div>
-<div id="mh20-phq_9_5-trouble-concentrating-e.g.-on-reading-or-watching-tv" class="section level1">
-<h1>[MH20] PHQ_9_5 “Trouble concentrating, e.g., on reading or watching TV”</h1>
-</div>
-<div id="mh21-phq_9_6-becoming-easily-annoyed-or-irritable" class="section level1">
-<h1>[MH21] PHQ_9_6 “Becoming easily annoyed or irritable”</h1>
-</div>
-<div id="mh14-phq_2_2-feeling-down-depressed-or-hopeless" class="section level1">
-<h1>[MH14] PHQ_2_2 “Feeling down, depressed or hopeless”</h1>
-<p>dat_new &lt;- cbind(dat_new, dat_n[c(‘MH12’, ‘MH14’,‘MH15’,‘MH16’,‘MH17’,‘MH18’,‘MH19’, ‘MH20’,‘MH21’)])</p>
-<p>table(dat_new$MH21, useNA = “always”)</p>
-<div id="section-22" class="section level63">
-<p class="heading"></p>
-</div>
-<div id="section-sh-seeking-help" class="section level3">
-<h3>Section SH: Seeking Help</h3>
-<div id="section-23" class="section level63">
-<p class="heading"></p>
+<div id="mh09-mental-health-9-do-you-think-that-some-special-services-e.g.-time-management-courses-coaching-etc.-or-structural-change-mc" class="section level4">
+<h4>[MH09] Mental health 9 “Do you think that some special services (e.g., time management courses, coaching, etc.) or structural change…” (MC)</h4>
+<pre><code>    MH09_01 no
+    MH09_02 personalised coaching
+    MH09_03 mentoring
+    MH09_04 time management courses
+    MH09_05 stress management courses
+    MH09_08 structural changes
+    MH09_09 Other, please specify
+    0 = Not checked; 
+    1 = Checked
+    MH09_09a Other, please specify (free text)</code></pre>
 </div>
 </div>
+<div id="mh09_09a-todo-12-open-answer" class="section level1">
+<h1>MH09_09a TODO #12: open answer</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JE1IMDlfMDIpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$MH09_02)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gIDAgICAxIFxuMzQ0IDE1NSBcbiJ9 -->
+<pre><code>
+  0   1 
+344 155 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="mh10-psychotherapy-are-you-currently-in-psychotherapy" class="section level4">
+<h4>[MH10] Psychotherapy “Are you currently in psychotherapy?”</h4>
+<pre><code>    0 = no; 
+    1 = yes; 
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JE1IMTAsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$MH10, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAwICAgIDEgPE5BPiBcbiA0MjAgICA3NyAgIDkyIFxuIn0= -->
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 420   77   92 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="sh01-seeking-help1-have-you-already-tried-to-improve-your-situation" class="section level1">
-<h1>[SH01] Seeking-help1 “Have you already tried to improve your situation?”</h1>
-<pre><code>### 1 = never
-### 2 = almost never
-### 3 = sometimes
-### 4 = fairly often
-### 5 = very often
-### NA = Not answered</code></pre>
+<div id="mh11-diagnosis-have-you-ever-been-diagnosed-with-a-mental-disorder" class="section level4">
+<h4>[MH11] Diagnosis “Have you ever been diagnosed with a mental disorder?”</h4>
+<pre><code>    0 = no; 
+    1 = yes; 
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JE1IMTEsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$MH11, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAwICAgIDEgPE5BPiBcbiAzOTggICA5OSAgIDkyIFxuIn0= -->
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 398   99   92 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="sh02-seeking-help2-have-you-heard-of-the-consultation-services-at-the-university" class="section level1">
-<h1>[SH02] Seeking-help2 “Have you heard of the consultation services at the university?”</h1>
-<pre><code>### 1 = no; 2 = yes; NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(SH02 &lt;- recode(dat_n\)</span>SH02, “‘1’=0; ‘2’=1;”) table(dat_new$SH02, useNA = ‘always’)</p>
+<div id="subsection-phq" class="section level2">
+<h2>Subsection PHQ</h2>
+<div id="mh12-phq_2_1-little-interest-or-pleasure-in-doing-things" class="section level4">
+<h4>[MH12] PHQ_2_1 “Little interest or pleasure in doing things”</h4>
 </div>
-<div id="sh04-seeking-help3-how-much-do-you-know-about-the-consultation-services-at-the-university" class="section level1">
-<h1>[SH04] Seeking-help3 “How much do you know about the consultation services at the university?”</h1>
-<pre><code>### 1 = nothing
-### 2 = almost nothing
-### 3 = something
-### 4 = plenty
-### 5 = a lot
-### NA = Not answered </code></pre>
-<p>dat_new<span class="math inline">\(SH04 &lt;- dat_n\)</span>SH04 table(dat_new$SH04, useNA = ‘always’)</p>
+<div id="mh16-phq_9_1-being-so-restless-that-its-hard-to-sit-still" class="section level4">
+<h4>[MH16] PHQ_9_1 “Being so restless that it’s hard to sit still”</h4>
 </div>
-<div id="sh05-seeking-help4-have-you-sought-help-from-a-specialist" class="section level1">
-<h1>[SH05] Seeking-help4 “Have you sought help from a specialist?”</h1>
-<pre><code>### 1 = no; 2 = yes; NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(SH05 &lt;- recode(dat_n\)</span>SH05, “‘1’=0; ‘2’=1;”) table(dat$SH05, useNA = ‘always’)</p>
+<div id="mh17-phq_9_2-being-tired-easily" class="section level4">
+<h4>[MH17] PHQ_9_2 “Being tired easily”</h4>
 </div>
-<div id="sh10-corona-did-the-covid-19-pandemic-affect-your-general-situation" class="section level1">
-<h1>[SH10] Corona “Did the Covid-19 pandemic affect your general situation?”</h1>
-<pre><code>### 1 = yes, it improved my general situation
-### 2 = yes, it worsened my general situation
-### 3 = yes, but it neither worsened nor improved my general situation
-### 4 = no
-### NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(SH10 &lt;- dat_n\)</span>SH10 table(dat_n$SH10, useNA = ‘always’)</p>
+<div id="mh18-phq_9_3-muscle-tension-or-muscle-pain" class="section level4">
+<h4>[MH18] PHQ_9_3 “Muscle tension or muscle pain”</h4>
 </div>
-<div id="sh06-seeking-help5-do-you-have-anyone-to-talk-to-about-your-issues" class="section level1">
-<h1>[SH06] Seeking-help5 “Do you have anyone to talk to about your issues?”</h1>
-<pre><code>### 1 = no; 2 = yes; NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(SH06 &lt;- recode(dat_n\)</span>SH06, “‘1’=0; ‘2’=1;”) table(dat_new$SH06, useNA = ‘always’)</p>
+<div id="mh19-phq_9_4-trouble-falling-asleep-or-sleeping-through" class="section level4">
+<h4>[MH19] PHQ_9_4 “Trouble falling asleep or sleeping through”</h4>
 </div>
-<div id="sh07-seeking-help6-what-could-be-done-to-improve-your-situation-feel-free-to-express-your-opinion-and-feelings-here." class="section level1">
-<h1>[SH07] Seeking-help6 “What could be done to improve your situation? Feel free to express your opinion and feelings here.”</h1>
-<pre><code>### SH07_01 [01] Free text</code></pre>
+<div id="mh20-phq_9_5-trouble-concentrating-e.g.-on-reading-or-watching-tv" class="section level4">
+<h4>[MH20] PHQ_9_5 “Trouble concentrating, e.g., on reading or watching TV”</h4>
+</div>
+<div id="mh21-phq_9_6-becoming-easily-annoyed-or-irritable" class="section level4">
+<h4>[MH21] PHQ_9_6 “Becoming easily annoyed or irritable”</h4>
+</div>
+<div id="mh14-phq_2_2-feeling-down-depressed-or-hopeless" class="section level4">
+<h4>[MH14] PHQ_2_2 “Feeling down, depressed or hopeless”</h4>
+<pre><code>    same scale for  &#39;MH12&#39;, &#39;MH14&#39;,&#39;MH15&#39;,&#39;MH16&#39;,&#39;MH17&#39;,&#39;MH18&#39;,&#39;MH19&#39;,&#39;MH20&#39;,&#39;MH21&#39;
+    1 = Not at all
+    2 = Several days
+    3 = More than half the days
+    4 = Nearly every day
+    NA = Not answered</code></pre>
+</div>
+<div id="mh15-phq_9_filter-feeling-nervous-anxious-or-on-edge" class="section level4">
+<h4>[MH15] PHQ_9_Filter “Feeling nervous, anxious, or on edge?”</h4>
+<pre><code>  scale for  [MH15] 
+  1 = Not at all
+  2 = Several days
+  3 = More than half the days
+  NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JE1IMTUsIHVzZU5BID0gXCJhbHdheXNcIilcblxuYGBgIn0= -->
+<pre class="r"><code>table(dat$MH15, useNA = &quot;always&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyA8TkE+IFxuICA4NCAgMjgwICAxMzkgICA4NiBcbiJ9 -->
+<pre><code>
+   1    2    3 &lt;NA&gt; 
+  84  280  139   86 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+</div>
+<div id="section-sh-seeking-help" class="section level1">
+<h1>Section SH: Seeking Help</h1>
+<div id="sh01-seeking-help1-have-you-already-tried-to-improve-your-situation" class="section level4">
+<h4>[SH01] Seeking-help1 “Have you already tried to improve your situation?”</h4>
+<pre><code>    1 = never
+    2 = almost never
+    3 = sometimes
+    4 = fairly often
+    5 = very often
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFNIMDEpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$SH01)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiPCB0YWJsZSBvZiBleHRlbnQgMCA+XG4ifQ== -->
+<pre><code>&lt; table of extent 0 &gt;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="sh02-seeking-help2-have-you-heard-of-the-consultation-services-at-the-university" class="section level4">
+<h4>[SH02] Seeking-help2 “Have you heard of the consultation services at the university?”</h4>
+<pre><code>    0 = no; 
+    1 = yes; 
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFNIMDIsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$SH02, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAwICAgIDEgPE5BPiBcbiAyMjYgIDI3MiAgIDkxIFxuIn0= -->
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 226  272   91 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="sh04-seeking-help3-how-much-do-you-know-about-the-consultation-services-at-the-university" class="section level4">
+<h4>[SH04] Seeking-help3 “How much do you know about the consultation services at the university?”</h4>
+<pre><code>    1 = nothing
+    2 = almost nothing
+    3 = something
+    4 = plenty
+    5 = a lot
+    NA = Not answered </code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFNIMDQsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$SH04, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0ICAgIDUgPE5BPiBcbiAgMTIgICA5MiAgMTE3ICAgNDAgICAxMSAgMzE3IFxuIn0= -->
+<pre><code>
+   1    2    3    4    5 &lt;NA&gt; 
+  12   92  117   40   11  317 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="sh05-seeking-help4-have-you-sought-help-from-a-specialist" class="section level4">
+<h4>[SH05] Seeking-help4 “Have you sought help from a specialist?”</h4>
+<pre><code>    0 = no; 
+    1 = yes; 
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFNIMDUsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$SH05, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAwICAgIDEgPE5BPiBcbiAzNTIgIDE0NSAgIDkyIFxuIn0= -->
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 352  145   92 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="sh10-corona-did-the-covid-19-pandemic-affect-your-general-situation" class="section level4">
+<h4>[SH10] Corona “Did the Covid-19 pandemic affect your general situation?”</h4>
+<pre><code>    1 = yes, it improved my general situation
+    2 = yes, it worsened my general situation
+    3 = yes, but it neither worsened nor improved my general situation
+    4 = no
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFNIMTAsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$SH10, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0IDxOQT4gXG4gIDQwICAyNDcgIDE2OCAgIDQyICAgOTIgXG4ifQ== -->
+<pre><code>
+   1    2    3    4 &lt;NA&gt; 
+  40  247  168   42   92 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="sh06-seeking-help5-do-you-have-anyone-to-talk-to-about-your-issues" class="section level4">
+<h4>[SH06] Seeking-help5 “Do you have anyone to talk to about your issues?”</h4>
+<pre><code>    0 = no; 
+    1 = yes; 
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFNIMDYsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$SH06, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAwICAgIDEgPE5BPiBcbiAgNDggIDQ0NyAgIDk0IFxuIn0= -->
+<pre><code>
+   0    1 &lt;NA&gt; 
+  48  447   94 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="sh07-seeking-help6-what-could-be-done-to-improve-your-situation-feel-free-to-express-your-opinion-and-feelings-here." class="section level4">
+<h4>[SH07] Seeking-help6 “What could be done to improve your situation? Feel free to express your opinion and feelings here.”</h4>
+<pre><code>    SH07_01 [01] Free text</code></pre>
+</div>
 </div>
 <div id="todo-13-open-question" class="section level1">
 <h1>todo #13 : open question</h1>
+<div id="sh09seeking-help7-do-you-have-any-further-comments" class="section level4">
+<h4>[SH09]Seeking-help7 “Do you have any further comments?”</h4>
+<pre><code>    SH09_01 [01] Free text</code></pre>
 </div>
-<div id="sh09seeking-help7-do-you-have-any-further-comments" class="section level1">
-<h1>[SH09]Seeking-help7 “Do you have any further comments?”</h1>
-<pre><code>### SH09_01 [01] Free text</code></pre>
 </div>
 <div id="todo-14-open-question" class="section level1">
 <h1>todo #14 : open question</h1>
-</div>
-<div id="sh11-corona2-do-you-think-the-answers-you-have-provided-in-this-survey-have-been-affected-by-the-covid-19-pandemic" class="section level1">
-<h1>[SH11] Corona2 “Do you think the answers you have provided in this survey have been affected by the Covid-19 pandemic?”</h1>
-<pre><code>### 1 = Very likely
-### 2 = Likely
-### 3 = Neutral
-### 4 = Not likely
-### 5 = Very unlikely
-### NA = Not answered</code></pre>
-<p>dat_new<span class="math inline">\(SH11 &lt;- dat_n\)</span>SH11 table(dat$SH11, useNA = ‘always’)</p>
-<div id="section-24" class="section level63">
-<p class="heading"></p>
-</div>
-<div id="section-co-informed-consent" class="section level3">
-<h3>Section CO: Informed consent</h3>
-<div id="section-25" class="section level63">
-<p class="heading"></p>
-</div>
-</div>
-</div>
-<div id="co05-consent-residual-option-negative-or-number-of-selected-options" class="section level1">
-<h1>[CO05] Consent: Residual option (negative) or number of selected options</h1>
-<div id="co05_01-i-have-been-informed-about-the-study-and-the-procedure.-i-hereby-agree-to-the-collection" class="section level3">
-<h3>CO05_01 I have been informed about the study and the procedure. I hereby agree to the collection</h3>
-</div>
-<div id="and-processing-of-my-above-mentioned-data.-consequently-i-would-like-to-voluntarily-participate-in-this-study." class="section level3">
-<h3>and processing of my above-mentioned data. Consequently, I would like to voluntarily participate in this study.</h3>
-</div>
-<div id="recoded-0-not-checked-1-checked" class="section level3">
-<h3>recoded: 0 = Not checked; 1 = Checked</h3>
-<p>dat_new<span class="math inline">\(CO05_01 &lt;- recode(dat_n\)</span>CO05_01, “‘1’=0; ‘2’=1;”) table(dat_new$CO05_01, useNA = ‘always’)</p>
+<div id="sh11-corona2-do-you-think-the-answers-you-have-provided-in-this-survey-have-been-affected-by-the-covid-19-pandemic" class="section level4">
+<h4>[SH11] Corona2 “Do you think the answers you have provided in this survey have been affected by the Covid-19 pandemic?”</h4>
+<pre><code>    1 = Very likely
+    2 = Likely
+    3 = Neutral
+    4 = Not likely
+    5 = Very unlikely
+    NA = Not answered</code></pre>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JFNIMTEsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$SH11, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxICAgIDIgICAgMyAgICA0ICAgIDUgPE5BPiBcbiAgNjkgIDEyOCAgMTExICAxMTkgICA2NiAgIDk2IFxuIn0= -->
+<pre><code>
+   1    2    3    4    5 &lt;NA&gt; 
+  69  128  111  119   66   96 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 </div>
-<div id="co07-confirmationphd-residual-option-negative-or-number-of-selected-options" class="section level1">
-<h1>[CO07] ConfirmationPHD: Residual option (negative) or number of selected options</h1>
-<div id="co07_01-i-hereby-confirm-that-i-am-a-ph.d.-student-at-the-university-of-tbingen." class="section level3">
-<h3>CO07_01 I hereby confirm, that I am a Ph.D. student at the University of T?bingen.</h3>
+<div id="section-co-informed-consent" class="section level1">
+<h1>Section CO: Informed consent</h1>
+<div id="co05-consent-residual-option-negative-or-number-of-selected-options" class="section level4">
+<h4>[CO05] Consent: Residual option (negative) or number of selected options</h4>
+<p>CO05_01 I have been informed about the study and the procedure. I hereby agree to the collection and processing of my above-mentioned data. Consequently, I would like to voluntarily participate in this study. 0 = Not checked; 1 = Checked</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JENPMDUsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$CO05, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxIDxOQT4gXG4gNTg5ICAgIDAgXG4ifQ== -->
+<pre><code>
+   1 &lt;NA&gt; 
+ 589    0 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="recoded-1-not-checked-2-checked" class="section level3">
-<h3>recoded: 1 = Not checked; 2 = Checked</h3>
-<p>dat_new<span class="math inline">\(CO07_01 &lt;- recode(dat_n\)</span>CO07_01, “‘1’=0; ‘2’=1;”) table(dat$CO07_01, useNA = ‘always’)</p>
+<div id="co07-confirmationphd-residual-option-negative-or-number-of-selected-options" class="section level4">
+<h4>[CO07] ConfirmationPHD: Residual option (negative) or number of selected options</h4>
+<p>CO07_01 I hereby confirm, that I am a Ph.D. student at the University of T?bingen. 0 = Not checked; 1 = Checked</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoZGF0JENPMDdfMDEsIHVzZU5BID0gJ2Fsd2F5cycpXG5cbmBgYCJ9 -->
+<pre class="r"><code>table(dat$CO07_01, useNA = &#39;always&#39;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gICAxIDxOQT4gXG4gNTg5ICAgIDAgXG4ifQ== -->
+<pre><code>
+   1 &lt;NA&gt; 
+ 589    0 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <div id="end" class="section level31">
 <p class="heading">END</p>
-</div>
-</div>
-<div id="export-fully-anonymous-data-set-as-sav-and-csv-file" class="section level3">
-<h3>Export fully anonymous data set as SAV and CSV file</h3>
-<p>write.csv(dat_new,“/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_data_v0.csv”, row.names = FALSE)</p>
-<p>rm(list = ls())</p>
 <!-- rnb-text-end -->
 </div>
 </div>
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF0YSB2aWV3IG9mIHRoZSBNZW50YWwgSGVhbHRoIFN0dWR5IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpMb2FkIHBhY2thZ2VzOgpgYGB7cn0KbGlicmFyeShmb3JlaWduKQpsaWJyYXJ5KHBzeWNoKQpsaWJyYXJ5KGNhcikKbGlicmFyeShzdHJpbmdyKQpsaWJyYXJ5KGdncGxvdDIpCmxpYnJhcnkobGlrZXJ0KSAKYGBgCgpMb2FkIHRoZSBkYXRhOgpgYGB7cn0KZGF0IDwtIHJlYWQuY3N2KCIvaG9tZS9jb3JuZWxpdXMvRG9jdW1lbnRzL3N1c3RhaW5hYmlsaXR5L21lbnRhbF9oZWFsdGgvZGF0YV9wcm90ZWN0ZWQvcHJlcHJvY2Vzc2VkX2RhdGFfdjAuY3N2IikKYGBgCi0tLQoKIyBTZWN0aW9uIFNEOiBTb2Npb2RlbW9ncmFmaWNzCgojIyMjIFtTRDAxXSBHZW5kZXIgIldoaWNoIGdlbmRlciBkbyB5b3UgaWRlbnRpZnkgd2l0aD8iCiAgICAgIDEgPSBkaXZlcnNlOyAKICAgICAgMiA9IGZlbWFsZTsgCiAgICAgIDMgPSBtYWxlOyAKICAgICAgNCA9IHJhdGhlciBub3Qgc2F5OyAKICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKYGBge3J9CnRhYmxlKGRhdCRTRDAxLCB1c2VOQT0nYWx3YXlzJyApCmJhcnBsb3QodGFibGUoZGF0JFNEMDEpKQpgYGAKCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMjIFNEMDIgW2FnZV0gIkhvdyBvbGQgYXJlIHlvdT8iIFNEMDJfMDEgSSBhbSAuLi4geWVhcnMgb2xkCgpgYGB7cn0KZGVzY3JpYmUoZGF0JGFnZSkKaGlzdChkYXQkYWdlKQpgYGAKCgojIyMjIFtTRDA4XSBOYXRpb25hbGl0eSAiV2hhdCBpcyB5b3VyIG5hdGlvbmFsaXR5PyIKLSBldXJvcGU6IDE9RXVyb3BlIDA9Tm9uLUV1cm9wZQotIGdlcm1hbjogIDE9R2VybWFuLCAwPU5vbi1HZXJtYW4KLSBjb250aW5lbnRfY29hcnNlZDogMSA9IEV1cm9wZSwgMiA9IEFzaWEsIDMgPSBPdGhlcnMKCmBgYHtyfQp0YWJsZShkYXQkZXVyb3BlLCBkZXBhcnNlLmxldmVsID0gMiwgdXNlTkEgPSAiYWx3YXlzIikKdGFibGUoZGF0JGdlcm1hbiwgZGVwYXJzZS5sZXZlbCA9IDIsIHVzZU5BID0gImFsd2F5cyIpCnRhYmxlKGRhdCRjb250aW5lbnRfY29hcnNlZCwgZGVwYXJzZS5sZXZlbCA9IDIsIHVzZU5BID0gImFsd2F5cyIpCmBgYAoKIyMjIyBbU0QxMF0gRmFtaWx5IGVkdWNhdGlvbiBiYWNrZ3JvdW5kICJXaGF0IGlzIHlvdXIgZmFtaWx5J3MgYWNhZGVtaWMgYmFja2dyb3VuZD8iCiAgICAgIDEgPSBhY2FkZW1pYyAoYXQgbGVhc3Qgb25lIHBhcmVudC9sZWdhbCBndWFyZGlhbiBoYXMgYSB1bml2ZXJzaXR5IGRlZ3JlZSkKICAgICAgMCA9IG5vbi1hY2FkZW1pYyAobm9uZSBvZiBteSBwYXJlbnRzL2xlZ2FsIGd1YXJkaWFucyBoYXMgYSB1bml2ZXJzaXR5IGRlZ3JlZSkKICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKCmBgYHtyfQp0YWJsZShkYXQkU0QxMCwgdXNlTkEgPSAiYWx3YXlzIikKYGBgCgojIyMjIFtTRDExXSBGb3JtYWxlIEJpbGR1bmcgKGVpbmZhY2gpICJEaWQgeW91IG1vdmUgdG8gVD9iaW5nZW4gZm9yIHlvdXIgUGguRC4/IgogICAgICAwID0gbm8KICAgICAgMSA9IHllcywgZnJvbSBhbm90aGVyIHBsYWNlIGluIEdlcm1hbnkKICAgICAgMiA9IHllcywgZnJvbSBhbm90aGVyIGNvdW50cnkKICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKICAgICAgCmBgYHtyfQp0YWJsZShkYXQkU0QxMSwgZGVwYXJzZS5sZXZlbCA9IDIsIHVzZU5BID0gImFsd2F5cyIpCmBgYAoKCiMjIyMgW1NEMTNdIENhcmUtdGFraW5nICJEbyB5b3UgaGF2ZSBhIGNoaWxkL2EgcGVyc29uIGluIHlvdXIgZmFtaWx5IHlvdSBoYXZlIHRvIHRha2UgY2FyZSBvZj8iCiAgICAgIDAgPSBubwogICAgICAxID0geWVzLCBmcm9tIGFub3RoZXIgcGxhY2UgaW4gR2VybWFueQogICAgICBOQSA9IE5vdCBhbnN3ZXJlZApgYGB7cn0KdGFibGUoZGF0JFNEMTMsIGRlcGFyc2UubGV2ZWwgPSAyLCB1c2VOQSA9ICJhbHdheXMiKQpgYGAKCgoKIyMjIyBTRDE0IFtsaXZpbmddIExpdmluZy1hcnJhbmdlbWVudCAiV2hhdCBpcyB5b3VyIGhvdXNpbmcgc2l0dWF0aW9uPyIgKE1DKQogICAgICAxOiBBbG9uZQogICAgICAyOiBUb2dldGhlciB3aXRoIHBhcmVudHMKICAgICAgMzogVG9nZXRoZXIgd2l0aCBwYXJ0bmVyCiAgICAgIDQ6IFN0dWRlbnQgYWNjb21tb2RhdGlvbgogICAgICA1OiBTaGFyZWQgZmxhdAogICAgICA2OiB0b2dldGhlciB3aXRoIGZhbWlseQogICAgICBOQTogbm90IGFuc3dlcmVkCgpgYGB7cn0KdGFibGUoZGF0JGxpdmluZywgZGVwYXJzZS5sZXZlbCA9IDIsIHVzZU5BID0gImFsd2F5cyIpCmBgYAoKLS0tCgojIFNlY3Rpb24gQVA6IEFib3V0IHlvdXIgUGhECgojIyMjIFtBUDAxXSBGYWN1bHR5ICJXaGljaCBmYWN1bHR5IGFyZSB5b3VyIHN0dWRpZXMgYXNzb2NpYXRlZCB3aXRoPyIgKE1DKQoKYGBge3J9CgpgYGAKVE9ETyAjNAoKVE9ETyAjNSBhZGQgdG8gbmV3IGRhdGFmcmFtZQoKCiMjIyMgW0FQMDJdIENob2ljZSBvZiBUb3BpYyAiRGlkIHlvdSBjaG9vc2UgdGhlIHRvcGljIG9mIHlvdXIgUGguRC4geW91cnNlbGY/IgogICAgICAwID0gbm8KICAgICAgMSA9IHllcwogICAgICBOQSA9IE5vdCBhbnN3ZXJlZApgYGB7cn0KdGFibGUoZGF0JEFQMDIsIHVzZU5BID0gImFsd2F5cyIpCmBgYAoKCiMjIyMgW0FQMDNdIEhvdXJzIHBlciB3ZWVrIFBoLkQgIkhvdyBtYW55IGhvdXJzIGEgd2VlayBkbyB5b3Ugc3BlbmQgb24geW91ciBQaC5ELj8iCiAgICAgICAgQVAwM18wMSAuLi4gaG91cnMvd2VlawogICAgICAgIApgYGB7cn0KdGFibGUoZGF0JEFQMDNfMDEpCmRlc2NyaWJlKGRhdCRBUDAzXzAxKQpgYGAKCiMjIyMgW0FQMDVdIEhvdXJzIHBlciB3ZWVrIHdvcmsgIkhvdyBtYW55IGhvdXJzIGEgd2VlayBkbyB5b3Ugd29yayBpbiB0b3RhbD8iCi0gQVAwNV8wMSAuLi4gaG91cnMvd2VlawotIHRpbWVkaWY6IGJ1aWxkIGRpZmZlcmVuY2UgYmV0d2VlbiBwaGQgd3BvcmtpbmcgaG91cnMgYW5kIHRvdGFsIHdvcmtpbmcgaG91cnMKYGBge3J9Cmhpc3QoZGF0JEFQMDVfMDEpCmBgYAoKYGBge3J9CmRlc2NyaWJlKGRhdCR0aW1lZGlmKQpgYGAKCgojIyMjIFtBUDA0XSBTdGFydCBQaC5ELiJXaGVuIGRpZCB5b3Ugc3RhcnQgeW91ciBQaC5ELj8iCiAgICAgICMjIEFQMDRfMDEgCiMgY3JlYXRlIG5ldyB2YXJpYWJsZXMgdG8gY29hcnNlIHRoZSBkYXRhOgogICMjIHN0YXJ0eWVhcjogeWVhciBvZiB0aGUgc3RhcnQgb2YgdGhlIFBoRAogICMjIHBoZHN0YWdlOiBUaW1lIHNwZW50IGFzIGEgcGhEIAogICAgIyMjIDEgPSAwLTZtb250aHMgb2YgUGhEOyAKICAgICMjIyAyID0gNy0xMiBtb250aHM7IAogICAgIyMjIDMgPSAxMy0xOG1vbnRoczsgZXRjLgoKdGFibGUoZGF0JEFQMDRfMDEsdXNlTkEgPSAiYWx3YXlzIikKZGF0JEFQMDRfMDEgPC0gYXMuY2hhcmFjdGVyKGRhdCRBUDA0XzAxKQpkYXQkQVAwNF8wMSA8LSBzdHJfcmVwbGFjZV9hbGwoZGF0JEFQMDRfMDEsICJbXls6YWxudW06XV0iLCAiIikgCmRhdCRzdGFydHllYXIgPC0gcmVjb2RlKGRhdCRBUDA0XzAxLCInMDEwMTIwMTcnID0gMjAxNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTAxMjAxOCcgPSAyMDE4OwogICAgICAgICAgICAgICAgICAgICAgICAgJzAxMDEyMDIxJyA9IDIwMjE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMDEwMjIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTAyMjAyMCcgPSAyMDIwOwogICAgICAgICAgICAgICAgICAgICAgICAgJzAxMDUyMDE1JyA9IDIwMTU7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMDEwNjIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTA4MjAxOScgPSAyMDE5OwogICAgICAgICAgICAgICAgICAgICAgICAgJzAxMjAyMScgPSAyMDIxOwogICAgICAgICAgICAgICAgICAgICAgICAgJzAxMDEyMDE1JyA9IDIwMTU7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMDEwNDIwMjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTEwMjAxOScgPSAyMDE5OwogICAgICAgICAgICAgICAgICAgICAgICAgJzAxMjAnID0gMjAyMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTQnID0gMjAxNDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTUnID0gMjAxNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTYnID0gMjAxNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTcnID0gMjAxNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTgnID0gMjAxODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMjAnID0gMjAyMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTMnID0gMjAxMzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTYnID0gMjAxNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTcnID0gMjAxNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTgnID0gMjAxODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMjAnID0gMjAyMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMzA0MjAxOScgPSAyMDE5OwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAxOCcgPSAyMDE4OwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAxNycgPSAyMDE3OwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAxOCcgPSAyMDE4OwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAxOScgPSAyMDE5OwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAyMCcgPSAyMDIwOwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAyMScgPSAyMDIxOwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxMycgPSAyMDEzOwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAyMScgPSAyMDIxOwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxMycgPSAyMDEzOwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxNCcgPSAyMDE0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxNScgPSAyMDE1OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxNicgPSAyMDE2OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxNycgPSAyMDE3OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxOCcgPSAyMDE4OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxOScgPSAyMDE5OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAyMCcgPSAyMDIwOwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAyMScgPSAyMDIxOwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMTQnID0gMjAxNDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMTUnID0gMjAxNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMTYnID0gMjAxNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMTgnID0gMjAxODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMjAnID0gMjAyMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTEnID0gMjAxMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTMnID0gMjAxMzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTYnID0gMjAxNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTcnID0gMjAxNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTgnID0gMjAxODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMjAnID0gMjAyMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMTQnID0gMjAxNDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMTcnID0gMjAxNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMTgnID0gMjAxODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMjAnID0gMjAyMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMjAnID0gMjAyMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMTUnID0gMjAxNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMTYnID0gMjAxNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMTcnID0gMjAxNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMTgnID0gMjAxODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMjAnID0gMjAyMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTEnID0gMjAxMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTUnID0gMjAxNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTYnID0gMjAxNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTcnID0gMjAxNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTgnID0gMjAxODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMjAnID0gMjAyMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMjE2JyA9IDIwMTY7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMScgPSBOQTsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMjAyMCcgPSAyMDIwOwogICAgICAgICAgICAgICAgICAgICAgICAgJzEwMjAxOScgPSAyMDE5OwogICAgICAgICAgICAgICAgICAgICAgICAgJzEwMjAyMCcgPSAyMDIwOwogICAgICAgICAgICAgICAgICAgICAgICAgJzEwMTgnID0gMjAxODsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMTAnID0gMjAxMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMTQnID0gMjAxNDsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMTUnID0gMjAxNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMTYnID0gMjAxNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMTcnID0gMjAxNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMTgnID0gMjAxODsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMTknID0gMjAxOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMjAnID0gMjAyMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMjEnID0gMjAyMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIxJyA9IDIwMjE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTAyMDE4JyA9IDIwMTg7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTAyMDE5JyA9IDIwMTk7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTExMjIwJyA9IDIwMjA7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDE5JyA9IDIwMTk7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDE1JyA9IDIwMTU7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDE2JyA9IDIwMTY7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDE3JyA9IDIwMTc7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDE4JyA9IDIwMTg7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDE5JyA9IDIwMTk7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDIwJyA9IDIwMjA7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDIxJyA9IDIwMjE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDE5JyA9IDIwMTk7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTIyMDE3JyA9IDIwMTc7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTIyMDEyJyA9IDIwMTI7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTIyMDE2JyA9IDIwMTY7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTIyMDE3JyA9IDIwMTc7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTIyMDE4JyA9IDIwMTg7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTIyMDE5JyA9IDIwMTk7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTIyMDIwJyA9IDIwMjA7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTUwMzIwMTgnID0gMjAxODsKICAgICAgICAgICAgICAgICAgICAgICAgICcxNTA1MjAxNScgPSAyMDE1OwogICAgICAgICAgICAgICAgICAgICAgICAgJzE1MTExNicgPSAyMDE2OwogICAgICAgICAgICAgICAgICAgICAgICAgJzIwMTQnID0gTkE7ICMgbm8gbW9udGhzCiAgICAgICAgICAgICAgICAgICAgICAgICAnMjAxNScgPSBOQTsKICAgICAgICAgICAgICAgICAgICAgICAgICcyMDE2JyA9IE5BOwogICAgICAgICAgICAgICAgICAgICAgICAgJzIwMTcnID0gTkE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMjAxOCcgPSBOQTsKICAgICAgICAgICAgICAgICAgICAgICAgICcyMDE5JyA9IE5BOwogICAgICAgICAgICAgICAgICAgICAgICAgJzIwMjAnID0gTkE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnNjIwMTgnID0gMjAxODsKICAgICAgICAgICAgICAgICAgICAgICAgICAnJyA9IE5BOyIpCnRhYmxlKGRhdCRzdGFydHllYXIsIHVzZU5BID0gImFsd2F5cyIpCgoKZGF0JHN0YXJ0bW9udGggPC0gcmVjb2RlKGRhdCRBUDA0XzAxLCInMDEwMTIwMTcnID0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTAxMjAxOCcgPTE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMDEwMTIwMjEnID0xOwogICAgICAgICAgICAgICAgICAgICAgICAgJzAxMDIyMDE5JyA9MjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTAyMjAyMCcgPTI7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMDEwNTIwMTUnID01OwogICAgICAgICAgICAgICAgICAgICAgICAgJzAxMDYyMDE5JyA9NjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTA4MjAxOScgPTg7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMDEyMDIxJyA9IDE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMDEwMTIwMTUnID0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTA0MjAyMScgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzAxMTAyMDE5JyA9IDEwOwogICAgICAgICAgICAgICAgICAgICAgICAgJzAxMjAnID0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTQnID0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTUnID0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTYnID0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTcnID0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTgnID0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMTknID0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMjAnID0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMTIwMjEnID0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTknID0gMjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMjEnID0gMjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTMnID0gMjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTYnID0gMjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTcnID0gMjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTgnID0gMjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMTknID0gMjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMjAnID0gMjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMjIwMjEnID0gMjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwMzA0MjAxOScgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAxOCcgPSAzOwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAxNycgPSAzOwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAxOCcgPSAzOwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAxOScgPSAzOwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAyMCcgPSAzOwogICAgICAgICAgICAgICAgICAgICAgICAgJzAzMjAyMScgPSAzOwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxMycgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAyMScgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxMycgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxNCcgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxNScgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxNicgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxNycgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxOCcgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAxOScgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAyMCcgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjAyMScgPSA0OwogICAgICAgICAgICAgICAgICAgICAgICAgJzA0MjEnID0gNDsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMjEnID0gNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMTQnID0gNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMTUnID0gNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMTYnID0gNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMTgnID0gNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMTknID0gNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMjAnID0gNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNTIwMjEnID0gNTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTEnID0gNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTMnID0gNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTYnID0gNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTcnID0gNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTgnID0gNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMTknID0gNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMjAnID0gNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNjIwMjEnID0gNjsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMTQnID0gNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMTcnID0gNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMTgnID0gNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMTknID0gNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMjAnID0gNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMjEnID0gNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwNzIwMjAnID0gNzsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMTUnID0gODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMTYnID0gODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMTcnID0gODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMTgnID0gODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMTknID0gODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwODIwMjAnID0gODsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTknID0gOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMjEnID0gOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTEnID0gOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTUnID0gOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTYnID0gOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTcnID0gOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTgnID0gOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMTknID0gOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMjAnID0gOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMjEnID0gOTsKICAgICAgICAgICAgICAgICAgICAgICAgICcwOTIwMjE2JyA9IDk7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMScgPSBOQTsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMjAyMCcgPSAxOwogICAgICAgICAgICAgICAgICAgICAgICAgJzEwMjAxOScgPSAxMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMjAnID0gMTA7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTAxOCcgPSAxMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMTAnID0gMTA7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTAyMDE0JyA9IDEwOwogICAgICAgICAgICAgICAgICAgICAgICAgJzEwMjAxNScgPSAxMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMTYnID0gMTA7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTAyMDE3JyA9IDEwOwogICAgICAgICAgICAgICAgICAgICAgICAgJzEwMjAxOCcgPSAxMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMTknID0gMTA7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTAyMDIwJyA9IDEwOwogICAgICAgICAgICAgICAgICAgICAgICAgJzEwMjAyMScgPSAxMDsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIxJyA9IDEwOyAKICAgICAgICAgICAgICAgICAgICAgICAgICcxMDIwMTgnID0gMTA7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTAyMDE5JyA9IDEwOwogICAgICAgICAgICAgICAgICAgICAgICAgJzExMTIyMCcgPSAxMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMTIwMTknID0gMTE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDE1JyA9IDExOwogICAgICAgICAgICAgICAgICAgICAgICAgJzExMjAxNicgPSAxMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMTIwMTcnID0gMTE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDE4JyA9IDExOwogICAgICAgICAgICAgICAgICAgICAgICAgJzExMjAxOScgPSAxMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMTIwMjAnID0gMTE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTEyMDIxJyA9IDExOwogICAgICAgICAgICAgICAgICAgICAgICAgJzExMjAxOScgPSAxMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMjIwMTcnID0gMTI7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTIyMDEyJyA9IDEyOwogICAgICAgICAgICAgICAgICAgICAgICAgJzEyMjAxNicgPSAxMjsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMjIwMTcnID0gMTI7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTIyMDE4JyA9IDEyOwogICAgICAgICAgICAgICAgICAgICAgICAgJzEyMjAxOScgPSAxMjsKICAgICAgICAgICAgICAgICAgICAgICAgICcxMjIwMjAnID0gMTI7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMTUwMzIwMTgnID0gMzsKICAgICAgICAgICAgICAgICAgICAgICAgICcxNTA1MjAxNScgPSA1OwogICAgICAgICAgICAgICAgICAgICAgICAgJzE1MTExNicgPSAxMTsKICAgICAgICAgICAgICAgICAgICAgICAgICcyMDE0JyA9IE5BOwogICAgICAgICAgICAgICAgICAgICAgICAgJzIwMTUnID0gTkE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMjAxNicgPSBOQTsKICAgICAgICAgICAgICAgICAgICAgICAgICcyMDE3JyA9IE5BOwogICAgICAgICAgICAgICAgICAgICAgICAgJzIwMTgnID0gTkE7CiAgICAgICAgICAgICAgICAgICAgICAgICAnMjAxOScgPSBOQTsKICAgICAgICAgICAgICAgICAgICAgICAgICcyMDIwJyA9IE5BOwogICAgICAgICAgICAgICAgICAgICAgICAgJzYyMDE4JyA9IDY7CiAgICAgICAgICAgICAgICAgICAgICAgICAgJycgPSBOQTsiKQp0YWJsZShkYXQkc3RhcnRtb250aCwgdXNlTkEgPSAiYWx3YXlzIikKCiMgRGF0ZSBvZiB0aGUgc3VydmV5IDIwMjEqMTIrMTEgPSAyNDI2MyBtb250aHMgTm90ZTogMTEgZm9yIE5vdi4gYmVjYXVzZSBzdXJ2ZXkgdG9vayBwbGFjZSBiZXR3ZWVuIE9jdC4tRGVjLgpkYXQkeWVhcnN0b3RhbCA8LSAoZGF0JHN0YXJ0eWVhcioxMikKZGF0JHBoZF9tb250aCA8LSAoMjQyNjMgLSAoZGF0JHllYXJzdG90YWwgK2RhdCRzdGFydG1vbnRoKSkKCnRhYmxlKGRhdCRwaGRfbW9udGgsIHVzZU5BID0gImFsd2F5cyIpCmRlc2NyaWJlKGRhdCRwaGRfbW9udGgpCmhpc3QoZGF0JHBoZF9tb250aCkKCiNDcmVhdGUgbmV3IHZhcmlhYmxlOiBUaW1lIHNwZW50IGFzIGEgcGhEIAogICAgICAjIyMgMSA9IDAtNm1vbnRocyBvZiBQaEQ7IAogICAgICAjIyMgMiA9IDctMTIgbW9udGhzOyAKICAgICAgIyMjIDMgPSAxMy0xOG1vbnRoczsgZXRjLgoKZGF0JHBoZHN0YWdlIDwtIE5BCmRhdCRwaGRzdGFnZSA8LSBpZmVsc2UoZGF0JHBoZF9tb250aCA8PTYsIDEsZGF0JHBoZHN0YWdlKQpkYXQkcGhkc3RhZ2UgPC0gaWZlbHNlKGlzLm5hKGRhdCRwaGRzdGFnZSA9PSBUKSAmIGRhdCRwaGRfbW9udGggPD0xMiwgMiwgZGF0JHBoZHN0YWdlKQpkYXQkcGhkc3RhZ2UgPC0gaWZlbHNlKGlzLm5hKGRhdCRwaGRzdGFnZSA9PSBUKSAmIGRhdCRwaGRfbW9udGggPD0xOCwgMywgZGF0JHBoZHN0YWdlKQpkYXQkcGhkc3RhZ2UgPC0gaWZlbHNlKGlzLm5hKGRhdCRwaGRzdGFnZSA9PSBUKSAmIGRhdCRwaGRfbW9udGggPD0yNCwgNCwgZGF0JHBoZHN0YWdlKQpkYXQkcGhkc3RhZ2UgPC0gaWZlbHNlKGlzLm5hKGRhdCRwaGRzdGFnZSA9PSBUKSAmIGRhdCRwaGRfbW9udGggPD0zMCwgNSwgZGF0JHBoZHN0YWdlKQpkYXQkcGhkc3RhZ2UgPC0gaWZlbHNlKGlzLm5hKGRhdCRwaGRzdGFnZSA9PSBUKSAmIGRhdCRwaGRfbW9udGggPD0zNiwgNiwgZGF0JHBoZHN0YWdlKQpkYXQkcGhkc3RhZ2UgPC0gaWZlbHNlKGlzLm5hKGRhdCRwaGRzdGFnZSA9PSBUKSAmIGRhdCRwaGRfbW9udGggPD00MiwgNywgZGF0JHBoZHN0YWdlKQpkYXQkcGhkc3RhZ2UgPC0gaWZlbHNlKGlzLm5hKGRhdCRwaGRzdGFnZSA9PSBUKSAmIGRhdCRwaGRfbW9udGggPD00OCwgOCwgZGF0JHBoZHN0YWdlKQpkYXQkcGhkc3RhZ2UgPC0gaWZlbHNlKGlzLm5hKGRhdCRwaGRzdGFnZSA9PSBUKSAmIGRhdCRwaGRfbW9udGggPD01NCwgOSwgZGF0JHBoZHN0YWdlKQpkYXQkcGhkc3RhZ2UgPC0gaWZlbHNlKGlzLm5hKGRhdCRwaGRzdGFnZSA9PSBUKSAmIGRhdCRwaGRfbW9udGggPD02MCwgMTAsIGRhdCRwaGRzdGFnZSkKZGF0JHBoZHN0YWdlIDwtIGlmZWxzZShpcy5uYShkYXQkcGhkc3RhZ2UgPT0gVCkgJiBkYXQkcGhkX21vbnRoIDw9NjYsIDEyLCBkYXQkcGhkc3RhZ2UpCmRhdCRwaGRzdGFnZSA8LSBpZmVsc2UoaXMubmEoZGF0JHBoZHN0YWdlID09IFQpICYgZGF0JHBoZF9tb250aCA8PTcyLCAxMywgZGF0JHBoZHN0YWdlKQpkYXQkcGhkc3RhZ2UgPC0gaWZlbHNlKGlzLm5hKGRhdCRwaGRzdGFnZSA9PSBUKSAmIGRhdCRwaGRfbW9udGggPD03OCwgMTQsIGRhdCRwaGRzdGFnZSkKZGF0JHBoZHN0YWdlIDwtIGlmZWxzZShpcy5uYShkYXQkcGhkc3RhZ2UgPT0gVCkgJiBkYXQkcGhkX21vbnRoID49NzksIDE1LCBkYXQkcGhkc3RhZ2UpCnRhYmxlKGRhdCRwaGRzdGFnZSwgdXNlTkEgPSAiYWx3YXlzIikKaGlzdChkYXQkcGhkc3RhZ2UpCgojIGFwcGVuZCB0byBuZXcgZGF0YQpkYXRfbmV3JHBoZHN0YWdlIDwtIGRhdCRwaGRzdGFnZQoKZGF0YV90b19kcm9wIDwtIGFwcGVuZChkYXRhX3RvX2Ryb3AsICJBUDA0XzAxIikKZGF0YV90b19kcm9wIDwtIGFwcGVuZChkYXRhX3RvX2Ryb3AsICJzdGFydG1vbnRoIikKZGF0YV90b19kcm9wIDwtIGFwcGVuZChkYXRhX3RvX2Ryb3AsICJwaGRtb250aCIpCgoKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiMjIyBTZWN0aW9uIEVGOiBFbXBsb3ltZW50L0ZpbmFuY2lhbCBTaXR1YXRpb24KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyBbRUYwMV0gQ29udHJhY3QgVHlwZSAiSG93IGFyZSB5b3UgZmluYW5jZWQ/IChDb250cmFjdCB0eXBlIG9ubHkgcmVsYXRlZCB0byB5b3VyIFBoLkQuKSIKICAgICAgIyMjIDEgPSBQZXJtYW5lbnQgZW1wbG95bWVudAogICAgICAjIyMgMiA9IFRlbXBvcmFyeSBlbXBsb3ltZW50CiAgICAgICMjIyAzID0gSG91cmx5IGVtcGxveW1lbnQKICAgICAgIyMjIDYgPSBTY2hvbGFyc2hpcCAoZW1wbG95ZWQsIHBheWluZyBzb2NpYWwgc2VjdXJpdHkpCiAgICAgICMjIyA3ID0gU2Nob2xhcnNoaXAgKG5vdCBlbXBsb3llZCkKICAgICAgIyMjIDUgPSBOb3QgZW1wbG95ZWQKICAgICAgIyMjIDggPSBPdGhlciwgcGxlYXNlIHNwZWNpZnk6CiAgICAgICMjI05BID0gTm90IGFuc3dlcmVkCiAgICAgICMjIyBFRjAxXzA4IE90aGVyLCBwbGVhc2Ugc3BlY2lmeQogICAgICAjIyMgaWYgbXVsdGlwbGUgbWF0Y2hlcyBpbiBvcGVuIGFuc3dlcnM6IG90aGVyCgpkYXQkRUYwMSA8LSBkYXRfbiRFRjAxCgojIG1hdGNoIG9wZW4gYW5zd2VycyB0byBjYXRlZ29yaWVzCmRhdCRFRjAxXzA4IDwtIHN0cl90cmltKGRhdCRFRjAxXzA4KQojZGF0JEVGMDFbZGF0JEVGMDFfMDggPT0gJ2ZpcnN0IHRocmVlIHllYXJzIFNjaG9sYXJzaGlwIChub3QgZW1wbG95ZWQpLCBub3cgdGVtcG9yYXJ5IHBhcnQgdGltZSBlbXBsb3ltZW50ICg1MCUpJ10gPC0gJycKZGF0JEVGMDFbZGF0JEVGMDFfMDggPT0gIkdyYW50IGJhc2VkIHN0aXBlbmQiXSA8LSA2CiNkYXQkRUYwMVtkYXQkRUYwMV8wOCA9PSAidHJhdmVsbGluZyBmZWVzIl0gPC0gJycKI2RhdCRFRjAxW2RhdCRFRjAxXzA4ID09ICJjb29wZXJhdGlvbiB3aXRoIGluZHVzdHJ5Il0gPC0gJycKI2RhdCRFRjAxW2RhdCRFRjAxXzA4ID09ICJiaXMgdm9yIGt1cnplbSBtaXQgVm9sbHN0aXBlbmRpdW0sIGpldHp0IEhpd2ktVmVydHJhZyJdIDwtICcnCiNkYXQkRUYwMVtkYXQkRUYwMV8wOCA9PSAibGVjdHVyZSBjb250cmFjdCJdIDwtICcnCmRhdCRFRjAxW2RhdCRFRjAxXzA4ID09ICJ3b3JraW5nIGhhbGYgdGltZSBvdXQgb2YgdW5pdmVyc2l0eSJdIDwtIDUKI2RhdCRFRjAxW2RhdCRFRjAxXzA4ID09ICJleHRlcm5hbCBQaC5ELnN0dWRlbnQiXSA8LSA1CmRhdCRFRjAxW2RhdCRFRjAxXzA4ID09ICJBTEcxIiBdIDwtIDUKI2RhdCRFRjAxW2RhdCRFRjAxXzA4ID09ICIxMiBtb250aHMgc2Nob2xhcnNoaXAgZm9yIHRoZSB3aG9sZSBQaEQgZHVyYXRpb24iICBdIDwtICcnCmRhdCRFRjAxW2RhdCRFRjAxXzA4ID09ICJtaW5pLWpvYiIgXSA8LSA1CmRhdCRFRjAxW2RhdCRFRjAxXzA4ID09ICJwcmV2aW91c2x5IHdpdGggYSBERkcgZ3JhbnQgKDMgeSkgYW5kIHNob3J0IGNvbnRyYWN0IHRocm91Z2ggU2VuY2tlbmJlcmciICBdIDwtIDIKZGF0JEVGMDFbZGF0JEVGMDFfMDggPT0gICJQcml2YXRlIG1vbmV5IiAgIF0gPC0gNQojZGF0JEVGMDFbZGF0JEVGMDFfMDggPT0gInRlbXBvcmFyeSBlbXBsb3ltZW50LCBub3cgdW5lbXBsb3llZCIgIF0gPC0gNQpkYXQkRUYwMVtkYXQkRUYwMV8wOCA9PSAiNTAgJSBUZW1wb3JhcnkgZW1wbG95bWVudCIgIF0gPC0gMgpkYXQkRUYwMVtkYXQkRUYwMV8wOCA9PSAiREZHIEdyYW50LCBJIGRvbnQga25vdyBob3cgaXQgZml0cyBvbiB0aGUgb25lcyBhYm92ZSIgIF0gPC0gMgpkYXQkRUYwMVtkYXQkRUYwMV8wOCA9PSAic2VsZi1mb3VuZGVkIiAgIF0gPC0gNQpkYXQkRUYwMVtkYXQkRUYwMV8wOCA9PSAgIkZyZWVsYW5jZSBlbXBsb3ltZW50IiBdIDwtIDUKZGF0JEVGMDFbZGF0JEVGMDFfMDggPT0gJ2ZhbWlseSAoaHVzYmFuZCkgZmluYW5jaWFsIHN1cHBvcnQnXSA8LSA1Cgp0YWJsZShkYXQkRUYwMSwgdXNlTkEgPSAiYWx3YXlzIikKCmRhdF9uZXckRUYwMSA8LSBkYXQkRUYwMQoKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiMgW0VGMDJdIExlbmd0aCBvZiBDb250cmFjdCAiSWYgeW91IG9ubHkgaGF2ZSBhIHRlbXBvcmFyeSBlbXBsb3ltZW50OiBXaGF0IGlzIHRoZSB0b3RhbCBsZW5ndGggb2YgeW91ciBjb250cmFjdCAoaW4gbW9udGhzKT8iCiAgICAgICMjIyBFRjAyXzAxIC4uLiBtb250aHMKZGF0JEVGMDJfMDEgPC0gc3RyX3RyaW0oZGF0JEVGMDJfMDEpCmRhdCRFRjAyXzAxIDwtIHJlY29kZShkYXQkRUYwMl8wMSwgIiczNiBtb250aHMnID0gJzM2JzsgCiAgICAgICAgICAgICAgICAgICAgICAnMjQgKHBvc2RvYy9NYXJpZSBDdXJpZSknID0gJzI0JzsKICAgICAgICAgICAgICAgICAgICAgICcyOCBNb250aHMnID0gJzI4JzsKICAgICAgICAgICAgICAgICAgICAgICczNiArIDEyICs1JyA9ICc1Myc7CiAgICAgICAgICAgICAgICAgICAgICAnMzYgKyAxNScgPSAnNTEnOwogICAgICAgICAgICAgICAgICAgICAgJzM2KzEyJz0nNDgnOwogICAgICAgICAgICAgICAgICAgICAgJzEtMycgPSAnMic7CiAgICAgICAgICAgICAgICAgICAgICAnMCcgPSAnJyAiKQoKZGF0X25ldyRFRjAyXzAxIDwtIGFzLm51bWVyaWMoZGF0JEVGMDJfMDEpCnRhYmxlKGRhdF9uZXckRUYwMl8wMSwgdXNlTkEgPSAiYWx3YXlzIikKCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIFtFRjA2XSBMZW5ndGggb2Ygc2Nob2xhcnNoaXAgIklmIHlvdSBoYXZlIGEgc2Nob2xhcnNoaXA6IFdoYXQgaXMgdGhlIHRvdGFsIGxlbmd0aCBvZiB5b3VyIGN1cnJlbnQgc2Nob2xhcnNoaXAgKGluIG1vbnRocyk/IgogICAgICMjIyBFRjA2XzAxIC4uLiBtb250aHMKZGF0JEVGMDZfMDEgPC0gc3RyX3RyaW0oZGF0JEVGMDZfMDEpCmRhdCRFRjA2XzAxIDwtIHJlY29kZShkYXQkRUYwNl8wMSwgIiczNiBtb250aHMnID0gJzM2JzsgCiAgICAgICAgICAgICAgICAgICAgICAnMzYtNDgnID0gJzQyJzsKICAgICAgICAgICAgICAgICAgICAgICcyMyBtb250aHMnID0gJzIzJzsKICAgICAgICAgICAgICAgICAgICAgICczNiAoREZHKSBwcmV2aW91c2x5JyA9ICczNic7CiAgICAgICAgICAgICAgICAgICAgICAnMCcgPSAnJyAiKQpkYXRfbmV3JEVGMDZfMDEgPC0gYXMubnVtZXJpYyhkYXQkRUYwNl8wMSkKCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIFtFRjAzXSAlIEZ1bGwgdGltZSAiV2hhdCBpcyB0aGUgcGVyY2VudGFnZSB5b3VyIGNvbnRyYWN0IGNvdmVycyBpbiB0ZXJtcyBvZiBmdWxsLXRpbWUgZW1wbG95bWVudD8iCiAgICAgICMjIyBFRjAzXzAxIC4uLiAlCmRhdCRFRjAzXzAxIDwtIHN0cl90cmltKGRhdCRFRjAzXzAxKQpkYXQkRUYwM18wMSA8LSByZWNvZGUoZGF0JEVGMDNfMDEsICInPCA1MCcgPSAnNTAnOyAKICAgICAgICAgICAgICAgICAgICAgICdERkcgd2FzIDYwJScgPSAnNjAnOwogICAgICAgICAgICAgICAgICAgICAgJzY1ICUsIDc1JSBzaW5jZSAyMDIxJyA9ICc3MCc7CiAgICAgICAgICAgICAgICAgICAgICAnODcsNScgPSAnODcuNSc7CiAgICAgICAgICAgICAgICAgICAgICAnNjAgYW5kIDUwJyA9ICc1NSc7CiAgICAgICAgICAgICAgICAgICAgICAnNTcsNScgPSAnNTcuNSc7CiAgICAgICAgICAgICAgICAgICAgICAnMCcgPSAnLSc7IikKZGF0X25ldyRFRjAzXzAxIDwtIGFzLm51bWVyaWMoZGF0JEVGMDNfMDEpCgp0YWJsZShkYXRfbmV3JEVGMDNfMDEsIHVzZU5BID0gImFsd2F5cyIpCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyBbRUYwNF0gT3RoZXIgZW1wbG95bWVudCAiRG8geW91IGhhdmUgYW55IG90aGVyIHBhaWQgZW1wbG95bWVudCB3aGljaCBpcyB1bnJlbGF0ZWQgdG8geW91ciBQaC5ELj8iCiAgICAgICMjIyBFRjA0IE90aGVyIGVtcGxveW1lbnQKICAgICAgIyMjIDEgPSBubyAgMiA9IHllcyAKIyByZWNvZGUgdG8gMCA9IG5vLCAxID0geWVzLCBOQSA9IE5vdyBhbnN3ZXJlZCAKCmRhdF9uZXckRUYwNCA8LSByZWNvZGUoZGF0X24kRUYwNCwgIicxJz0wOyAnMic9MTsgIikKCnRhYmxlKGRhdF9uZXckRUYwNCwgdXNlTkEgPSAiYWx3YXlzIikKCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIFtFRjA1XSBSZWFzb24gb3RoZXIgZW1wbG95bWVudCAiV2h5IGRpZCB5b3UgZGVjaWRlIHRvIGhhdmUgYSBzaWRlLWpvYj8iCiAgICAgICMjIyBFRjA1IHNob3dzIGhvdyBvZnRlbiAxLDIsMyBldGMuIG9wdGlvbnMgd2hlcmUgdGlja2VkLgogICAgICAjIyMgRUYwNV8wMSBFYXJuaW5nIG1vbmV5CiAgICAgICMjIyBFRjA1XzAyIEZvciB0aGUgQ1YKICAgICAgIyMjIEVGMDVfMDMgUGVyc29uYWwgaW50ZXJlc3QKICAgICAgIyMjIEVGMDVfMDQgT3RoZXIsIHBsZWFzZSBzcGVjaWZ5CiAgICAgICMjIyAxID0gTm90IGNoZWNrZWQKICAgICAgIyMjIDIgPSBDaGVja2VkCiAgICAgICMjIyBFRjA1XzA0YSBPdGhlciwgcGxlYXNlIHNwZWNpZnkgKGZyZWUgdGV4dCkKIyBUT0RPICM2CiMgc2VlIG9wZW4gcXVlc3Rpb24gcHJvY2VkdXJlCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyMjIFNlY3Rpb24gRVY6IEV2YWx1YXRpb24gb2YgeW91ciBQaC5ELgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKICAgIyMjIHNjYWxlIGluIEVWMDEsIEVWMDQsIEVWMDYsIEVWMDcsIEVWMDgKICAgICAgIyAoRVYwNCB3YXMgc2hpZnRlZCBieSBvbmUuIG5vdyBmaXhlZC4pIAogICAgICAjIyMgMSA9IHN0cm9uZ2x5IGRpc2FncmVlCiAgICAgICMjIyAyID0gZGlzYWdyZWUKICAgICAgIyMjIDMgPSBuZWl0aGVyIGFncmVlIG5vciBkaXNhZ3JlZQogICAgICAjIyMgNCA9IGFncmVlCiAgICAgICMjIyA1ID0gc3Ryb25nbHkgYWdyZWUKICAgICAgIyMjIC0xID0gbm90IHN1cmUKICAgICAgIyMjIE5BID0gTm90IGFuc3dlcmVkCgojIFtFVjAxXSBQaEQgYWdhaW4gIkxvb2tpbmcgYmFjaywgaWYgSSBoYWQgbm90IHN0YXJ0ZWQgbXkgUGguRC4geWV0LCBJIHdvdWxkIGRvIGl0IGFnYWluLiIKIyBbRVYwNF0gUmVncmV0ICJJIHJlZ3JldCBoYXZpbmcgc3RhcnRlZCBhIFBoLkQuIgoKIyMjIFBsZWFzZSBldmFsdWF0ZSBpbiB0aGUgc2NhbGUgdGhlIGZvbGxvd2luZyBzdGF0ZW1lbnRzIHJlZ2FyZGluZyB5b3VyIFBoLkQuOgoKIyBbRVYwNl0gSm9iLXNhdGlzZmFjdGlvbjEgIkkgZW5qb3kgYmVpbmcgYXQgd29yay4iIAojIFtFVjA3XSBKb2Itc2F0aXNmYWN0aW9uMiAiSSBhbSBjb250ZW50IHdpdGggdGhlIGpvYiBJIGhhdmUuIgojIFtFVjA4XSBKb2Itc2F0aXNmYWN0aW9uMyAiSSBhbSBzYXRpc2ZpZWQgd2l0aCBteSBqb2IuIgoKZGF0X25ldyA8LSBjYmluZChkYXRfbmV3LCBkYXRfbltjKCdFVjAxJywgJ0VWMDYnLCAnRVYwNycsJ0VWMDgnKV0pCmRhdF9uZXckRVYwNCA8LSBkYXRfbiRFVjA0LTEgCgoKCiMgW0VWMDldIExpZmUtc2F0aXNmYWN0aW9uICJIb3cgc2F0aXNmaWVkIGFyZSB5b3Ugd2l0aCB5b3VyIGxpZmUgYXQgdGhlIG1vbWVudD8iCiAgICAjIyMgMSA9IG5vdCBzYXRpc2ZpZWQgYXQgYWxsCiAgICAjIyMgMiA9IHNsaWdodGx5IHNhdGlzZmllZAogICAgIyMjIDMgPSBtb2RlcmF0ZWx5IHNhdGlzZmllZAogICAgIyMjIDQgPSB2ZXJ5IHNhdGlzZmllZAogICAgIyMjIDUgPSB0b3RhbGx5IHNhdGlzZmllZAogICAgIyMjIE5BID0gTm90IGFuc3dlcmVkXgoKZGF0X25ldyRFVjA5IDwtIGRhdF9uJEVWMDkKdGFibGUoZGF0X24kRVYwOSkKCiMgW0VWMDVdIFBoRCBzb21ld2hlcmUgZWxzZSAiRG8geW91IHRoaW5rIGRvaW5nIHlvdXIgUGguRC4gaW4vYXQgYSBkaWZmZXJlbnQgY291bnRyeS91bml2ZXJzaXR5IHdvdWxkIG9mZmVyIGJldHRlciBjb25kaXRpb25zPyIKICAgICMjIyAxID0gbm87IDIgPSB5ZXM7IDMgPSBub3Qgc3VyZTsgTkEgPSBOb3QgYW5zd2VyZWQKIyByZWNvZGUgdG8KICAgICMjIyAwID0gbm87IDEgPSB5ZXM7IDIgPSBub3Qgc3VyZTsgTkEgPSBOb3QgYW5zd2VyZWQKZGF0X25ldyRFVjA1IDwtIHJlY29kZShkYXRfbiRFVjA1LCAiJzEnPTA7ICcyJz0xOyczJz0yICIpCnRhYmxlKGRhdCRFVjA1KQoKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiMjIyBTZWN0aW9uIFdHOiBTdHJ1Y3R1cmUgb2Ygd29ya2luZyBncm91cAojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKCiMgW1dHMDFdIFByb2Zlc3Npb25hbCBzdXBwb3J0ICJBcmUgdGhlcmUgY29sbGVhZ3VlcyBpbiB5b3VyIGRlcGFydG1lbnQvcmVzZWFyY2ggY2VudGVyIHRoYXQgc3VwcG9ydCB5b3UgcHJvZmVzc2lvbmFsbHk/IgogICAgIyMjIDEgPSBubzsgIDIgPSB5ZXM7ICBOQSA9IE5vdCBhbnN3ZXJlZAojIHJlY29kZSB0bwogICAgIyMjIDAgPSBubzsgMSA9IHllczsgIE5BID0gTm90IGFuc3dlcmVkCmRhdF9uZXckV0cwMSA8LSByZWNvZGUoZGF0X24kV0cwMSwgIicxJz0wOyAnMic9MTsgIikKdGFibGUoZGF0JFdHMDEsIHVzZU5BID0gJ2Fsd2F5cycpCgojIFtXRzAyXSBFbW90aW9uYWwgc3VwcG9ydCAiQXJlIHRoZXJlIGNvbGxlYWd1ZXMgaW4geW91ciBkZXBhcnRtZW50L3Jlc2VhcmNoIGNlbnRlciB0aGF0IHN1cHBvcnQgeW91IGVtb3Rpb25hbGx5PyIKICAgICMjIyAxID0gbm87ICAyID0geWVzOyAgTkEgPSBOb3QgYW5zd2VyZWQKIyByZWNvZGUgdG8KICAgICMjIyAwID0gbm87IDEgPSB5ZXM7IE5BID0gTm90IGFuc3dlcmVkCmRhdF9uZXckV0cwMiA8LSByZWNvZGUoZGF0X24kV0cwMiwgIicxJz0wOyAnMic9MTsgIikKdGFibGUoZGF0JFdHMDIsIHVzZU5BID0gJ2Fsd2F5cycpCgojIFtXRzAzXSBXb3JrIGFsb25lICJEbyB5b3UgbWFpbmx5IHdvcmsgYWxvbmUgb24geW91ciBwcm9qZWN0PyIKICAgICMjIyAxID0gbm87ICAyID0geWVzOyAgTkEgPSBOb3QgYW5zd2VyZWQKIyByZWNvZGUgdG8KICAgICMjIyAwID0gbm87IDEgPSB5ZXM7IE5BID0gTm90IGFuc3dlcmVkCiMgVE9ETyAjNyA6IHRoaXMgdmFyaWFibGUgaXMgbWlzc2luZyBpbiB0aGUgZGF0YT8/Pz8/PwojIGFsc28gbWlzc2luZyBpbiBzb3NjaSBzdXJ2ZXkhCgoKCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMgU2VjdGlvbiBHSDogR2VuZXJhbCBIZWFsdGgKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiAgIyMjIDEgPSBuZXZlcgogICMjIyAyID0gYWxtb3N0IG5ldmVyCiAgIyMjIDMgPSBzb21ldGltZXMKICAjIyMgNCA9IGZhaXJseSBvZnRlbgogICMjIyA1ID0gdmVyeSBvZnRlbgogICMjIyBOQSA9IE5vdCBhbnN3ZXJlZAoKIyBbR0gwMV0gU3RyZXNzMSAiLi4uaG93IG9mdGVuIGhhdmUgeW91IGZlbHQgdGhhdCB5b3Ugd2VyZSB1bmFibGUgdG8gY29udHJvbCB0aGUgaW1wb3J0YW50IHRoaW5ncyBpbiB5b3VyIGxpZmU/IgoKIyBbR0gwMl0gU3RyZXNzMiAiLi4uaG93IG9mdGVuIGhhdmUgeW91IGZlbHQgY29uZmlkZW50IGFib3V0IHlvdXIgYWJpbGl0eSB0byBoYW5kbGUgeW91ciBwZXJzb25hbCBwcm9ibGVtcz8iCgojIFtHSDAzXSBTdHJlc3MzICIuLi5ob3cgb2Z0ZW4gaGF2ZSB5b3UgZmVsdCB0aGF0IHRoaW5ncyB3ZXJlIGdvaW5nIHlvdXIgd2F5PyIKCiMgW0dIMDRdIFN0cmVzczQgIi4uLmhvdyBvZnRlbiBoYXZlIHlvdSBmZWx0IGRpZmZpY3VsdGllcyB3ZXJlIHBpbGluZyB1cCBzbyBoaWdoIHRoYXQgeW91IGNvdWxkIG5vdCBvdmVyY29tZSB0aGVtPyIKCmRhdF9uZXcgPC0gY2JpbmQoZGF0X25ldywgZGF0X25bYygnR0gwMScsICdHSDAyJywgJ0dIMDMnLCdHSDA0JyldKQoKdGFibGUoZGF0X25ldyRHSDA0LCB1c2VOQSA9ICJhbHdheXMiKQoKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiMjIyBTZWN0aW9uIE9SOiBPdGhlciByZXNwb25zaWJpbGl0aWVzCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwoKIyBbT1IwMV0gUmVwb25zaWJpbGl0aWVzIGJlc2lkZXMgUGhEICJXaGF0IG90aGVyIHJlc3BvbnNpYmlsaXRpZXMgZG8geW91IGhhdmUgYmVzaWRlcyB3b3JraW5nIG9uIHlvdXIgcmVzZWFyY2ggdG9waWMvcHJvamVjdD8iIChNQykKICAgICMjIyBPUjAxXzAxIFRlYWNoaW5nCiAgICAjIyMgT1IwMV8wMiBTdXBlcnZpc2lvbiBvZiBvdGhlciBzdHVkZW50cwogICAgIyMjIE9SMDFfMDMgQWRtaW5pc3RyYXRpb24KICAgICMjIyBPUjAxXzA0IFJlc2VhcmNoIHVucmVsYXRlZCB0byB5b3VyIHRvcGljCiAgICAjIyMgT1IwMV8wOCBPdGhlciwgcGxlYXNlIHNwZWNpZnkKICAgICMjIyBPUjAxXzA5IE5vIGZ1cnRoZXIgcmVzcG9uc2liaWxpdGllcwogICAgIyMjIDEgPSBOb3QgY2hlY2tlZAogICAgIyMjIDIgPSBDaGVja2VkCiAgICAjIyMgT1IwMV8wOGEgT3RoZXIsIHBsZWFzZSBzcGVjaWZ5IChmcmVlIHRleHQpCgojIFRPRE8gIzgKIyBzZWUgb3BlbiBxdWVzdGlvbiBwcm9jZWR1cmUKIyBsZWF2ZSB0aGVtIGFuZCBhZGQgb3RoZXIgY29sdW1ucyBmb3Igb3BlbiBxdWVzdGlvbi4gcG90ZW50aWFsbHkgbWVyZ2UgdGhlbS4gCgp0YWJsZShkYXRfbiRPUjAxKQoKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCgojIFtPUjAyXSBUaW1lIG90aGVyIHJlc3BvbnNpYmlsaXRpZXMgIkhvdyBtdWNoIHRpbWUgZG8geW91IHNwZW5kIG9uIG90aGVyIHJlc3BvbnNpYmlsaXRpZXMgYmVzaWRlcyB5b3VyIHJlc2VhcmNoIGFjdGl2aXRpZXM/IgogICAgIyMjIE9SMDJfMDEgLi4uICUKCmRhdCRPUjAyXzAxIDwtIHN0cl90cmltKGRhdCRPUjAyXzAxKQpkYXQkT1IwMl8wMSA8LSByZWNvZGUoZGF0JE9SMDJfMDEsICInMTUtMzAnID0gJzIyLjUnOyAKICAgICAgICAgICAgICAgICAgICAgICcyMC0zMCcgPSAnMjUnOwogICAgICAgICAgICAgICAgICAgICAgJzIwLTYwJyA9ICc0MCc7CiAgICAgICAgICAgICAgICAgICAgICAnMzAtNzAnID0gJzUwJzsKICAgICAgICAgICAgICAgICAgICAgICczMCUnID0gJzMwJzsKICAgICAgICAgICAgICAgICAgICAgICc1LTEwJyA9ICc3LjUnOwogICAgICAgICAgICAgICAgICAgICAgJzYwJScgPSAnNjAnOwogICAgICAgICAgICAgICAgICAgICAgJzY2LDY3JyA9ICc2Ni42Nyc7IikKZGF0X25ldyRPUjAyXzAxIDwtIGFzLm51bWVyaWMoZGF0JE9SMDJfMDEpCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyMjIFNlY3Rpb24gU1Q6IFN0cmVzc29ycwojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyMjIFNjYWxlIGZvciBbU1QwMV0gdG8gW1NUMDldCiAgICAjIyMgMSA9IG5vdCBhdCBhbGwKICAgICMjIyAyID0gcmFyZWx5CiAgICAjIyMgMyA9IHNvbWUgb2YgdGhlIHRpbWUKICAgICMjIyA0ID0gbW9zdCBvZiB0aGUgdGltZQogICAgIyMjIDUgPSBhbGwgb2YgdGhlIHRpbWUKICAgICMjIyBOQSA9IE5vdCBhbnN3ZXJlZAojIFtTVDAxXSBJbnN0aXR1dGlvbmFsLXN0cmVzc29yMSAiSGF2ZSB5b3UgZXZlciBmZWx0IGxvb2tlZCBkb3duIG9uIGJ5IHlvdXIgc3VwZXJ2aXNvcj8iCiMgW1NUMDJdIEluc3RpdHV0aW9uYWwtc3RyZXNzb3IyICJEbyB5b3UgZmVlbCBzdXBwb3J0ZWQgYnkgeW91ciBzdXBlcnZpc29yPyIKIyBbU1QwM10gSW5zdGl0dXRpb25hbC1zdHJlc3NvcjMgIkRvIHlvdSBmZWVsIHlvdXIgc3VwZXJ2aXNvciBpcyBpbnRlcmVzdGVkIGluIHlvdXIgdG9waWM/IgojIFtTVDA0XSBJbnN0aXR1dGlvbmFsLXN0cmVzc29yNCAiSGF2ZSB5b3UgZXZlciBmZWx0IG1pc3RyZWF0ZWQgKGUuZy4sIGluc3VsdGVkLCBzaG91dGVkIGF0LCB1bmRlcnZhbHVlZCkgYnkgeW91ciBzdXBlcnZpc29yPyIKIyBbU1QxN10gSW5zdGl0dXRpb25hbC1zdHJlc3NvcjRfY29sbCAiSGF2ZSB5b3UgZXZlciBmZWx0IG1pc3RyZWF0ZWQgKGUuZy4sIGluc3VsdGVkLCBzaG91dGVkIGF0LCB1bmRlcnZhbHVlZCkgYnkgeW91ciBjb2xsZWFndWVzPyIKIyBbU1QwNV0gSW5zdGl0dXRpb25hbC1zdHJlc3NvcjUgIkRvZXMgeW91ciBzdXBlcnZpc29yIGVuY291cmFnZSB5b3UgdG8gcGFydGljaXBhdGUgaW4gY2FyZWVyLWJ1aWxkaW5nIG9wcG9ydHVuaXRpZXMgc3VjaCBhcyBjb25mZXJlbmNlcywgc3VtbS4uLiIKIyBbU1QwNl0gSW5zdGl0dXRpb25hbC1zdHJlc3NvcjYgIkJhc2VkIG9uIHlvdXIgZXhwZXJpZW5jZXMgaW4gYWNhZGVtaWEgc28gZmFyLCBkbyB5b3UgcmVjb25zaWRlciB5b3VyIGNhcmVlciBwYXRoPyIKIyBbU1QwN10gSW5zdGl0dXRpb25hbC1zdHJlc3NvcjcgIkRvIHlvdSBmZWVsIGNvbWZvcnRhYmxlIGNvbnRhY3RpbmcgeW91ciBzdXBlcnZpc29yIHdoZW4geW91IG5lZWQgaGVscD8iCiMgW1NUMDhdIEluc3RpdHV0aW9uYWwtc3RyZXNzb3I4ICJIYXMgdGhlIGJlaGF2aW9yIG9mIHlvdXIgc3VwZXJ2aXNvciBldmVyIG1hZGUgeW91IGNvbnNpZGVyIHF1aXR0aW5nIHlvdXIgUGguRC4/IgojIFtTVDA5XSBJbnN0aXR1dGlvbmFsLXN0cmVzc29yOSAiRG8geW91IGhhdmUgcmVndWxhciBtZWV0aW5ncyB3aXRoIHlvdXIgc3VwZXJ2aXNvcihzKT8iCgpkYXRfbmV3IDwtIGNiaW5kKGRhdF9uZXcsIGRhdF9uW2MoJ1NUMDEnLCAnU1QwMicsICdTVDAzJywnU1QwNCcsJ1NUMDUnLCdTVDA2JywnU1QwNycsJ1NUMDgnLCdTVDA5JyldKQp0YWJsZShkYXRfbmV3JFNUMDksIHVzZU5BID0gImFsd2F5cyIpCgojIFtTVDE2XSBJbnN0aXR1dGlvbmFsLXN0cmVzc29yMTAgIkhvdyBvZnRlbiBkbyB5b3UgaGF2ZSBtZWV0aW5ncyB3aXRoIHlvdXIgc3VwZXJ2aXNvcihzKT8iCiAgICAjIyMgMSA9IGF0IGxlYXN0IG9uY2UgYSB3ZWVrCiAgICAjIyMgMiA9IGF0IGxlYXN0IG9uY2UgYSBtb250aAogICAgIyMjIDMgPSBhdCBsZWFzdCBldmVyeSB0aHJlZSBtb250aHMKICAgICMjIyA0ID0gYXQgbGVhc3QgZXZlcnkgc2l4IG1vbnRocwogICAgIyMjIDUgPSBhdCBsZWFzdCBvbmNlIGEgeWVhcgogICAgIyMjIDYgPSBsZXNzIHRoYW4gb25jZSBhIHllYXIKICAgICMjIyBOQSA9IE5vdCBhbnN3ZXJlZApkYXRfbmV3JFNUMTYgPC0gZGF0X24kU1QxNgp0YWJsZShkYXRfbmV3JFNUMTYsIHVzZU5BID0gJ2Fsd2F5cycpCgojIyMgU2NhbGUgZm9yIFtTVDExXSB0byBbU1QxNV0KICAgICMjIyAxID0gc3Ryb25nbHkgZGlzYWdyZWUKICAgICMjIyAyID0gZGlzYWdyZWUKICAgICMjIyAzID0gbmVpdGhlciBhZ3JlZSBub3IgZGlzYWdyZWUKICAgICMjIyA0ID0gYWdyZWUKICAgICMjIyA1ID0gc3Ryb25nbHkgYWdyZWUKICAgICMjIyBOQSA9IE5vdCBhbnN3ZXJlZAoKIyBbU1QxMV0gU3lzdGVtaWMtc3RyZXNzb3IxICJUaGUgbGFjayBvZiBwZXJtYW5lbnQvbG9uZy10ZXJtIGNvbnRyYWN0cyBpbiBhY2FkZW1pLi4uIgoKIyBbU1QxMl0gU3lzdGVtaWMtc3RyZXNzb3IyIEkgYmVsaWV2ZSBoYXZpbmcgYSBQaC5ELiB3aWxsIGhlbHAgbWUgdG8gZmluZCBhIGdvb2Qgam9iLiIiCgojIFtTVDEzXSBKb2ItaW5zZWN1cml0eTEgIlBsZWFzZSBldmFsdWF0ZSBpbiB0aGUgc2NhbGUgdGhlIGZvbGxvd2luZyBzdGF0ZW1lbnRzIHJlZ2FyZGluZyB5b3VyIFBoLkQuOiAiSSBhbSB3b3JyaWVkIGFib3V0IGhhdmluZyB0byBsZS4uLiIKCiMgW1NUMTRdIEpvYi1pbnNlY3VyaXR5MiAiVGhlcmUgaXMgYSByaXNrIHRoYXQgSSB3aWxsIGhhdmUgdG8gbGVhdmUgbXkgcHJlc2VudCBqb2IgaW4gdGhlIHllYXIgdG8gY29tZS4iCgojIFtTVDE1XSBKb2ItaW5zZWN1cml0eTMgIkkgZmVlbCB1bmVhc3kgYWJvdXQgbG9zaW5nIG15IGpvYiBpbiB0aGUgbmVhciBmdXR1cmUuIgoKZGF0X25ldyA8LSBjYmluZChkYXRfbmV3LCBkYXRfbltjKCdTVDExJywgJ1NUMTInLCAnU1QxMycsJ1NUMTQnLCdTVDE1JyldKQp0YWJsZShkYXRfbiRTVDE1LCB1c2VOQSA9ICJhbHdheXMiKQoKCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMgU2VjdGlvbiBNSDogTWVudGFsIEhlYWx0aAojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKCiMgW01IMDFdIE1lbnRhbCBoZWFsdGggMSAiSG93IG9mdGVuIGRvIHlvdSBmZWVsIHN0cmVzc2VkIHNpbmNlIHlvdSBoYXZlIHN0YXJ0ZWQgeW91ciBQaC5ELj8iCiAgICAgICMjIyAxID0gbm90IGF0IGFsbAogICAgICAjIyMgMiA9IHJhcmVseQogICAgICAjIyMgMyA9IHNvbWUgb2YgdGhlIHRpbWUKICAgICAgIyMjIDQgPSBtb3N0IG9mIHRoZSB0aW1lCiAgICAgICMjIyA1ID0gYWxsIG9mIHRoZSB0aW1lCiAgICAgICMjIyBOQSA9IE5vdCBhbnN3ZXJlZApkYXRfbmV3JE1IMDEgPC0gZGF0X24kTUgwMQp0YWJsZShkYXRfbmV3JE1IMDEsIHVzZU5BID0gJ2Fsd2F5cycpCgojIFtNSDAyXSBNZW50YWwgaGVhbHRoIDIgIkhhcyB5b3VyIHN0cmVzcyBsZXZlbCBpbmNyZWFzZWQgc2luY2UgeW91IHN0YXJ0ZWQgeW91ciBQaC5ELj8iCiAgICAjIyMgMCA9IE5vCiAgICAjIyMgMSA9IFllcwpkYXRfbmV3JE1IMDIgPC0gcmVjb2RlKGRhdF9uJE1IMDIsICInMSc9MDsgJzInPTE7ICIpCnRhYmxlKGRhdF9uJE1IMDIsIHVzZU5BID0gJ2Fsd2F5cycpCgojIFtNSDAzXSBNZW50YWwgaGVhbHRoIDMgIldoYXQgaXMvYXJlIHRoZSBjYXVzZShzKSBvZiB5b3VyIHN0cmVzcz8iCiMgW01IMDNfMDFdCgojIFRPRE8gIzk6IGluY2x1ZGUgb3BlbiBhbnN3ZXIgcHJlcHJvY2Vzc2luZwoKCiMgW01IMDRdIE1lbnRhbCBoZWFsdGggNCAiRG8geW91IGhhdmUgYW55b25lIGF0IHlvdXIgaW5zdGl0dXRlIHRvIGNvbnN1bHQgYWJvdXQgeW91ciB3b3JrLXJlbGF0ZWQgc3RyZXNzPyIgKE1DKQogICAgICAjIyMgTUgwNF8wMSBOb2JvZHkKICAgICAgIyMjIE1IMDRfMDIgQ29sbGVhZ3VlcwogICAgICAjIyMgTUgwNF8wMyBBZG1pbnMgLyBDb29yZGluYXRpb24KICAgICAgIyMjIE1IMDRfMDQgU3VwZXJ2aXNvcgogICAgICAjIyMgTUgwNF8wNSBPdGhlciwgcGxlYXNlIHNwZWNpZnkKICAgICAgIyMjIDAgPSBOb3QgY2hlY2tlZAogICAgICAjIyMgMSA9IENoZWNrZWQKICAgICAgIyMjIE1IMDRfMDVhIE90aGVyLCBwbGVhc2Ugc3BlY2lmeSAoZnJlZSB0ZXh0KQoKZGF0X25ldyRNSDA0XzAxIDwtIHJlY29kZShkYXRfbiRNSDA0XzAxLCAiJzEnPTA7ICcyJz0xOyAiKQpkYXRfbmV3JE1IMDRfMDIgPC0gcmVjb2RlKGRhdF9uJE1IMDRfMDIsICInMSc9MDsgJzInPTE7ICIpCmRhdF9uZXckTUgwNF8wMyA8LSByZWNvZGUoZGF0X24kTUgwNF8wMywgIicxJz0wOyAnMic9MTsgIikKZGF0X25ldyRNSDA0XzA0IDwtIHJlY29kZShkYXRfbiRNSDA0XzA0LCAiJzEnPTA7ICcyJz0xOyAiKQpkYXRfbmV3JE1IMDRfMDUgPC0gcmVjb2RlKGRhdF9uJE1IMDRfMDUsICInMSc9MDsgJzInPTE7ICIpCgojIE1IMDRfMDVhIE90aGVyLCBwbGVhc2Ugc3BlY2lmeSAoZnJlZSB0ZXh0KQojIFRPRE8gIzEwOiBvcGVuIGFuc3dlciBwcmVwcm9jZXNzaW5nCgoKIyBbTUgwNV0gTWVudGFsIGhlYWx0aCA1ICJEbyB5b3UgZmVlbCB5b3VyIG1lbnRhbCBoZWFsdGggaGFzIGRlY2xpbmVkIGR1ZSB0byB0aGUgUGguRC4/IgogICAgICAjIyMgMSA9IG5vdCBhdCBhbGwKICAgICAgIyMjIDIgPSBzb21laG93CiAgICAgICMjIyAzID0gcGxlbnR5CiAgICAgICMjIyA0ID0gc2V2ZXJlbHkKICAgICAgIyMjIE5BID0gTm90IGFuc3dlcmVkCgpkYXRfbmV3JE1IMDUgPC0gZGF0X24kTUgwNQp0YWJsZShkYXQkTUgwNSwgdXNlTkEgPSAnYWx3YXlzJykKCgojIFtNSDA2XSBNZW50YWwgaGVhbHRoIDYgIldoYXQgd291bGQgbmVlZCB0byBjaGFuZ2UgdG8gaW1wcm92ZSB5b3VyIG1lbnRhbCBoZWFsdGggc3RhdHVzPyIgCiAgICAgICMjIyBNSDA2XzAxIEZyZWUgVGV4dAoKIyBUT0RPICMxMTogaW5jbHVkZSBvcGVuIGFuc3dlciBwcmVwcm9jZXNzaW5nCgojIFtNSDA3XSBNZW50YWwgaGVhbHRoIDcgIkRvIHlvdSBrbm93IG90aGVyIFBoLkQuIHN0dWRlbnRzIHdobyBhcmUgc3RydWdnbGluZyB3aXRoIHRoZWlyIG1lbnRhbCBoZWFsdGg/IgogICAgICAjIyMgMSA9IG5vYm9keQogICAgICAjIyMgMiA9IHNvbWUKICAgICAgIyMjIDMgPSBtYW55CiAgICAgICMjIyA0ID0gbW9zdAogICAgICAjIyMgNSA9IGFsbAogICAgICAjIyMgTkEgPSBOb3QgYW5zd2VyZWQKCmRhdF9uZXckTUgwNyA8LSBkYXRfbiRNSDA3CnRhYmxlKGRhdF9uZXckTUgwNywgdXNlTkEgPSAnYWx3YXlzJykKCgojIFtNSDA4XSBNZW50YWwgaGVhbHRoIDggIkRvIHlvdSB0aGluayB5b3VyIG1lbnRhbCBoZWFsdGggcHJvYmxlbXMgbmVnYXRpdmVseSBhZmZlY3QgeW91ciBxdWFsaXR5IG9mIHdvcms/IiAKICAgICAgIyMjIDEgPSBuZXZlcgogICAgICAjIyMgMiA9IGFsbW9zdCBuZXZlcgogICAgICAjIyMgMyA9IHNvbWV0aW1lcwogICAgICAjIyMgNCA9IGZhaXJseSBvZnRlbgogICAgICAjIyMgNSA9IHZlcnkgb2Z0ZW4KICAgICAgIyMjIE5BID0gTm90IGFuc3dlcmVkCgpkYXRfbmV3JE1IMDggPC0gZGF0X24kTUgwOAp0YWJsZShkYXQkTUgwOCwgdXNlTkEgPSAnYWx3YXlzJykKCiMgW01IMDldIE1lbnRhbCBoZWFsdGggOSAiRG8geW91IHRoaW5rIHRoYXQgc29tZSBzcGVjaWFsIHNlcnZpY2VzIChlLmcuLCB0aW1lIG1hbmFnZW1lbnQgY291cnNlcywgY29hY2hpbmcsIGV0Yy4pIG9yIHN0cnVjdHVyYWwgY2hhbmdlLi4uIiAoTUMpCiAgICAgICMjIyBNSDA5XzAxIG5vCiAgICAgICMjIyBNSDA5XzAyIHBlcnNvbmFsaXNlZCBjb2FjaGluZwogICAgICAjIyMgTUgwOV8wMyBtZW50b3JpbmcKICAgICAgIyMjIE1IMDlfMDQgdGltZSBtYW5hZ2VtZW50IGNvdXJzZXMKICAgICAgIyMjIE1IMDlfMDUgc3RyZXNzIG1hbmFnZW1lbnQgY291cnNlcwogICAgICAjIyMgTUgwOV8wOCBzdHJ1Y3R1cmFsIGNoYW5nZXMKICAgICAgIyMjIE1IMDlfMDkgT3RoZXIsIHBsZWFzZSBzcGVjaWZ5CiAgICAgICMjIyAwID0gTm90IGNoZWNrZWQ7IDEgPSBDaGVja2VkCiAgICAgICMjIyBNSDA5XzA5YSBPdGhlciwgcGxlYXNlIHNwZWNpZnkgKGZyZWUgdGV4dCkKCmRhdF9uZXckTUgwOV8wMSA8LSByZWNvZGUoZGF0X24kTUgwOV8wMSwgIicxJz0wOyAnMic9MTsgIikKZGF0X25ldyRNSDA5XzAyIDwtIHJlY29kZShkYXRfbiRNSDA5XzAyLCAiJzEnPTA7ICcyJz0xOyAiKQpkYXRfbmV3JE1IMDlfMDMgPC0gcmVjb2RlKGRhdF9uJE1IMDlfMDMsICInMSc9MDsgJzInPTE7ICIpCmRhdF9uZXckTUgwOV8wNCA8LSByZWNvZGUoZGF0X24kTUgwOV8wNCwgIicxJz0wOyAnMic9MTsgIikKZGF0X25ldyRNSDA5XzA1IDwtIHJlY29kZShkYXRfbiRNSDA5XzA1LCAiJzEnPTA7ICcyJz0xOyAiKQpkYXRfbmV3JE1IMDlfMDggPC0gcmVjb2RlKGRhdF9uJE1IMDlfMDgsICInMSc9MDsgJzInPTE7ICIpCmRhdF9uZXckTUgwOV8wOSA8LSByZWNvZGUoZGF0X24kTUgwOV8wOSwgIicxJz0wOyAnMic9MTsgIikKCiMjIyBNSDA5XzA5YSBPdGhlciwgcGxlYXNlIHNwZWNpZnkgKGZyZWUgdGV4dCkKIyBUT0RPICMxMjogb3BlbiBhbnN3ZXIKCgojIFtNSDEwXSBQc3ljaG90aGVyYXB5ICJBcmUgeW91IGN1cnJlbnRseSBpbiBwc3ljaG90aGVyYXB5PyIKICAgICAgIyMjIDAgPSBubzsgMSA9IHllczsgTkEgPSBOb3QgYW5zd2VyZWQKZGF0X25ldyRNSDEwIDwtIHJlY29kZShkYXRfbiRNSDEwLCAiJzEnPTA7ICcyJz0xOyAiKQp0YWJsZShkYXRfbmV3JE1IMTAsIHVzZU5BID0gJ2Fsd2F5cycpCgoKIyBbTUgxMV0gRGlhZ25vc2lzICJIYXZlIHlvdSBldmVyIGJlZW4gZGlhZ25vc2VkIHdpdGggYSBtZW50YWwgZGlzb3JkZXI/IgogICAgICAjIyMgMCA9IG5vOyAxID0geWVzOyBOQSA9IE5vdCBhbnN3ZXJlZApkYXRfbmV3JE1IMTEgPC0gcmVjb2RlKGRhdF9uJE1IMTEsICInMSc9MDsgJzInPTE7ICIpCnRhYmxlKGRhdCRNSDExLCB1c2VOQSA9ICdhbHdheXMnKQoKCiMjIyMjIyMjIyMjIyMjIyBQSFEKIyBbTUgxMl0gUEhRXzJfMSAiTGl0dGxlIGludGVyZXN0IG9yIHBsZWFzdXJlIGluIGRvaW5nIHRoaW5ncyIKICAgICAgIyBzYW1lIHNjYWxlIGZvciAgJ01IMTInLCAnTUgxNCcsJ01IMTUnLCdNSDE2JywnTUgxNycsJ01IMTgnLCdNSDE5JywnTUgyMCcsJ01IMjEnCiAgICAgICMjIyAxID0gTm90IGF0IGFsbAogICAgICAjIyMgMiA9IFNldmVyYWwgZGF5cwogICAgICAjIyMgMyA9IE1vcmUgdGhhbiBoYWxmIHRoZSBkYXlzCiAgICAgICMjIyA0ID0gTmVhcmx5IGV2ZXJ5IGRheQogICAgICAjIyMgTkEgPSBOb3QgYW5zd2VyZWQKCiMgW01IMTVdIFBIUV85X0ZpbHRlciAiRmVlbGluZyBuZXJ2b3VzLCBhbnhpb3VzLCBvciBvbiBlZGdlPyIKICAgICMgc2NhbGUgZm9yICBbTUgxNV0gCiAgICAjIyMgMSA9IE5vdCBhdCBhbGwKICAgICMjIyAyID0gU2V2ZXJhbCBkYXlzCiAgICAjIyMgMyA9IE1vcmUgdGhhbiBoYWxmIHRoZSBkYXlzCiAgICAjIyMgTkEgPSBOb3QgYW5zd2VyZWQKCiMgW01IMTZdIFBIUV85XzEgIkJlaW5nIHNvIHJlc3RsZXNzIHRoYXQgaXQncyBoYXJkIHRvIHNpdCBzdGlsbCIKCiMgW01IMTddIFBIUV85XzIgIkJlaW5nIHRpcmVkIGVhc2lseSIKCiMgW01IMThdIFBIUV85XzMgIk11c2NsZSB0ZW5zaW9uIG9yIG11c2NsZSBwYWluIgoKIyBbTUgxOV0gUEhRXzlfNCAiVHJvdWJsZSBmYWxsaW5nIGFzbGVlcCBvciBzbGVlcGluZyB0aHJvdWdoIgoKIyBbTUgyMF0gUEhRXzlfNSAiVHJvdWJsZSBjb25jZW50cmF0aW5nLCBlLmcuLCBvbiByZWFkaW5nIG9yIHdhdGNoaW5nIFRWIgoKIyBbTUgyMV0gUEhRXzlfNiAiQmVjb21pbmcgZWFzaWx5IGFubm95ZWQgb3IgaXJyaXRhYmxlIgoKIyBbTUgxNF0gUEhRXzJfMiAiRmVlbGluZyBkb3duLCBkZXByZXNzZWQgb3IgaG9wZWxlc3MiCgpkYXRfbmV3IDwtIGNiaW5kKGRhdF9uZXcsIGRhdF9uW2MoJ01IMTInLCAnTUgxNCcsJ01IMTUnLCdNSDE2JywnTUgxNycsJ01IMTgnLCdNSDE5JywKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICdNSDIwJywnTUgyMScpXSkKCnRhYmxlKGRhdF9uZXckTUgyMSwgdXNlTkEgPSAiYWx3YXlzIikKCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMgU2VjdGlvbiBTSDogU2Vla2luZyBIZWxwCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwoKIyBbU0gwMV0gU2Vla2luZy1oZWxwMSAiSGF2ZSB5b3UgYWxyZWFkeSB0cmllZCB0byBpbXByb3ZlIHlvdXIgc2l0dWF0aW9uPyIgCiAgICAjIyMgMSA9IG5ldmVyCiAgICAjIyMgMiA9IGFsbW9zdCBuZXZlcgogICAgIyMjIDMgPSBzb21ldGltZXMKICAgICMjIyA0ID0gZmFpcmx5IG9mdGVuCiAgICAjIyMgNSA9IHZlcnkgb2Z0ZW4KICAgICMjIyBOQSA9IE5vdCBhbnN3ZXJlZAoKCiMgW1NIMDJdIFNlZWtpbmctaGVscDIgIkhhdmUgeW91IGhlYXJkIG9mIHRoZSBjb25zdWx0YXRpb24gc2VydmljZXMgYXQgdGhlIHVuaXZlcnNpdHk/IgogICAgIyMjIDEgPSBubzsgMiA9IHllczsgTkEgPSBOb3QgYW5zd2VyZWQKZGF0X25ldyRTSDAyIDwtIHJlY29kZShkYXRfbiRTSDAyLCAiJzEnPTA7ICcyJz0xOyAiKQp0YWJsZShkYXRfbmV3JFNIMDIsIHVzZU5BID0gJ2Fsd2F5cycpCgojIFtTSDA0XSBTZWVraW5nLWhlbHAzICJIb3cgbXVjaCBkbyB5b3Uga25vdyBhYm91dCB0aGUgY29uc3VsdGF0aW9uIHNlcnZpY2VzIGF0IHRoZSB1bml2ZXJzaXR5PyIKICAgICMjIyAxID0gbm90aGluZwogICAgIyMjIDIgPSBhbG1vc3Qgbm90aGluZwogICAgIyMjIDMgPSBzb21ldGhpbmcKICAgICMjIyA0ID0gcGxlbnR5CiAgICAjIyMgNSA9IGEgbG90CiAgICAjIyMgTkEgPSBOb3QgYW5zd2VyZWQgCmRhdF9uZXckU0gwNCA8LSBkYXRfbiRTSDA0CnRhYmxlKGRhdF9uZXckU0gwNCwgdXNlTkEgPSAnYWx3YXlzJykKCgojIFtTSDA1XSBTZWVraW5nLWhlbHA0ICJIYXZlIHlvdSBzb3VnaHQgaGVscCBmcm9tIGEgc3BlY2lhbGlzdD8iCiAgICAjIyMgMSA9IG5vOyAyID0geWVzOyBOQSA9IE5vdCBhbnN3ZXJlZApkYXRfbmV3JFNIMDUgPC0gcmVjb2RlKGRhdF9uJFNIMDUsICInMSc9MDsgJzInPTE7ICIpCnRhYmxlKGRhdCRTSDA1LCB1c2VOQSA9ICdhbHdheXMnKQoKIyBbU0gxMF0gQ29yb25hICJEaWQgdGhlIENvdmlkLTE5IHBhbmRlbWljIGFmZmVjdCB5b3VyIGdlbmVyYWwgc2l0dWF0aW9uPyIKICAgICMjIyAxID0geWVzLCBpdCBpbXByb3ZlZCBteSBnZW5lcmFsIHNpdHVhdGlvbgogICAgIyMjIDIgPSB5ZXMsIGl0IHdvcnNlbmVkIG15IGdlbmVyYWwgc2l0dWF0aW9uCiAgICAjIyMgMyA9IHllcywgYnV0IGl0IG5laXRoZXIgd29yc2VuZWQgbm9yIGltcHJvdmVkIG15IGdlbmVyYWwgc2l0dWF0aW9uCiAgICAjIyMgNCA9IG5vCiAgICAjIyMgTkEgPSBOb3QgYW5zd2VyZWQKZGF0X25ldyRTSDEwIDwtIGRhdF9uJFNIMTAKdGFibGUoZGF0X24kU0gxMCwgdXNlTkEgPSAnYWx3YXlzJykKCiMgW1NIMDZdIFNlZWtpbmctaGVscDUgIkRvIHlvdSBoYXZlIGFueW9uZSB0byB0YWxrIHRvIGFib3V0IHlvdXIgaXNzdWVzPyIKICAgICMjIyAxID0gbm87IDIgPSB5ZXM7IE5BID0gTm90IGFuc3dlcmVkCmRhdF9uZXckU0gwNiA8LSByZWNvZGUoZGF0X24kU0gwNiwgIicxJz0wOyAnMic9MTsgIikKdGFibGUoZGF0X25ldyRTSDA2LCB1c2VOQSA9ICdhbHdheXMnKQoKIyBbU0gwN10gU2Vla2luZy1oZWxwNiAiV2hhdCBjb3VsZCBiZSBkb25lIHRvIGltcHJvdmUgeW91ciBzaXR1YXRpb24/IEZlZWwgZnJlZSB0byBleHByZXNzIHlvdXIgb3BpbmlvbiBhbmQgZmVlbGluZ3MgaGVyZS4iCiAgICAjIyMgU0gwN18wMSBbMDFdIEZyZWUgdGV4dAojIHRvZG8gIzEzIDogb3BlbiBxdWVzdGlvbgoKIyBbU0gwOV1TZWVraW5nLWhlbHA3ICJEbyB5b3UgaGF2ZSBhbnkgZnVydGhlciBjb21tZW50cz8iCiAgICAjIyMgU0gwOV8wMSBbMDFdIEZyZWUgdGV4dAojIHRvZG8gIzE0IDogb3BlbiBxdWVzdGlvbgoKIyBbU0gxMV0gQ29yb25hMiAiRG8geW91IHRoaW5rIHRoZSBhbnN3ZXJzIHlvdSBoYXZlIHByb3ZpZGVkIGluIHRoaXMgc3VydmV5IGhhdmUgYmVlbiBhZmZlY3RlZCBieSB0aGUgQ292aWQtMTkgcGFuZGVtaWM/IgogICAgIyMjIDEgPSBWZXJ5IGxpa2VseQogICAgIyMjIDIgPSBMaWtlbHkKICAgICMjIyAzID0gTmV1dHJhbAogICAgIyMjIDQgPSBOb3QgbGlrZWx5CiAgICAjIyMgNSA9IFZlcnkgdW5saWtlbHkKICAgICMjIyBOQSA9IE5vdCBhbnN3ZXJlZApkYXRfbmV3JFNIMTEgPC0gZGF0X24kU0gxMQp0YWJsZShkYXQkU0gxMSwgdXNlTkEgPSAnYWx3YXlzJykKCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyMjIFNlY3Rpb24gQ086IEluZm9ybWVkIGNvbnNlbnQKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCgojIFtDTzA1XSBDb25zZW50OiBSZXNpZHVhbCBvcHRpb24gKG5lZ2F0aXZlKSBvciBudW1iZXIgb2Ygc2VsZWN0ZWQgb3B0aW9ucwojIyMgQ08wNV8wMSBJIGhhdmUgYmVlbiBpbmZvcm1lZCBhYm91dCB0aGUgc3R1ZHkgYW5kIHRoZSBwcm9jZWR1cmUuIEkgaGVyZWJ5IGFncmVlIHRvIHRoZSBjb2xsZWN0aW9uCiMjIyBhbmQgcHJvY2Vzc2luZyBvZiBteSBhYm92ZS1tZW50aW9uZWQgZGF0YS4gQ29uc2VxdWVudGx5LCBJIHdvdWxkIGxpa2UgdG8gdm9sdW50YXJpbHkgcGFydGljaXBhdGUgaW4gdGhpcyBzdHVkeS4KIyMjIHJlY29kZWQ6IDAgPSBOb3QgY2hlY2tlZDsgMSA9IENoZWNrZWQKZGF0X25ldyRDTzA1XzAxIDwtIHJlY29kZShkYXRfbiRDTzA1XzAxLCAiJzEnPTA7ICcyJz0xOyAiKQp0YWJsZShkYXRfbmV3JENPMDVfMDEsIHVzZU5BID0gJ2Fsd2F5cycpCgoKCiMgW0NPMDddIENvbmZpcm1hdGlvblBIRDogUmVzaWR1YWwgb3B0aW9uIChuZWdhdGl2ZSkgb3IgbnVtYmVyIG9mIHNlbGVjdGVkIG9wdGlvbnMKIyMjIENPMDdfMDEgSSBoZXJlYnkgY29uZmlybSwgdGhhdCBJIGFtIGEgUGguRC4gc3R1ZGVudCBhdCB0aGUgVW5pdmVyc2l0eSBvZiBUP2Jpbmdlbi4KIyMjIHJlY29kZWQ6IDEgPSBOb3QgY2hlY2tlZDsgMiA9IENoZWNrZWQKZGF0X25ldyRDTzA3XzAxIDwtIHJlY29kZShkYXRfbiRDTzA3XzAxLCAiJzEnPTA7ICcyJz0xOyAiKQp0YWJsZShkYXQkQ08wN18wMSwgdXNlTkEgPSAnYWx3YXlzJykKCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMgRU5EICMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMgRXhwb3J0IGZ1bGx5IGFub255bW91cyBkYXRhIHNldCBhcyBTQVYgYW5kIENTViBmaWxlICAgICMjIwp3cml0ZS5jc3YoZGF0X25ldywiL2hvbWUvY29ybmVsaXVzL0RvY3VtZW50cy9zdXN0YWluYWJpbGl0eS9tZW50YWxfaGVhbHRoL2RhdGFfcHJvdGVjdGVkL3ByZXByb2Nlc3NlZF9kYXRhX3YwLmNzdiIsIHJvdy5uYW1lcyA9IEZBTFNFKQoKcm0obGlzdCA9IGxzKCkpCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF0YSB2aWV3IG9mIHRoZSBNZW50YWwgSGVhbHRoIFN0dWR5IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpMb2FkIHBhY2thZ2VzOgpgYGB7cn0KbGlicmFyeShmb3JlaWduKQpsaWJyYXJ5KHBzeWNoKQpsaWJyYXJ5KGNhcikKbGlicmFyeShzdHJpbmdyKQpsaWJyYXJ5KGdncGxvdDIpCmxpYnJhcnkobGlrZXJ0KSAKYGBgCgpMb2FkIHRoZSBkYXRhOgpgYGB7cn0KZGF0IDwtIHJlYWQuY3N2KCIvaG9tZS9jb3JuZWxpdXMvRG9jdW1lbnRzL3N1c3RhaW5hYmlsaXR5L21lbnRhbF9oZWFsdGgvZGF0YV9wcm90ZWN0ZWQvcHJlcHJvY2Vzc2VkX2RhdGFfdjAuY3N2IikKYGBgCi0tLQoKIyBTZWN0aW9uIFNEOiBTb2Npb2RlbW9ncmFmaWNzCgojIyMjIFtTRDAxXSBHZW5kZXIgIldoaWNoIGdlbmRlciBkbyB5b3UgaWRlbnRpZnkgd2l0aD8iCiAgICAgIDEgPSBkaXZlcnNlOyAKICAgICAgMiA9IGZlbWFsZTsgCiAgICAgIDMgPSBtYWxlOyAKICAgICAgNCA9IHJhdGhlciBub3Qgc2F5OyAKICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKYGBge3J9CnRhYmxlKGRhdCRTRDAxLCB1c2VOQT0nYWx3YXlzJyApCmJhcnBsb3QodGFibGUoZGF0JFNEMDEpKQpgYGAKCgojIyMjIFNEMDIgW2FnZV0gIkhvdyBvbGQgYXJlIHlvdT8iIFNEMDJfMDEgSSBhbSAuLi4geWVhcnMgb2xkCgpgYGB7cn0KZGVzY3JpYmUoZGF0JGFnZSkKaGlzdChkYXQkYWdlKQpgYGAKCgojIyMjIFtTRDA4XSBOYXRpb25hbGl0eSAiV2hhdCBpcyB5b3VyIG5hdGlvbmFsaXR5PyIKLSBldXJvcGU6IDE9RXVyb3BlIDA9Tm9uLUV1cm9wZQotIGdlcm1hbjogIDE9R2VybWFuLCAwPU5vbi1HZXJtYW4KLSBjb250aW5lbnRfY29hcnNlZDogMSA9IEV1cm9wZSwgMiA9IEFzaWEsIDMgPSBPdGhlcnMKCmBgYHtyfQp0YWJsZShkYXQkZXVyb3BlLCBkZXBhcnNlLmxldmVsID0gMiwgdXNlTkEgPSAiYWx3YXlzIikKdGFibGUoZGF0JGdlcm1hbiwgZGVwYXJzZS5sZXZlbCA9IDIsIHVzZU5BID0gImFsd2F5cyIpCnRhYmxlKGRhdCRjb250aW5lbnRfY29hcnNlZCwgZGVwYXJzZS5sZXZlbCA9IDIsIHVzZU5BID0gImFsd2F5cyIpCmBgYAoKIyMjIyBbU0QxMF0gRmFtaWx5IGVkdWNhdGlvbiBiYWNrZ3JvdW5kICJXaGF0IGlzIHlvdXIgZmFtaWx5J3MgYWNhZGVtaWMgYmFja2dyb3VuZD8iCiAgICAgIDEgPSBhY2FkZW1pYyAoYXQgbGVhc3Qgb25lIHBhcmVudC9sZWdhbCBndWFyZGlhbiBoYXMgYSB1bml2ZXJzaXR5IGRlZ3JlZSkKICAgICAgMCA9IG5vbi1hY2FkZW1pYyAobm9uZSBvZiBteSBwYXJlbnRzL2xlZ2FsIGd1YXJkaWFucyBoYXMgYSB1bml2ZXJzaXR5IGRlZ3JlZSkKICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKCmBgYHtyfQp0YWJsZShkYXQkU0QxMCwgdXNlTkEgPSAiYWx3YXlzIikKYGBgCgojIyMjIFtTRDExXSBGb3JtYWxlIEJpbGR1bmcgKGVpbmZhY2gpICJEaWQgeW91IG1vdmUgdG8gVD9iaW5nZW4gZm9yIHlvdXIgUGguRC4/IgogICAgICAwID0gbm8KICAgICAgMSA9IHllcywgZnJvbSBhbm90aGVyIHBsYWNlIGluIEdlcm1hbnkKICAgICAgMiA9IHllcywgZnJvbSBhbm90aGVyIGNvdW50cnkKICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKICAgICAgCmBgYHtyfQp0YWJsZShkYXQkU0QxMSwgZGVwYXJzZS5sZXZlbCA9IDIsIHVzZU5BID0gImFsd2F5cyIpCmBgYAoKCiMjIyMgW1NEMTNdIENhcmUtdGFraW5nICJEbyB5b3UgaGF2ZSBhIGNoaWxkL2EgcGVyc29uIGluIHlvdXIgZmFtaWx5IHlvdSBoYXZlIHRvIHRha2UgY2FyZSBvZj8iCiAgICAgIDAgPSBubwogICAgICAxID0geWVzLCBmcm9tIGFub3RoZXIgcGxhY2UgaW4gR2VybWFueQogICAgICBOQSA9IE5vdCBhbnN3ZXJlZApgYGB7cn0KdGFibGUoZGF0JFNEMTMsIGRlcGFyc2UubGV2ZWwgPSAyLCB1c2VOQSA9ICJhbHdheXMiKQpgYGAKCgoKIyMjIyBTRDE0IFtsaXZpbmddIExpdmluZy1hcnJhbmdlbWVudCAiV2hhdCBpcyB5b3VyIGhvdXNpbmcgc2l0dWF0aW9uPyIgKE1DKQogICAgICAxOiBBbG9uZQogICAgICAyOiBUb2dldGhlciB3aXRoIHBhcmVudHMKICAgICAgMzogVG9nZXRoZXIgd2l0aCBwYXJ0bmVyCiAgICAgIDQ6IFN0dWRlbnQgYWNjb21tb2RhdGlvbgogICAgICA1OiBTaGFyZWQgZmxhdAogICAgICA2OiB0b2dldGhlciB3aXRoIGZhbWlseQogICAgICBOQTogbm90IGFuc3dlcmVkCgpgYGB7cn0KdGFibGUoZGF0JGxpdmluZywgZGVwYXJzZS5sZXZlbCA9IDIsIHVzZU5BID0gImFsd2F5cyIpCmBgYAoKLS0tCgojIFNlY3Rpb24gQVA6IEFib3V0IHlvdXIgUGhECgojIyMjIFtBUDAxXSBGYWN1bHR5ICJXaGljaCBmYWN1bHR5IGFyZSB5b3VyIHN0dWRpZXMgYXNzb2NpYXRlZCB3aXRoPyIgKE1DKQoKYGBge3J9CgpgYGAKVE9ETyAjNAoKVE9ETyAjNSBhZGQgdG8gbmV3IGRhdGFmcmFtZQoKCiMjIyMgW0FQMDJdIENob2ljZSBvZiBUb3BpYyAiRGlkIHlvdSBjaG9vc2UgdGhlIHRvcGljIG9mIHlvdXIgUGguRC4geW91cnNlbGY/IgogICAgICAwID0gbm8KICAgICAgMSA9IHllcwogICAgICBOQSA9IE5vdCBhbnN3ZXJlZApgYGB7cn0KdGFibGUoZGF0JEFQMDIsIHVzZU5BID0gImFsd2F5cyIpCmBgYAoKCiMjIyMgW0FQMDNdIEhvdXJzIHBlciB3ZWVrIFBoLkQgIkhvdyBtYW55IGhvdXJzIGEgd2VlayBkbyB5b3Ugc3BlbmQgb24geW91ciBQaC5ELj8iCiAgICAgICAgQVAwM18wMSAuLi4gaG91cnMvd2VlawogICAgICAgIApgYGB7cn0KdGFibGUoZGF0JEFQMDNfMDEpCmRlc2NyaWJlKGRhdCRBUDAzXzAxKQpgYGAKCiMjIyMgW0FQMDVdIEhvdXJzIHBlciB3ZWVrIHdvcmsgIkhvdyBtYW55IGhvdXJzIGEgd2VlayBkbyB5b3Ugd29yayBpbiB0b3RhbD8iCi0gQVAwNV8wMSAuLi4gaG91cnMvd2VlawotIHRpbWVkaWY6IGJ1aWxkIGRpZmZlcmVuY2UgYmV0d2VlbiBwaGQgd3BvcmtpbmcgaG91cnMgYW5kIHRvdGFsIHdvcmtpbmcgaG91cnMKYGBge3J9Cmhpc3QoZGF0JEFQMDVfMDEpCmBgYAoKYGBge3J9CmRlc2NyaWJlKGRhdCR0aW1lZGlmKQpgYGAKCgojIyMjIEFQMDQgW3BoZHN0YWdlXSBTdGFydCBQaC5ELiJXaGVuIGRpZCB5b3Ugc3RhcnQgeW91ciBQaC5ELj8iCi0gcGhkc3RhZ2U6IFRpbWUgc3BlbnQgYXMgYSBQaEQgCgogICAgICAgIDEgPSAwLTYgbW9udGhzICAKICAgICAgICAyID0gNy0xMiBtb250aHMgCiAgICAgICAgMyA9IDEzLTE4IG1vbnRocwogICAgICAgIC4uLgogICAgICAgIDEzID0gNzItNzggbW9udGhzCiAgICAgICAgMTQgPSA+NzkgbW9udGhzCgpgYGB7cn0KdGFibGUoZGF0JHBoZHN0YWdlLHVzZU5BID0gImFsd2F5cyIpCmhpc3QoZGF0JHBoZHN0YWdlKQpgYGAKCiMgU2VjdGlvbiBFRjogRW1wbG95bWVudC9GaW5hbmNpYWwgU2l0dWF0aW9uCgoKIyMjIyBbRUYwMV0gQ29udHJhY3QgVHlwZSAiSG93IGFyZSB5b3UgZmluYW5jZWQ/IChDb250cmFjdCB0eXBlIG9ubHkgcmVsYXRlZCB0byB5b3VyIFBoLkQuKSIKICAgICAgICAxID0gUGVybWFuZW50IGVtcGxveW1lbnQKICAgICAgICAyID0gVGVtcG9yYXJ5IGVtcGxveW1lbnQKICAgICAgICAzID0gSG91cmx5IGVtcGxveW1lbnQKICAgICAgICA2ID0gU2Nob2xhcnNoaXAgKGVtcGxveWVkLCBwYXlpbmcgc29jaWFsIHNlY3VyaXR5KQogICAgICAgIDcgPSBTY2hvbGFyc2hpcCAobm90IGVtcGxveWVkKQogICAgICAgIDUgPSBOb3QgZW1wbG95ZWQKICAgICAgICA4ID0gT3RoZXJzCiAgICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKICAgICAgICBSZW1hcms6IGlmIG11bHRpcGxlIG1hdGNoZXMgaW4gb3BlbiBhbnN3ZXJzOiBvdGhlcgoKYGBge3J9CnRhYmxlKGRhdCRFRjAxLCB1c2VOQSA9ICJhbHdheXMiKQpgYGAKCgojIyMjIFtFRjAyXSBMZW5ndGggb2YgQ29udHJhY3QgIklmIHlvdSBvbmx5IGhhdmUgYSB0ZW1wb3JhcnkgZW1wbG95bWVudDogV2hhdCBpcyB0aGUgdG90YWwgbGVuZ3RoIG9mIHlvdXIgY29udHJhY3QgKGluIG1vbnRocyk/IgogICAgICAgIEVGMDJfMDEgLi4uIG1vbnRocwogICAgICAKYGBge3J9CnRhYmxlKGRhdCRFRjAyXzAxLCB1c2VOQSA9ICJhbHdheXMiKQpoaXN0KGRhdCRFRjAyXzAxKQpgYGAKIyMjIyBbRUYwNl0gTGVuZ3RoIG9mIHNjaG9sYXJzaGlwICJJZiB5b3UgaGF2ZSBhIHNjaG9sYXJzaGlwOiBXaGF0IGlzIHRoZSB0b3RhbCBsZW5ndGggb2YgeW91ciBjdXJyZW50IHNjaG9sYXJzaGlwIChpbiBtb250aHMpPyIKICAgICAgICBFRjA2XzAxIC4uLiBtb250aHMKYGBge3J9CnRhYmxlKGRhdCRFRjA2XzAxLCB1c2VOQSA9ICJhbHdheXMiKQpgYGAKCiMjIyMgW0VGMDNdICUgRnVsbCB0aW1lICJXaGF0IGlzIHRoZSBwZXJjZW50YWdlIHlvdXIgY29udHJhY3QgY292ZXJzIGluIHRlcm1zIG9mIGZ1bGwtdGltZSBlbXBsb3ltZW50PyIKICAgICAgICBFRjAzXzAxIC4uLiAlCmBgYHtyfQp0YWJsZShkYXQkRUYwM18wMSkKYGBgCgoKIyMjIyBbRUYwNF0gT3RoZXIgZW1wbG95bWVudCAiRG8geW91IGhhdmUgYW55IG90aGVyIHBhaWQgZW1wbG95bWVudCB3aGljaCBpcyB1bnJlbGF0ZWQgdG8geW91ciBQaC5ELj8iCiAgICAgICAgMCA9IG5vCiAgICAgICAgMSA9IHllcwogICAgICAgIE5BID0gTm93IGFuc3dlcmVkIAoKYGBge3J9CnRhYmxlKGRhdCRFRjA0LCB1c2VOQSA9ICJhbHdheXMiKQpgYGAKCiMjIyMgW0VGMDVdIFJlYXNvbiBvdGhlciBlbXBsb3ltZW50ICJXaHkgZGlkIHlvdSBkZWNpZGUgdG8gaGF2ZSBhIHNpZGUtam9iPyIKICAgICAgIyMjIEVGMDUgc2hvd3MgaG93IG9mdGVuIDEsMiwzIGV0Yy4gb3B0aW9ucyB3aGVyZSB0aWNrZWQuCiAgICAgICMjIyBFRjA1XzAxIEVhcm5pbmcgbW9uZXkKICAgICAgIyMjIEVGMDVfMDIgRm9yIHRoZSBDVgogICAgICAjIyMgRUYwNV8wMyBQZXJzb25hbCBpbnRlcmVzdAogICAgICAjIyMgRUYwNV8wNCBPdGhlciwgcGxlYXNlIHNwZWNpZnkKICAgICAgIyMjIDEgPSBOb3QgY2hlY2tlZAogICAgICAjIyMgMiA9IENoZWNrZWQKICAgICAgIyMjIEVGMDVfMDRhIE90aGVyLCBwbGVhc2Ugc3BlY2lmeSAoZnJlZSB0ZXh0KQojIFRPRE8gIzYKc2VlIG9wZW4gcXVlc3Rpb24gcHJvY2VkdXJlCgojIFNlY3Rpb24gRVY6IEV2YWx1YXRpb24gb2YgeW91ciBQaC5ELgotIHNjYWxlIGluIEVWMDEsIEVWMDQsIEVWMDYsIEVWMDcsIEVWMDgKCiAgICAgICAgMSA9IHN0cm9uZ2x5IGRpc2FncmVlCiAgICAgICAgMiA9IGRpc2FncmVlCiAgICAgICAgMyA9IG5laXRoZXIgYWdyZWUgbm9yIGRpc2FncmVlCiAgICAgICAgNCA9IGFncmVlCiAgICAgICAgNSA9IHN0cm9uZ2x5IGFncmVlCiAgICAgICAgLTEgPSBub3Qgc3VyZQogICAgICAgIE5BID0gTm90IGFuc3dlcmVkCgotIFtFVjAxXSBQaEQgYWdhaW4gIkxvb2tpbmcgYmFjaywgaWYgSSBoYWQgbm90IHN0YXJ0ZWQgbXkgUGguRC4geWV0LCBJIHdvdWxkIGRvIGl0IGFnYWluLiIKLSBbRVYwNF0gUmVncmV0ICJJIHJlZ3JldCBoYXZpbmcgc3RhcnRlZCBhIFBoLkQuIgoKUGxlYXNlIGV2YWx1YXRlIGluIHRoZSBzY2FsZSB0aGUgZm9sbG93aW5nIHN0YXRlbWVudHMgcmVnYXJkaW5nIHlvdXIgUGguRC46CgotIFtFVjA2XSBKb2Itc2F0aXNmYWN0aW9uMSAiSSBlbmpveSBiZWluZyBhdCB3b3JrLiIgCi0gW0VWMDddIEpvYi1zYXRpc2ZhY3Rpb24yICJJIGFtIGNvbnRlbnQgd2l0aCB0aGUgam9iIEkgaGF2ZS4iCi0gW0VWMDhdIEpvYi1zYXRpc2ZhY3Rpb24zICJJIGFtIHNhdGlzZmllZCB3aXRoIG15IGpvYi4iCgpgYGB7cn0KdGFibGUoZGF0JEVWMDQsIHVzZU5BID0gImFsd2F5cyIpCmBgYAoKIyMjIyBbRVYwOV0gTGlmZS1zYXRpc2ZhY3Rpb24gIkhvdyBzYXRpc2ZpZWQgYXJlIHlvdSB3aXRoIHlvdXIgbGlmZSBhdCB0aGUgbW9tZW50PyIKICAgICAgICAxID0gbm90IHNhdGlzZmllZCBhdCBhbGwKICAgICAgICAyID0gc2xpZ2h0bHkgc2F0aXNmaWVkCiAgICAgICAgMyA9IG1vZGVyYXRlbHkgc2F0aXNmaWVkCiAgICAgICAgNCA9IHZlcnkgc2F0aXNmaWVkCiAgICAgICAgNSA9IHRvdGFsbHkgc2F0aXNmaWVkCiAgICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKCmBgYHtyfQp0YWJsZShkYXQkRVYwOSwgdXNlTkEgPSAiYWx3YXlzIikKYGBgCgojIyMjIFtFVjA1XSBQaEQgc29tZXdoZXJlIGVsc2UgIkRvIHlvdSB0aGluayBkb2luZyB5b3VyIFBoLkQuIGluL2F0IGEgZGlmZmVyZW50IGNvdW50cnkvdW5pdmVyc2l0eSB3b3VsZCBvZmZlciBiZXR0ZXIgY29uZGl0aW9ucz8iCiAgICAgICAgMCA9IG5vOyAKICAgICAgICAxID0geWVzOyAKICAgICAgICAyID0gbm90IHN1cmU7IAogICAgICAgIE5BID0gTm90IGFuc3dlcmVkCiAgICAgICAgCmBgYHtyfQp0YWJsZShkYXQkRVYwNSwgdXNlTkEgPSAiYWx3YXlzIikKYGBgCgojIFNlY3Rpb24gV0c6IFN0cnVjdHVyZSBvZiB3b3JraW5nIGdyb3VwCgojIyMjIFtXRzAxXSBQcm9mZXNzaW9uYWwgc3VwcG9ydCAiQXJlIHRoZXJlIGNvbGxlYWd1ZXMgaW4geW91ciBkZXBhcnRtZW50L3Jlc2VhcmNoIGNlbnRlciB0aGF0IHN1cHBvcnQgeW91IHByb2Zlc3Npb25hbGx5PyIKICAgICAgICAwID0gbm87IAogICAgICAgIDEgPSB5ZXM7ICAKICAgICAgICBOQSA9IE5vdCBhbnN3ZXJlZApgYGB7cn0KdGFibGUoZGF0JFdHMDEsIHVzZU5BID0gJ2Fsd2F5cycpCmBgYAoKIyMjIyBbV0cwMl0gRW1vdGlvbmFsIHN1cHBvcnQgIkFyZSB0aGVyZSBjb2xsZWFndWVzIGluIHlvdXIgZGVwYXJ0bWVudC9yZXNlYXJjaCBjZW50ZXIgdGhhdCBzdXBwb3J0IHlvdSBlbW90aW9uYWxseT8iCiAgICAgICAgMCA9IG5vOyAKICAgICAgICAxID0geWVzOyAKICAgICAgICBOQSA9IE5vdCBhbnN3ZXJlZAoKYGBge3J9CnRhYmxlKGRhdCRXRzAyLCB1c2VOQSA9ICdhbHdheXMnKQpgYGAKCiMjIyMgW1dHMDNdIFdvcmsgYWxvbmUgIkRvIHlvdSBtYWlubHkgd29yayBhbG9uZSBvbiB5b3VyIHByb2plY3Q/IgogICAgICAgIDAgPSBubzsgCiAgICAgICAgMSA9IHllczsgCiAgICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKIyBUT0RPICM3IDogdGhpcyB2YXJpYWJsZSBpcyBtaXNzaW5nIGluIHRoZSBkYXRhPz8/Pz8/CiBhbHNvIG1pc3NpbmcgaW4gc29zY2kgc3VydmV5IQoKIyBTZWN0aW9uIEdIOiBHZW5lcmFsIEhlYWx0aAotIHNjYWxlIGluIEdIMDEsIEdIMDIsIEdIMDMsIEdIMDQKCiAgICAgICAgMSA9IG5ldmVyCiAgICAgICAgMiA9IGFsbW9zdCBuZXZlcgogICAgICAgIDMgPSBzb21ldGltZXMKICAgICAgICA0ID0gZmFpcmx5IG9mdGVuCiAgICAgICAgNSA9IHZlcnkgb2Z0ZW4KICAgICAgICBOQSA9IE5vdCBhbnN3ZXJlZAotIFtHSDAxXSBTdHJlc3MxICIuLi5ob3cgb2Z0ZW4gaGF2ZSB5b3UgZmVsdCB0aGF0IHlvdSB3ZXJlIHVuYWJsZSB0byBjb250cm9sIHRoZSBpbXBvcnRhbnQgdGhpbmdzIGluIHlvdXIgbGlmZT8iCi0gW0dIMDJdIFN0cmVzczIgIi4uLmhvdyBvZnRlbiBoYXZlIHlvdSBmZWx0IGNvbmZpZGVudCBhYm91dCB5b3VyIGFiaWxpdHkgdG8gaGFuZGxlIHlvdXIgcGVyc29uYWwgcHJvYmxlbXM/IgotIFtHSDAzXSBTdHJlc3MzICIuLi5ob3cgb2Z0ZW4gaGF2ZSB5b3UgZmVsdCB0aGF0IHRoaW5ncyB3ZXJlIGdvaW5nIHlvdXIgd2F5PyIKLSBbR0gwNF0gU3RyZXNzNCAiLi4uaG93IG9mdGVuIGhhdmUgeW91IGZlbHQgZGlmZmljdWx0aWVzIHdlcmUgcGlsaW5nIHVwIHNvIGhpZ2ggdGhhdCB5b3UgY291bGQgbm90IG92ZXJjb21lIHRoZW0/IgoKYGBge3J9CnRhYmxlKGRhdCRHSDAxLCB1c2VOQSA9ICJhbHdheXMiKQpgYGAKCiMgU2VjdGlvbiBPUjogT3RoZXIgcmVzcG9uc2liaWxpdGllcwoKCiMjIyMgW09SMDFdIFJlcG9uc2liaWxpdGllcyBiZXNpZGVzIFBoRCAiV2hhdCBvdGhlciByZXNwb25zaWJpbGl0aWVzIGRvIHlvdSBoYXZlIGJlc2lkZXMgd29ya2luZyBvbiB5b3VyIHJlc2VhcmNoIHRvcGljL3Byb2plY3Q/IiAKICAgICMjIyBPUjAxXzAxIFRlYWNoaW5nCiAgICAjIyMgT1IwMV8wMiBTdXBlcnZpc2lvbiBvZiBvdGhlciBzdHVkZW50cwogICAgIyMjIE9SMDFfMDMgQWRtaW5pc3RyYXRpb24KICAgICMjIyBPUjAxXzA0IFJlc2VhcmNoIHVucmVsYXRlZCB0byB5b3VyIHRvcGljCiAgICAjIyMgT1IwMV8wOCBPdGhlciwgcGxlYXNlIHNwZWNpZnkKICAgICMjIyBPUjAxXzA5IE5vIGZ1cnRoZXIgcmVzcG9uc2liaWxpdGllcwogICAgIyMjIDEgPSBOb3QgY2hlY2tlZAogICAgIyMjIDIgPSBDaGVja2VkCiAgICAjIyMgT1IwMV8wOGEgT3RoZXIsIHBsZWFzZSBzcGVjaWZ5IChmcmVlIHRleHQpCgpgYGB7cn0KdGFibGUoZGF0JE9SMDFfMDEpCmBgYAoKIyBUT0RPICM4CiMgc2VlIG9wZW4gcXVlc3Rpb24gcHJvY2VkdXJlCiMgbGVhdmUgdGhlbSBhbmQgYWRkIG90aGVyIGNvbHVtbnMgZm9yIG9wZW4gcXVlc3Rpb24uIHBvdGVudGlhbGx5IG1lcmdlIHRoZW0uIAoKCiMjIyMgW09SMDJdIFRpbWUgb3RoZXIgcmVzcG9uc2liaWxpdGllcyAiSG93IG11Y2ggdGltZSBkbyB5b3Ugc3BlbmQgb24gb3RoZXIgcmVzcG9uc2liaWxpdGllcyBiZXNpZGVzIHlvdXIgcmVzZWFyY2ggYWN0aXZpdGllcz8iCiAgICAgICAgT1IwMl8wMSAuLi4gJQoKYGBge3J9Cmhpc3QoZGF0JE9SMDJfMDEpCmBgYAoKCgojIFNlY3Rpb24gU1Q6IFN0cmVzc29ycwoKIyMjIyBbU1QwMV0gSW5zdGl0dXRpb25hbC1zdHJlc3NvcjEgIkhhdmUgeW91IGV2ZXIgZmVsdCBsb29rZWQgZG93biBvbiBieSB5b3VyIHN1cGVydmlzb3I/IgojIyMjIFtTVDAyXSBJbnN0aXR1dGlvbmFsLXN0cmVzc29yMiAiRG8geW91IGZlZWwgc3VwcG9ydGVkIGJ5IHlvdXIgc3VwZXJ2aXNvcj8iCiMjIyMgW1NUMDNdIEluc3RpdHV0aW9uYWwtc3RyZXNzb3IzICJEbyB5b3UgZmVlbCB5b3VyIHN1cGVydmlzb3IgaXMgaW50ZXJlc3RlZCBpbiB5b3VyIHRvcGljPyIKIyMjIyBbU1QwNF0gSW5zdGl0dXRpb25hbC1zdHJlc3NvcjQgIkhhdmUgeW91IGV2ZXIgZmVsdCBtaXN0cmVhdGVkIChlLmcuLCBpbnN1bHRlZCwgc2hvdXRlZCBhdCwgdW5kZXJ2YWx1ZWQpIGJ5IHlvdXIgc3VwZXJ2aXNvcj8iCiMjIyMgW1NUMTddIEluc3RpdHV0aW9uYWwtc3RyZXNzb3I0X2NvbGwgIkhhdmUgeW91IGV2ZXIgZmVsdCBtaXN0cmVhdGVkIChlLmcuLCBpbnN1bHRlZCwgc2hvdXRlZCBhdCwgdW5kZXJ2YWx1ZWQpIGJ5IHlvdXIgY29sbGVhZ3Vlcz8iCiMjIyMgW1NUMDVdIEluc3RpdHV0aW9uYWwtc3RyZXNzb3I1ICJEb2VzIHlvdXIgc3VwZXJ2aXNvciBlbmNvdXJhZ2UgeW91IHRvIHBhcnRpY2lwYXRlIGluIGNhcmVlci1idWlsZGluZyBvcHBvcnR1bml0aWVzIHN1Y2ggYXMgY29uZmVyZW5jZXMsIHN1bW0uLi4iCiMjIyMgW1NUMDZdIEluc3RpdHV0aW9uYWwtc3RyZXNzb3I2ICJCYXNlZCBvbiB5b3VyIGV4cGVyaWVuY2VzIGluIGFjYWRlbWlhIHNvIGZhciwgZG8geW91IHJlY29uc2lkZXIgeW91ciBjYXJlZXIgcGF0aD8iCiMjIyMgW1NUMDddIEluc3RpdHV0aW9uYWwtc3RyZXNzb3I3ICJEbyB5b3UgZmVlbCBjb21mb3J0YWJsZSBjb250YWN0aW5nIHlvdXIgc3VwZXJ2aXNvciB3aGVuIHlvdSBuZWVkIGhlbHA/IgojIyMjIFtTVDA4XSBJbnN0aXR1dGlvbmFsLXN0cmVzc29yOCAiSGFzIHRoZSBiZWhhdmlvciBvZiB5b3VyIHN1cGVydmlzb3IgZXZlciBtYWRlIHlvdSBjb25zaWRlciBxdWl0dGluZyB5b3VyIFBoLkQuPyIKIyMjIyBbU1QwOV0gSW5zdGl0dXRpb25hbC1zdHJlc3NvcjkgIkRvIHlvdSBoYXZlIHJlZ3VsYXIgbWVldGluZ3Mgd2l0aCB5b3VyIHN1cGVydmlzb3Iocyk/IgoKICAgICAgICBTY2FsZSBmb3IgW1NUMDFdIHRvIFtTVDA5XSBhbmQgW1NUMTddOgogICAgICAgIDEgPSBub3QgYXQgYWxsCiAgICAgICAgMiA9IHJhcmVseQogICAgICAgIDMgPSBzb21lIG9mIHRoZSB0aW1lCiAgICAgICAgNCA9IG1vc3Qgb2YgdGhlIHRpbWUKICAgICAgICA1ID0gYWxsIG9mIHRoZSB0aW1lCiAgICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKYGBge3J9CnRhYmxlKGRhdCRTVDE3LCB1c2VOQSA9ICJhbHdheXMiKQpgYGAKCiMjIyMgW1NUMTZdIEluc3RpdHV0aW9uYWwtc3RyZXNzb3IxMCAiSG93IG9mdGVuIGRvIHlvdSBoYXZlIG1lZXRpbmdzIHdpdGggeW91ciBzdXBlcnZpc29yKHMpPyIKICAgICAgICAxID0gYXQgbGVhc3Qgb25jZSBhIHdlZWsKICAgICAgICAyID0gYXQgbGVhc3Qgb25jZSBhIG1vbnRoCiAgICAgICAgMyA9IGF0IGxlYXN0IGV2ZXJ5IHRocmVlIG1vbnRocwogICAgICAgIDQgPSBhdCBsZWFzdCBldmVyeSBzaXggbW9udGhzCiAgICAgICAgNSA9IGF0IGxlYXN0IG9uY2UgYSB5ZWFyCiAgICAgICAgNiA9IGxlc3MgdGhhbiBvbmNlIGEgeWVhcgogICAgICAgIE5BID0gTm90IGFuc3dlcmVkCgoKYGBge3J9CnRhYmxlKGRhdCRTVDE2LCB1c2VOQSA9ICdhbHdheXMnKQpgYGAKCgoKIyMjIyBbU1QxMV0gU3lzdGVtaWMtc3RyZXNzb3IxICJUaGUgbGFjayBvZiBwZXJtYW5lbnQvbG9uZy10ZXJtIGNvbnRyYWN0cyBpbiBhY2FkZW1pLi4uIgojIyMjIFtTVDEyXSBTeXN0ZW1pYy1zdHJlc3NvcjIgSSBiZWxpZXZlIGhhdmluZyBhIFBoLkQuIHdpbGwgaGVscCBtZSB0byBmaW5kIGEgZ29vZCBqb2IuIiIKIyMjIyBbU1QxM10gSm9iLWluc2VjdXJpdHkxICJQbGVhc2UgZXZhbHVhdGUgaW4gdGhlIHNjYWxlIHRoZSBmb2xsb3dpbmcgc3RhdGVtZW50cyByZWdhcmRpbmcgeW91ciBQaC5ELjogIkkgYW0gd29ycmllZCBhYm91dCBoYXZpbmcgdG8gbGUuLi4iCiMjIyMgW1NUMTRdIEpvYi1pbnNlY3VyaXR5MiAiVGhlcmUgaXMgYSByaXNrIHRoYXQgSSB3aWxsIGhhdmUgdG8gbGVhdmUgbXkgcHJlc2VudCBqb2IgaW4gdGhlIHllYXIgdG8gY29tZS4iCiMjIyMgW1NUMTVdIEpvYi1pbnNlY3VyaXR5MyAiSSBmZWVsIHVuZWFzeSBhYm91dCBsb3NpbmcgbXkgam9iIGluIHRoZSBuZWFyIGZ1dHVyZS4iCiAgICAgICAgU2NhbGUgZm9yIFtTVDExXSB0byBbU1QxNV0KICAgICAgICAxID0gc3Ryb25nbHkgZGlzYWdyZWUKICAgICAgICAyID0gZGlzYWdyZWUKICAgICAgICAzID0gbmVpdGhlciBhZ3JlZSBub3IgZGlzYWdyZWUKICAgICAgICA0ID0gYWdyZWUKICAgICAgICA1ID0gc3Ryb25nbHkgYWdyZWUKICAgICAgICBOQSA9IE5vdCBhbnN3ZXJlZAoKYGBge3J9CnRhYmxlKGRhdCRTVDExKQpgYGAKCiMgU2VjdGlvbiBNSDogTWVudGFsIEhlYWx0aAoKCiMjIyMgW01IMDFdIE1lbnRhbCBoZWFsdGggMSAiSG93IG9mdGVuIGRvIHlvdSBmZWVsIHN0cmVzc2VkIHNpbmNlIHlvdSBoYXZlIHN0YXJ0ZWQgeW91ciBQaC5ELj8iCiAgICAgICAgMSA9IG5vdCBhdCBhbGwKICAgICAgICAyID0gcmFyZWx5CiAgICAgICAgMyA9IHNvbWUgb2YgdGhlIHRpbWUKICAgICAgICA0ID0gbW9zdCBvZiB0aGUgdGltZQogICAgICAgIDUgPSBhbGwgb2YgdGhlIHRpbWUKICAgICAgICBOQSA9IE5vdCBhbnN3ZXJlZAoKYGBge3J9CnRhYmxlKGRhdCRNSDAxLCB1c2VOQSA9ICdhbHdheXMnKQpgYGAKCgoKIyMjIyBbTUgwMl0gTWVudGFsIGhlYWx0aCAyICJIYXMgeW91ciBzdHJlc3MgbGV2ZWwgaW5jcmVhc2VkIHNpbmNlIHlvdSBzdGFydGVkIHlvdXIgUGguRC4/IgogICAgICAgIDAgPSBObwogICAgICAgIDEgPSBZZXMKYGBge3J9CnRhYmxlKGRhdCRNSDAyLCB1c2VOQSA9ICdhbHdheXMnKQpgYGAKCgojIyMjIFtNSDAzXSBNZW50YWwgaGVhbHRoIDMgIldoYXQgaXMvYXJlIHRoZSBjYXVzZShzKSBvZiB5b3VyIHN0cmVzcz8iCiMgW01IMDNfMDFdCgojIFRPRE8gIzk6IGluY2x1ZGUgb3BlbiBhbnN3ZXIgcHJlcHJvY2Vzc2luZwoKCiMjIyMgW01IMDRdIE1lbnRhbCBoZWFsdGggNCAiRG8geW91IGhhdmUgYW55b25lIGF0IHlvdXIgaW5zdGl0dXRlIHRvIGNvbnN1bHQgYWJvdXQgeW91ciB3b3JrLXJlbGF0ZWQgc3RyZXNzPyIgKE1DKQogICAgICAgIE1IMDRfMDEgTm9ib2R5CiAgICAgICAgTUgwNF8wMiBDb2xsZWFndWVzCiAgICAgICAgTUgwNF8wMyBBZG1pbnMgLyBDb29yZGluYXRpb24KICAgICAgICBNSDA0XzA0IFN1cGVydmlzb3IKICAgICAgICBNSDA0XzA1IE90aGVyLCBwbGVhc2Ugc3BlY2lmeQogICAgICAgIDAgPSBOb3QgY2hlY2tlZAogICAgICAgIDEgPSBDaGVja2VkCiAgICAgICAgTUgwNF8wNWEgT3RoZXIsIHBsZWFzZSBzcGVjaWZ5IChmcmVlIHRleHQpCgojIFRPRE8gIzEwOiBvcGVuIGFuc3dlciBwcmVwcm9jZXNzaW5nCgoKIyMjIyBbTUgwNV0gTWVudGFsIGhlYWx0aCA1ICJEbyB5b3UgZmVlbCB5b3VyIG1lbnRhbCBoZWFsdGggaGFzIGRlY2xpbmVkIGR1ZSB0byB0aGUgUGguRC4/IgogICAgICAgIDEgPSBub3QgYXQgYWxsCiAgICAgICAgMiA9IHNvbWVob3cKICAgICAgICAzID0gcGxlbnR5CiAgICAgICAgNCA9IHNldmVyZWx5CiAgICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKCgpgYGB7cn0KdGFibGUoZGF0JE1IMDUsIHVzZU5BID0gJ2Fsd2F5cycpCmBgYAoKIyMjIyBbTUgwNl0gTWVudGFsIGhlYWx0aCA2ICJXaGF0IHdvdWxkIG5lZWQgdG8gY2hhbmdlIHRvIGltcHJvdmUgeW91ciBtZW50YWwgaGVhbHRoIHN0YXR1cz8iIAogICAgICAgIE1IMDZfMDEgRnJlZSBUZXh0CgojIFRPRE8gIzExOiBpbmNsdWRlIG9wZW4gYW5zd2VyIHByZXByb2Nlc3NpbmcKCiMjIyMgW01IMDddIE1lbnRhbCBoZWFsdGggNyAiRG8geW91IGtub3cgb3RoZXIgUGguRC4gc3R1ZGVudHMgd2hvIGFyZSBzdHJ1Z2dsaW5nIHdpdGggdGhlaXIgbWVudGFsIGhlYWx0aD8iCiAgICAgICAgMSA9IG5vYm9keQogICAgICAgIDIgPSBzb21lCiAgICAgICAgMyA9IG1hbnkKICAgICAgICA0ID0gbW9zdAogICAgICAgIDUgPSBhbGwKICAgICAgICBOQSA9IE5vdCBhbnN3ZXJlZAoKCmBgYHtyfQp0YWJsZShkYXQkTUgwNywgdXNlTkEgPSAnYWx3YXlzJykKYGBgCgojIyMjIFtNSDA4XSBNZW50YWwgaGVhbHRoIDggIkRvIHlvdSB0aGluayB5b3VyIG1lbnRhbCBoZWFsdGggcHJvYmxlbXMgbmVnYXRpdmVseSBhZmZlY3QgeW91ciBxdWFsaXR5IG9mIHdvcms/IiAKICAgICAgICAxID0gbmV2ZXIKICAgICAgICAyID0gYWxtb3N0IG5ldmVyCiAgICAgICAgMyA9IHNvbWV0aW1lcwogICAgICAgIDQgPSBmYWlybHkgb2Z0ZW4KICAgICAgICA1ID0gdmVyeSBvZnRlbgogICAgICAgIE5BID0gTm90IGFuc3dlcmVkCgpgYGB7cn0KdGFibGUoZGF0JE1IMDgsIHVzZU5BID0gJ2Fsd2F5cycpCmBgYAoKIyMjIyBbTUgwOV0gTWVudGFsIGhlYWx0aCA5ICJEbyB5b3UgdGhpbmsgdGhhdCBzb21lIHNwZWNpYWwgc2VydmljZXMgKGUuZy4sIHRpbWUgbWFuYWdlbWVudCBjb3Vyc2VzLCBjb2FjaGluZywgZXRjLikgb3Igc3RydWN0dXJhbCBjaGFuZ2UuLi4iIChNQykKICAgICAgICBNSDA5XzAxIG5vCiAgICAgICAgTUgwOV8wMiBwZXJzb25hbGlzZWQgY29hY2hpbmcKICAgICAgICBNSDA5XzAzIG1lbnRvcmluZwogICAgICAgIE1IMDlfMDQgdGltZSBtYW5hZ2VtZW50IGNvdXJzZXMKICAgICAgICBNSDA5XzA1IHN0cmVzcyBtYW5hZ2VtZW50IGNvdXJzZXMKICAgICAgICBNSDA5XzA4IHN0cnVjdHVyYWwgY2hhbmdlcwogICAgICAgIE1IMDlfMDkgT3RoZXIsIHBsZWFzZSBzcGVjaWZ5CiAgICAgICAgMCA9IE5vdCBjaGVja2VkOyAKICAgICAgICAxID0gQ2hlY2tlZAogICAgICAgIE1IMDlfMDlhIE90aGVyLCBwbGVhc2Ugc3BlY2lmeSAoZnJlZSB0ZXh0KQoKCiMgTUgwOV8wOWEgVE9ETyAjMTI6IG9wZW4gYW5zd2VyCgpgYGB7cn0KdGFibGUoZGF0JE1IMDlfMDIpCmBgYAoKCgojIyMjIFtNSDEwXSBQc3ljaG90aGVyYXB5ICJBcmUgeW91IGN1cnJlbnRseSBpbiBwc3ljaG90aGVyYXB5PyIKICAgICAgICAwID0gbm87IAogICAgICAgIDEgPSB5ZXM7IAogICAgICAgIE5BID0gTm90IGFuc3dlcmVkCmBgYHtyfQp0YWJsZShkYXQkTUgxMCwgdXNlTkEgPSAnYWx3YXlzJykKYGBgCgojIyMjIFtNSDExXSBEaWFnbm9zaXMgIkhhdmUgeW91IGV2ZXIgYmVlbiBkaWFnbm9zZWQgd2l0aCBhIG1lbnRhbCBkaXNvcmRlcj8iCiAgICAgICAgMCA9IG5vOyAKICAgICAgICAxID0geWVzOyAKICAgICAgICBOQSA9IE5vdCBhbnN3ZXJlZApgYGB7cn0KdGFibGUoZGF0JE1IMTEsIHVzZU5BID0gJ2Fsd2F5cycpCmBgYAoKCgoKIyMgU3Vic2VjdGlvbiBQSFEKIyMjIyBbTUgxMl0gUEhRXzJfMSAiTGl0dGxlIGludGVyZXN0IG9yIHBsZWFzdXJlIGluIGRvaW5nIHRoaW5ncyIKIyMjIyBbTUgxNl0gUEhRXzlfMSAiQmVpbmcgc28gcmVzdGxlc3MgdGhhdCBpdCdzIGhhcmQgdG8gc2l0IHN0aWxsIgojIyMjIFtNSDE3XSBQSFFfOV8yICJCZWluZyB0aXJlZCBlYXNpbHkiCiMjIyMgW01IMThdIFBIUV85XzMgIk11c2NsZSB0ZW5zaW9uIG9yIG11c2NsZSBwYWluIgojIyMjIFtNSDE5XSBQSFFfOV80ICJUcm91YmxlIGZhbGxpbmcgYXNsZWVwIG9yIHNsZWVwaW5nIHRocm91Z2giCiMjIyMgW01IMjBdIFBIUV85XzUgIlRyb3VibGUgY29uY2VudHJhdGluZywgZS5nLiwgb24gcmVhZGluZyBvciB3YXRjaGluZyBUViIKIyMjIyBbTUgyMV0gUEhRXzlfNiAiQmVjb21pbmcgZWFzaWx5IGFubm95ZWQgb3IgaXJyaXRhYmxlIgojIyMjIFtNSDE0XSBQSFFfMl8yICJGZWVsaW5nIGRvd24sIGRlcHJlc3NlZCBvciBob3BlbGVzcyIKICAgICAgICBzYW1lIHNjYWxlIGZvciAgJ01IMTInLCAnTUgxNCcsJ01IMTUnLCdNSDE2JywnTUgxNycsJ01IMTgnLCdNSDE5JywnTUgyMCcsJ01IMjEnCiAgICAgICAgMSA9IE5vdCBhdCBhbGwKICAgICAgICAyID0gU2V2ZXJhbCBkYXlzCiAgICAgICAgMyA9IE1vcmUgdGhhbiBoYWxmIHRoZSBkYXlzCiAgICAgICAgNCA9IE5lYXJseSBldmVyeSBkYXkKICAgICAgICBOQSA9IE5vdCBhbnN3ZXJlZAoKIyMjIyBbTUgxNV0gUEhRXzlfRmlsdGVyICJGZWVsaW5nIG5lcnZvdXMsIGFueGlvdXMsIG9yIG9uIGVkZ2U/IgogICAgICBzY2FsZSBmb3IgIFtNSDE1XSAKICAgICAgMSA9IE5vdCBhdCBhbGwKICAgICAgMiA9IFNldmVyYWwgZGF5cwogICAgICAzID0gTW9yZSB0aGFuIGhhbGYgdGhlIGRheXMKICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKCgpgYGB7cn0KdGFibGUoZGF0JE1IMTUsIHVzZU5BID0gImFsd2F5cyIpCmBgYAoKCiMgU2VjdGlvbiBTSDogU2Vla2luZyBIZWxwCiMjIyMgW1NIMDFdIFNlZWtpbmctaGVscDEgIkhhdmUgeW91IGFscmVhZHkgdHJpZWQgdG8gaW1wcm92ZSB5b3VyIHNpdHVhdGlvbj8iIAogICAgICAgIDEgPSBuZXZlcgogICAgICAgIDIgPSBhbG1vc3QgbmV2ZXIKICAgICAgICAzID0gc29tZXRpbWVzCiAgICAgICAgNCA9IGZhaXJseSBvZnRlbgogICAgICAgIDUgPSB2ZXJ5IG9mdGVuCiAgICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKYGBge3J9CnRhYmxlKGRhdCRTSDAxKQpgYGAKCiMjIyMgW1NIMDJdIFNlZWtpbmctaGVscDIgIkhhdmUgeW91IGhlYXJkIG9mIHRoZSBjb25zdWx0YXRpb24gc2VydmljZXMgYXQgdGhlIHVuaXZlcnNpdHk/IgogICAgICAgIDAgPSBubzsgCiAgICAgICAgMSA9IHllczsgCiAgICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKCmBgYHtyfQp0YWJsZShkYXQkU0gwMiwgdXNlTkEgPSAnYWx3YXlzJykKYGBgCgojIyMjIFtTSDA0XSBTZWVraW5nLWhlbHAzICJIb3cgbXVjaCBkbyB5b3Uga25vdyBhYm91dCB0aGUgY29uc3VsdGF0aW9uIHNlcnZpY2VzIGF0IHRoZSB1bml2ZXJzaXR5PyIKICAgICAgICAxID0gbm90aGluZwogICAgICAgIDIgPSBhbG1vc3Qgbm90aGluZwogICAgICAgIDMgPSBzb21ldGhpbmcKICAgICAgICA0ID0gcGxlbnR5CiAgICAgICAgNSA9IGEgbG90CiAgICAgICAgTkEgPSBOb3QgYW5zd2VyZWQgCgpgYGB7cn0KdGFibGUoZGF0JFNIMDQsIHVzZU5BID0gJ2Fsd2F5cycpCmBgYAoKCiMjIyMgW1NIMDVdIFNlZWtpbmctaGVscDQgIkhhdmUgeW91IHNvdWdodCBoZWxwIGZyb20gYSBzcGVjaWFsaXN0PyIKICAgICAgICAwID0gbm87IAogICAgICAgIDEgPSB5ZXM7IAogICAgICAgIE5BID0gTm90IGFuc3dlcmVkCmBgYHtyfQp0YWJsZShkYXQkU0gwNSwgdXNlTkEgPSAnYWx3YXlzJykKYGBgCgojIyMjIFtTSDEwXSBDb3JvbmEgIkRpZCB0aGUgQ292aWQtMTkgcGFuZGVtaWMgYWZmZWN0IHlvdXIgZ2VuZXJhbCBzaXR1YXRpb24/IgogICAgICAgIDEgPSB5ZXMsIGl0IGltcHJvdmVkIG15IGdlbmVyYWwgc2l0dWF0aW9uCiAgICAgICAgMiA9IHllcywgaXQgd29yc2VuZWQgbXkgZ2VuZXJhbCBzaXR1YXRpb24KICAgICAgICAzID0geWVzLCBidXQgaXQgbmVpdGhlciB3b3JzZW5lZCBub3IgaW1wcm92ZWQgbXkgZ2VuZXJhbCBzaXR1YXRpb24KICAgICAgICA0ID0gbm8KICAgICAgICBOQSA9IE5vdCBhbnN3ZXJlZApgYGB7cn0KdGFibGUoZGF0JFNIMTAsIHVzZU5BID0gJ2Fsd2F5cycpCmBgYAoKIyMjIyBbU0gwNl0gU2Vla2luZy1oZWxwNSAiRG8geW91IGhhdmUgYW55b25lIHRvIHRhbGsgdG8gYWJvdXQgeW91ciBpc3N1ZXM/IgogICAgICAgIDAgPSBubzsgCiAgICAgICAgMSA9IHllczsgCiAgICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKCmBgYHtyfQp0YWJsZShkYXQkU0gwNiwgdXNlTkEgPSAnYWx3YXlzJykKYGBgCgoKCiMjIyMgW1NIMDddIFNlZWtpbmctaGVscDYgIldoYXQgY291bGQgYmUgZG9uZSB0byBpbXByb3ZlIHlvdXIgc2l0dWF0aW9uPyBGZWVsIGZyZWUgdG8gZXhwcmVzcyB5b3VyIG9waW5pb24gYW5kIGZlZWxpbmdzIGhlcmUuIgogICAgICAgIFNIMDdfMDEgWzAxXSBGcmVlIHRleHQKIyB0b2RvICMxMyA6IG9wZW4gcXVlc3Rpb24KCiMjIyMgW1NIMDldU2Vla2luZy1oZWxwNyAiRG8geW91IGhhdmUgYW55IGZ1cnRoZXIgY29tbWVudHM/IgogICAgICAgIFNIMDlfMDEgWzAxXSBGcmVlIHRleHQKIyB0b2RvICMxNCA6IG9wZW4gcXVlc3Rpb24KCiMjIyMgW1NIMTFdIENvcm9uYTIgIkRvIHlvdSB0aGluayB0aGUgYW5zd2VycyB5b3UgaGF2ZSBwcm92aWRlZCBpbiB0aGlzIHN1cnZleSBoYXZlIGJlZW4gYWZmZWN0ZWQgYnkgdGhlIENvdmlkLTE5IHBhbmRlbWljPyIKICAgICAgICAxID0gVmVyeSBsaWtlbHkKICAgICAgICAyID0gTGlrZWx5CiAgICAgICAgMyA9IE5ldXRyYWwKICAgICAgICA0ID0gTm90IGxpa2VseQogICAgICAgIDUgPSBWZXJ5IHVubGlrZWx5CiAgICAgICAgTkEgPSBOb3QgYW5zd2VyZWQKCmBgYHtyfQp0YWJsZShkYXQkU0gxMSwgdXNlTkEgPSAnYWx3YXlzJykKYGBgCgojIFNlY3Rpb24gQ086IEluZm9ybWVkIGNvbnNlbnQKCiMjIyMgW0NPMDVdIENvbnNlbnQ6IFJlc2lkdWFsIG9wdGlvbiAobmVnYXRpdmUpIG9yIG51bWJlciBvZiBzZWxlY3RlZCBvcHRpb25zCkNPMDVfMDEgSSBoYXZlIGJlZW4gaW5mb3JtZWQgYWJvdXQgdGhlIHN0dWR5IGFuZCB0aGUgcHJvY2VkdXJlLiBJIGhlcmVieSBhZ3JlZSB0byB0aGUgY29sbGVjdGlvbgphbmQgcHJvY2Vzc2luZyBvZiBteSBhYm92ZS1tZW50aW9uZWQgZGF0YS4gQ29uc2VxdWVudGx5LCBJIHdvdWxkIGxpa2UgdG8gdm9sdW50YXJpbHkgcGFydGljaXBhdGUgaW4gdGhpcyBzdHVkeS4KICAgICAgICAwID0gTm90IGNoZWNrZWQ7IDEgPSBDaGVja2VkCgoKYGBge3J9CnRhYmxlKGRhdCRDTzA1LCB1c2VOQSA9ICdhbHdheXMnKQpgYGAKCgoKIyMjIyBbQ08wN10gQ29uZmlybWF0aW9uUEhEOiBSZXNpZHVhbCBvcHRpb24gKG5lZ2F0aXZlKSBvciBudW1iZXIgb2Ygc2VsZWN0ZWQgb3B0aW9ucyAKQ08wN18wMSBJIGhlcmVieSBjb25maXJtLCB0aGF0IEkgYW0gYSBQaC5ELiBzdHVkZW50IGF0IHRoZSBVbml2ZXJzaXR5IG9mIFQ/YmluZ2VuLgogICAgICAgIDAgPSBOb3QgY2hlY2tlZDsgCiAgICAgICAgMSA9IENoZWNrZWQKYGBge3J9CnRhYmxlKGRhdCRDTzA3XzAxLCB1c2VOQSA9ICdhbHdheXMnKQpgYGAKCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIEVORCAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMK</div>
 
 
 

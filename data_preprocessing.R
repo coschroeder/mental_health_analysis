@@ -768,10 +768,10 @@ dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=42, 7, dat$phd
 dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=48, 8, dat$phdstage)
 dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=54, 9, dat$phdstage)
 dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=60, 10, dat$phdstage)
-dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=66, 12, dat$phdstage)
-dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=72, 13, dat$phdstage)
-dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=78, 14, dat$phdstage)
-dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month >=79, 15, dat$phdstage)
+dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=66, 11, dat$phdstage)
+dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=72, 12, dat$phdstage)
+dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=78, 13, dat$phdstage)
+dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month >=79, 14, dat$phdstage)
 table(dat$phdstage, useNA = "always")
 
 # append to new data
@@ -1044,8 +1044,8 @@ dat_new$OR02_01 <- as.numeric(dat$OR02_01)
 # [ST08] Institutional-stressor8 "Has the behavior of your supervisor ever made you consider quitting your Ph.D.?"
 # [ST09] Institutional-stressor9 "Do you have regular meetings with your supervisor(s)?"
 
-dat_new <- cbind(dat_new, dat_n[c('ST01', 'ST02', 'ST03','ST04','ST05','ST06','ST07','ST08','ST09')])
-table(dat_new$ST09, useNA = "always")
+dat_new <- cbind(dat_new, dat_n[c('ST01', 'ST02', 'ST03','ST04','ST05','ST06','ST07','ST08','ST09', 'ST17')])
+table(dat$ST17, useNA = "always")
 
 # [ST16] Institutional-stressor10 "How often do you have meetings with your supervisor(s)?"
     ### 1 = at least once a week
@@ -1246,7 +1246,9 @@ table(dat_new$MH21, useNA = "always")
     ### 4 = fairly often
     ### 5 = very often
     ### NA = Not answered
+dat_new$SH01 <- dat_n$SH01
 
+table(dat_new$SH01,useNA = 'always')
 
 # [SH02] Seeking-help2 "Have you heard of the consultation services at the university?"
     ### 1 = no; 2 = yes; NA = Not answered
