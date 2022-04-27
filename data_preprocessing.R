@@ -43,8 +43,6 @@ mask <-  ((!is.na(dat$SD02_01==1) & dat$SD02_01==1))
 dat <- dat[!mask,]
 dat_n <- dat_n[!mask,]
 
-# Define empty list, in which all variables to delete are stored
-data_to_drop <- c()
 
 # Create completely new table which will be the final one to share
 dat_new <- data.frame(dat$CASE)
@@ -174,12 +172,21 @@ dat$german <- ifelse(dat$SD08 == 'Germany', 1,0)
 table(dat$german, useNA = "always")
 
 # add to new dataframe
-dat_new <- cbind(dat_new, dat[c('german', 'europe', 'continent_coarsed')])
-
-# Country will be dropped in the end
-data_to_drop <- append(data_to_drop, "SD08")
+dat_new <- cbind(dat_new, dat[c('german', 
+                                #'europe', 
+                                #'continent_coarsed'
+                                )])
 
 # Todo #1: decide which level to keep in the end. 
+# atm: german, europe, asia, other
+# keep: german, non-german
+
+
+table(dat_new$continent_coarsed, useNA = 'always')
+table(dat_new$europe, useNA = 'always')
+table(dat_new$german, useNA = 'always')
+
+
 
 ###############################################################
 # [SD10] Family education background "What is your family's academic background?"
@@ -258,7 +265,6 @@ table(dat$SD13, deparse.level = 2, useNA = "always")
       ### 5: Shared flat
       ### 6: together with family
 
-
 table(dat$SD14, deparse.level = 2, useNA = "always") 
 dat_new$living[dat$SD14_01 == 'ausgewählt'] <- '1' 
 dat_new$living[dat$SD14_02 == 'ausgewählt'] <- '2' 
@@ -266,10 +272,14 @@ dat_new$living[dat$SD14_03 == 'ausgewählt'] <- '3'
 dat_new$living[dat$SD14_04 == 'ausgewählt'] <- '4' 
 dat_new$living[dat$SD14_05 == 'ausgewählt'] <- '5' 
 dat_new$living[dat$SD14_08 == 'ausgewählt'] <- '6' 
-dat_new$living[dat$CASE == '1141'] <- '3' 
+dat_new$living[dat$CASE == '1141'] <- '3' # participant moved away with partner 
 table(dat_new$living, deparse.level = 2, useNA = "always") 
 
-# Todo #2: include factors?
+# Todo #2: coarse data!
+# 1
+# 2,3,6
+# 4,5
+
 # assign value labels 
 #dat$living <- factor(dat$living, 
 #                     levels = c(1,2,3,4,5,6), 
@@ -321,8 +331,15 @@ table(sub_fac$AP01_09, useNA = "always") # other n = 18
 sub_fac$check_sum <- rowSums(sub_fac[,1:9],na.rm=F) 
 table(sub_fac$check_sum, useNA = "always") # N= 26 have more than one subject
 
-# Create one new variable with  1 = Science  # 2 = Economic and Social Sciences  # 3 = Humanities
-# 4 = Medicine  # 5 = Law  # 6 = Others  # 7 = Two faculties
+# Create one new variable with  
+# 1 = Science  
+# 2 = Economic and Social Sciences  
+# 3 = Humanities
+# 4 = Medicine (bis n=25?)
+
+# 5 = Law  
+# 6 = Others  
+# 7 = Two faculties
 
 sub_fac$faculty <- NA
 sub_fac$faculty <- ifelse(sub_fac$AP01_01 == 2 | sub_fac$AP01_02 == 2, 6,sub_fac$faculty)
@@ -335,10 +352,11 @@ sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_07 == 2, 1,
 dat$faculty <- sub_fac$faculty 
 table(dat$continent, dat$faculty, deparse.level = 2, useNA = "always")
 
+table( dat$faculty,useNA = "always")
 # Find rows with multiple responses
 which(sub_fac == 12, arr.ind=TRUE)
 ### NOTE: To be continued
-# TODO #3
+# TODO #3 @Markus
 
 ### Faculty: Additional open answer
 table(dat$AP01_09a, useNA = "always")
@@ -355,9 +373,9 @@ dat$AP01_09a_re <- recode(dat$AP01_09a_re,
   'Pharmacy'= 4;'PhilosophischeFakultät'= 3;'Psychology'= 1;'sportsandscience'= 2;") 
 table(dat$AP01_09a_re)
 ### NOTE: To be continued
-# TODO #4
+# TODO #4 @Markus
 
-# TODO #5 add to new dataframe
+# TODO #5 add to new dataframe @Markus
 
 ###############################################################
 # [AP02] Choice of Topic "Did you choose the topic of your Ph.D. yourself?"
@@ -777,10 +795,6 @@ table(dat$phdstage, useNA = "always")
 # append to new data
 dat_new$phdstage <- dat$phdstage
 
-data_to_drop <- append(data_to_drop, "AP04_01")
-data_to_drop <- append(data_to_drop, "startmonth")
-data_to_drop <- append(data_to_drop, "phdmonth")
-
 
 ###############################################################
 ### Section EF: Employment/Financial Situation
@@ -882,7 +896,7 @@ table(dat_new$EF04, useNA = "always")
 ###############################################################
 # [EF05] Reason other employment "Why did you decide to have a side-job?"
       ### EF05 shows how often 1,2,3 etc. options where ticked.
-      ### EF05_01 Earning money
+      ### EF05_01 Earning money 
       ### EF05_02 For the CV
       ### EF05_03 Personal interest
       ### EF05_04 Other, please specify
@@ -890,7 +904,14 @@ table(dat_new$EF04, useNA = "always")
       ### 2 = Checked
       ### EF05_04a Other, please specify (free text)
 # TODO #6
-# see open question procedure
+# keep as binary variables
+# sort open categories into it by hand, with explanation. @Julian
+# example code:
+# dat_new$living[dat$CASE == '1141'] <- '3' # participant moved away with partner 
+
+
+table(dat$EF05)
+
 
 ###############################################################
 ### Section EV: Evaluation of your Ph.D.
@@ -914,9 +935,10 @@ table(dat_new$EF04, useNA = "always")
 # [EV07] Job-satisfaction2 "I am content with the job I have."
 # [EV08] Job-satisfaction3 "I am satisfied with my job."
 
-dat_new <- cbind(dat_new, dat_n[c('EV01', 'EV06', 'EV07','EV08')])
-dat_new$EV04 <- dat_n$EV04-1 
+# variables EV06, EV07, EV08 will be transformed to one scale. see analysis file. 
 
+dat_new <- cbind(dat_new, dat_n[c('EV01', 'EV06', 'EV07','EV08')])
+dat_new$EV04 <- dat_n$EV04-1 # recoded as lable was shifted in the questionnaire by 1. see also pdf questionnaire.  
 
 
 # [EV09] Life-satisfaction "How satisfied are you with your life at the moment?"
@@ -957,10 +979,7 @@ table(dat$WG02, useNA = 'always')
 
 # [WG03] Work alone "Do you mainly work alone on your project?"
     ### 1 = no;  2 = yes;  NA = Not answered
-# recode to
-    ### 0 = no; 1 = yes; NA = Not answered
-# TODO #7 : this variable is missing in the data??????
-# also missing in sosci survey!
+# this variable was not active in the final questionnaire. 
 
 
 
@@ -1001,9 +1020,10 @@ table(dat_new$GH04, useNA = "always")
     ### 2 = Checked
     ### OR01_08a Other, please specify (free text)
 
-# TODO #8
-# see open question procedure
+# TODO #8 @Markus (&Julian)
+# keep binary variables.
 # leave them and add other columns for open question. potentially merge them. 
+# merge csv
 
 table(dat_n$OR01)
 
@@ -1076,8 +1096,11 @@ table(dat_new$ST16, useNA = 'always')
 
 # [ST15] Job-insecurity3 "I feel uneasy about losing my job in the near future."
 
+# variables ST13, ST14, ST15 will be transformed to one scale. see analysis file. 
+
 dat_new <- cbind(dat_new, dat_n[c('ST11', 'ST12', 'ST13','ST14','ST15')])
 table(dat_n$ST15, useNA = "always")
+
 
 
 ###############################################################
@@ -1103,7 +1126,7 @@ table(dat_n$MH02, useNA = 'always')
 # [MH03] Mental health 3 "What is/are the cause(s) of your stress?"
 # [MH03_01]
 
-# TODO #9: include open answer preprocessing
+# TODO #9: include open answer preprocessing. see datafile open answers. 
 
 
 # [MH04] Mental health 4 "Do you have anyone at your institute to consult about your work-related stress?" (MC)
@@ -1123,7 +1146,12 @@ dat_new$MH04_04 <- recode(dat_n$MH04_04, "'1'=0; '2'=1; ")
 dat_new$MH04_05 <- recode(dat_n$MH04_05, "'1'=0; '2'=1; ")
 
 # MH04_05a Other, please specify (free text)
-# TODO #10: open answer preprocessing
+# TODO #10: @Corni
+# new category: partner or friend.
+# sort open answers into old categories, otherwise: partner/friend or others. 
+# by hand: example code:
+# dat_new$MH04_01[dat$CASE == '1141'] <- '0' # participant moved away with partner 
+
 
 
 # [MH05] Mental health 5 "Do you feel your mental health has declined due to the Ph.D.?"
@@ -1140,7 +1168,7 @@ table(dat$MH05, useNA = 'always')
 # [MH06] Mental health 6 "What would need to change to improve your mental health status?" 
       ### MH06_01 Free Text
 
-# TODO #11: include open answer preprocessing
+# TODO #11: include open answer preprocessing. see qualitative dataset.
 
 # [MH07] Mental health 7 "Do you know other Ph.D. students who are struggling with their mental health?"
       ### 1 = nobody
@@ -1185,7 +1213,9 @@ dat_new$MH09_08 <- recode(dat_n$MH09_08, "'1'=0; '2'=1; ")
 dat_new$MH09_09 <- recode(dat_n$MH09_09, "'1'=0; '2'=1; ")
 
 ### MH09_09a Other, please specify (free text)
-# TODO #12: open answer
+# TODO #12: open answer @Markus (&Julian)
+# sort new categories into old. and figure out the rest. 
+
 
 
 # [MH10] Psychotherapy "Are you currently in psychotherapy?"
@@ -1288,10 +1318,11 @@ table(dat_new$SH06, useNA = 'always')
 # [SH07] Seeking-help6 "What could be done to improve your situation? Feel free to express your opinion and feelings here."
     ### SH07_01 [01] Free text
 # todo #13 : open question
+# see open answer dataset
 
 # [SH09]Seeking-help7 "Do you have any further comments?"
     ### SH09_01 [01] Free text
-# todo #14 : open question
+# todo #14 : open question. leave out of final dataset.
 
 # [SH11] Corona2 "Do you think the answers you have provided in this survey have been affected by the Covid-19 pandemic?"
     ### 1 = Very likely
