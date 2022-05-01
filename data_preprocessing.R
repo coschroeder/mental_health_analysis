@@ -1135,6 +1135,7 @@ table(dat_n$MH02, useNA = 'always')
       ### MH04_03 Admins / Coordination
       ### MH04_04 Supervisor
       ### MH04_05 Other, please specify
+      ### MH_04_06 partner or friend
       ### 0 = Not checked
       ### 1 = Checked
       ### MH04_05a Other, please specify (free text)
@@ -1144,13 +1145,44 @@ dat_new$MH04_02 <- recode(dat_n$MH04_02, "'1'=0; '2'=1; ")
 dat_new$MH04_03 <- recode(dat_n$MH04_03, "'1'=0; '2'=1; ")
 dat_new$MH04_04 <- recode(dat_n$MH04_04, "'1'=0; '2'=1; ")
 dat_new$MH04_05 <- recode(dat_n$MH04_05, "'1'=0; '2'=1; ")
+dat_new$MH04_06 <- NA
+
 
 # MH04_05a Other, please specify (free text)
-# TODO #10: @Corni
-# new category: partner or friend.
-# sort open answers into old categories, otherwise: partner/friend or others. 
-# by hand: example code:
-# dat_new$MH04_01[dat$CASE == '1141'] <- '0' # participant moved away with partner 
+# TODO #10: @Corni DONE:
+
+# recodings from the open questions into old categories, 
+# and including additional category friends/partner
+# other assignments are left in others
+dat_new$MH04_03[dat$CASE == '224'] <- '1' # Secretary
+dat_new$MH04_06[dat$CASE == '454'] <- '1' # Partner, same field
+dat_new$MH04_06[dat$CASE == '466'] <- '1' # partner
+dat_new$MH04_06[dat$CASE == '571'] <- '1' # Friends
+dat_new$MH04_03[dat$CASE == '714'] <- '1' # Secretary
+dat_new$MH04_06[dat$CASE == '753'] <- '1' # Buddy of the Convent
+dat_new$MH04_02[dat$CASE == '761'] <- '1' # Colleague, but this is a very recent development.
+dat_new$MH04_06[dat$CASE == '865'] <- '1' # friend in academic staff
+dat_new$MH04_06[dat$CASE == '920'] <- '1' # Friends, Partner
+dat_new$MH04_06[dat$CASE == '1043'] <- '1' # Rarely one or two friends from other departments
+dat_new$MH04_06[dat$CASE == '1141'] <- '1' # partner
+dat_new$MH04_06[dat$CASE == '1279'] <- '1' # Life partner
+dat_new$MH04_04[dat$CASE == '1515'] <- '1' # I talked about it with my boss and he knows my perspective - but still isn't willing to change the things himself, even as he agrees with some of the problems in the group.
+                
+# and remove these from others
+dat_new$MH04_05[dat$CASE == '224'] <- '0'
+dat_new$MH04_05[dat$CASE == '454'] <- '0'
+dat_new$MH04_05[dat$CASE == '466'] <- '0'
+dat_new$MH04_05[dat$CASE == '571'] <- '0'
+dat_new$MH04_05[dat$CASE == '714'] <- '0'
+dat_new$MH04_05[dat$CASE == '753'] <- '0'
+dat_new$MH04_05[dat$CASE == '761'] <- '0'
+dat_new$MH04_05[dat$CASE == '865'] <- '0'
+dat_new$MH04_05[dat$CASE == '920'] <- '0'
+dat_new$MH04_05[dat$CASE == '1043'] <- '0'
+dat_new$MH04_05[dat$CASE == '1141'] <- '0'
+dat_new$MH04_05[dat$CASE == '1279'] <- '0'
+dat_new$MH04_05[dat$CASE == '1515'] <- '0'
+ 
 
 
 
