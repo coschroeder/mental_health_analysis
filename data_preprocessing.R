@@ -298,84 +298,102 @@ table(dat$SD14, deparse.level = 2, useNA = "always")
 
 ###############################################################
 # [AP01] Faculty "Which faculty are your studies associated with?" (MC)
-        ### AP01_01 Protestant Theology
-        ### AP01_02 Catholic Theology
-        ### AP01_03 Law
-        ### AP01_04 Medicine
-        ### AP01_05 Humanities
-        ### AP01_06 Economics and Social Sciences
-        ### AP01_07 Science
-        ### AP01_08 Center for Islamic Theology (ZITh)
-        ### AP01_09 Other, please specify
-        ### 1 = Not checked
-        ### 2 = Checked
-        ### AP01_09a Other, please specify (free text)
-
-# Create a subset and transform to numeric
-sub_fac <- c("AP01_01","AP01_02","AP01_03","AP01_04","AP01_05","AP01_06","AP01_07","AP01_08","AP01_09")
-sub_fac <- dat[sub_fac]
-sub_fac[] <- lapply(sub_fac, function(x) as.numeric(x))
-
-### Frequencies for each faculty
-table(sub_fac$AP01_01, useNA = "always") # Protestant Theology n = 11
-table(sub_fac$AP01_02, useNA = "always") # Catholic Theology n = 4
-table(sub_fac$AP01_03, useNA = "always") # Law n = 20
-table(sub_fac$AP01_04, useNA = "always") # Medicine n = 34
-table(sub_fac$AP01_05, useNA = "always") # Humanities n = 77
-table(sub_fac$AP01_06, useNA = "always") # Economics and Social Sciences n = 68
-table(sub_fac$AP01_07, useNA = "always") # Science n = 353
-table(sub_fac$AP01_08, useNA = "always") # Center for Islamic Theology (ZITh) n = 0
-table(sub_fac$AP01_09, useNA = "always") # other n = 18
-
-# Check multiple responses
-sub_fac$check_sum <- rowSums(sub_fac[,1:9],na.rm=F) 
-table(sub_fac$check_sum, useNA = "always") # N= 26 have more than one subject
-
-# Create one new variable with  
-# 1 = Science  
-# 2 = Economic and Social Sciences  
-# 3 = Humanities
-# 4 = Medicine (bis n=25?)
-
-# 5 = Law  
-# 6 = Others  
-# 7 = Two faculties
-
-sub_fac$faculty <- NA
-sub_fac$faculty <- ifelse(sub_fac$AP01_01 == 2 | sub_fac$AP01_02 == 2, 6,sub_fac$faculty)
-table(sub_fac$faculty, useNA = "always")
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_03 == 2, 5,sub_fac$faculty)
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_04 == 2, 4,sub_fac$faculty)
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_05 == 2, 3,sub_fac$faculty)
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_06 == 2, 2,sub_fac$faculty)
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_07 == 2, 1,sub_fac$faculty)
-dat$faculty <- sub_fac$faculty 
-table(dat$continent, dat$faculty, deparse.level = 2, useNA = "always")
-
-table( dat$faculty,useNA = "always")
-# Find rows with multiple responses
-which(sub_fac == 12, arr.ind=TRUE)
-### NOTE: To be continued
-# TODO #3 @Markus
+### AP01_01 Protestant Theology
+### AP01_02 Catholic Theology
+### AP01_03 Law
+### AP01_04 Medicine
+### AP01_05 Humanities
+### AP01_06 Economics and Social Sciences
+### AP01_07 Science
+### AP01_08 Center for Islamic Theology (ZITh)
+### AP01_09 Other, please specify
+### 1 = Not checked
+### 2 = Checked
+### AP01_09a Other, please specify (free text)
 
 ### Faculty: Additional open answer
 table(dat$AP01_09a, useNA = "always")
 # Remove all special characters
 dat$AP01_09a_re <- str_replace_all(dat$AP01_09a, "[^[:alnum:]]", "") 
 # Recode open answers to faculties
-dat$AP01_09a_re <- recode(dat$AP01_09a_re,
-                          "'AICenter'= 1; 'Biochemistry'= 1; 'CIN'= 1; 'geoscience'= 1;
-  'Geoscience'= 1; 'GraduateTrainingCentreforNeuroscience'= 1; 'GraduateTrainingCentreofNeuroscience'= 1;
-  'HistoryCulturalStudies'= 3; 'HistoryCulturalTheory'= 3; 'Kunstgeschichte'= 3;
-  'mathematicsandnaturalsciencesMNF'= 1; 'mathematischnaturwissenschaftlichefakultaet'= 1;
-  'movedtoJenaUniversityclinicsforPsychiatrystillgraduatingfromGTC'= 1;
+dat$AP01_09a_re <- car::recode(dat$AP01_09a_re, "'AICenter'= 7; 'Biochemistry'= 7; 'CIN'= 7; 'geoscience'= 7;
+  'Geoscience'= 7; 'GraduateTrainingCentreforNeuroscience'= 7; 'GraduateTrainingCentreofNeuroscience'= 7;
+  'HistoryCulturalStudies'= 5; 'HistoryCulturalTheory'= 5; 'Kunstgeschichte'= 5;
+  'mathematicsandnaturalsciencesMNF'= 7; 'mathematischnaturwissenschaftlichefakultaet'= 7;
+  'movedtoJenaUniversityclinicsforPsychiatrystillgraduatingfromGTC'= 7;
   'PharmaceuticalSciencesinImmunology'= 4; 
-  'Pharmacy'= 4;'PhilosophischeFakultät'= 3;'Psychology'= 1;'sportsandscience'= 2;") 
+  'Pharmacy'= 4;'PhilosophischeFakultät'= 5;'Psychology'= 7;'sportsandscience'= 6;") 
 table(dat$AP01_09a_re)
-### NOTE: To be continued
-# TODO #4 @Markus
 
-# TODO #5 add to new dataframe @Markus
+# Add open answers to the specific faculty variables
+table(dat$AP01_07, useNA = "always")
+dat$AP01_07 <- ifelse(dat$AP01_09a_re ==7, 2,dat$AP01_07)
+table(dat$AP01_07, useNA = "always")
+dat$AP01_04 <- ifelse(dat$AP01_09a_re ==4, 2,dat$AP01_04)
+dat$AP01_05 <- ifelse(dat$AP01_09a_re ==5, 2,dat$AP01_05)
+dat$AP01_06 <- ifelse(dat$AP01_09a_re ==6, 2,dat$AP01_06)
+
+# Create a subset and transform to numeric
+sub_fac <- c("AP01_01","AP01_02","AP01_03","AP01_04","AP01_05","AP01_06","AP01_07","AP01_08","AP01_09")
+sub_fac <- dat[sub_fac]
+sub_fac[] <- lapply(sub_fac, function(x) as.numeric(x))
+
+### Frequencies for each faculty (with multiple repsonses)
+table(sub_fac$AP01_01, useNA = "always") # Protestant Theology n = 10
+table(sub_fac$AP01_02, useNA = "always") # Catholic Theology n = 4
+table(sub_fac$AP01_03, useNA = "always") # Law n = 20
+table(sub_fac$AP01_04, useNA = "always") # Medicine n = 36
+table(sub_fac$AP01_05, useNA = "always") # Humanities n = 81
+table(sub_fac$AP01_06, useNA = "always") # Economics and Social Sciences n = 69
+table(sub_fac$AP01_07, useNA = "always") # Science n = 364
+table(sub_fac$AP01_08, useNA = "always") # Center for Islamic Theology (ZITh) n = 0
+                                         # total 584 (incl. multiple responses)
+
+# Check multiple responses
+sub_fac$check_sum <- rowSums(sub_fac[,1:9],na.rm=F) 
+table(sub_fac$check_sum, useNA = "always") # N= 41 have more than one subject
+
+# Create ONE variable with  
+# 1 = Science  
+# 2 = Economic and Social Sciences  
+# 3 = Humanities
+# 4 = Medicine
+# 5 = Law 
+# 6 = Others (e.g. Theology)
+# 7 = Two faculties
+
+# new variable
+sub_fac$faculty <- NA
+# 7 = Two faculties
+sub_fac$faculty <- ifelse(sub_fac$check_sum >=11, 7,sub_fac$faculty)
+
+# 1 = Science
+sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_07 == 2, 1,sub_fac$faculty)
+# 2 = Economic and Social Sciences 
+sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_06 == 2, 2,sub_fac$faculty)
+# 3 = Humanities
+sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_05 == 2, 3,sub_fac$faculty)
+# 4 = Medicine (bis n=25?)
+sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_04 == 2, 4,sub_fac$faculty)
+# 5 = Law  
+sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_03 == 2, 5,sub_fac$faculty)
+# 6 = Others  
+sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_01 == 2 | sub_fac$AP01_02 == 2, 6,sub_fac$faculty)
+
+# Faculty Frequencies (multiple responses with value 7)
+# check
+table(sub_fac$faculty, useNA = "always")
+
+### NOTE: To be discussed 
+### TODO #4 @Markus
+# !!! Medicine, Law, "Others" (Theologies) are below N = 20
+
+# Include variable in the data frame
+dat_new$faculty <- sub_fac$faculty
+# 1 = Science  2 = Economic and Social Sciences   3 = Humanities
+# 4 = Medicine 5 = Law   6 = Others   7 = Two faculties
+table(dat_new$faculty, useNA = "always")
+
 
 ###############################################################
 # [AP02] Choice of Topic "Did you choose the topic of your Ph.D. yourself?"
@@ -1009,23 +1027,132 @@ table(dat_new$GH04, useNA = "always")
 ### Section OR: Other responsibilities
 ###############################################################
 
-# [OR01] Reponsibilities besides PhD "What other responsibilities do you have besides working on your research topic/project?" (MC)
-    ### OR01_01 Teaching
-    ### OR01_02 Supervision of other students
-    ### OR01_03 Administration
-    ### OR01_04 Research unrelated to your topic
-    ### OR01_08 Other, please specify
-    ### OR01_09 No further responsibilities
-    ### 1 = Not checked
-    ### 2 = Checked
-    ### OR01_08a Other, please specify (free text)
+# [OR01] Responsibilities besides PhD "What other responsibilities do you have besides working on your research topic/project?" (MC)
+### OR01_01 Teaching
+### OR01_02 Supervision of other students
+### OR01_03 Administration
+### OR01_04 Research unrelated to your topic
+### OR01_08 Other, please specify
+### OR01_09 No further responsibilities
+### 1 = Not checked
+### 2 = Checked
+### OR01_08a Other, please specify (free text)
 
 # TODO #8 @Markus (&Julian)
-# keep binary variables.
-# leave them and add other columns for open question. potentially merge them. 
-# merge csv
+# Add open answers
+# Teaching
+dat_n$OR01_01 [dat$CASE == '1047'] <- '2' 
+dat_n$OR01_01 [dat$CASE == '1069'] <- '2' 
+# Supervision
+dat_n$OR01_02 [dat$CASE == '482'] <- '2' 
+dat_n$OR01_02 [dat$CASE == '571'] <- '2' 
+# Admin
+dat_n$OR01_03 [dat$CASE == '232'] <- '2'
+dat_n$OR01_03 [dat$CASE == '275'] <- '2'
+dat_n$OR01_03 [dat$CASE == '277'] <- '2'
+dat_n$OR01_03 [dat$CASE == '296'] <- '2'
+dat_n$OR01_03 [dat$CASE == '309'] <- '2'
+dat_n$OR01_03 [dat$CASE == '323'] <- '2'
+dat_n$OR01_03 [dat$CASE == '381'] <- '2'
+dat_n$OR01_03 [dat$CASE == '392'] <- '2'
+dat_n$OR01_03 [dat$CASE == '412'] <- '2'
+dat_n$OR01_03 [dat$CASE == '419'] <- '2'
+dat_n$OR01_03 [dat$CASE == '423'] <- '2'
+dat_n$OR01_03 [dat$CASE == '426'] <- '2'
+dat_n$OR01_03 [dat$CASE == '432'] <- '2'
+dat_n$OR01_03 [dat$CASE == '498'] <- '2'
+dat_n$OR01_03 [dat$CASE == '507'] <- '2'
+dat_n$OR01_03 [dat$CASE == '517'] <- '2'
+dat_n$OR01_03 [dat$CASE == '539'] <- '2'
+dat_n$OR01_03 [dat$CASE == '571'] <- '2'
+dat_n$OR01_03 [dat$CASE == '572'] <- '2'
+dat_n$OR01_03 [dat$CASE == '609'] <- '2'
+dat_n$OR01_03 [dat$CASE == '662'] <- '2'
+dat_n$OR01_03 [dat$CASE == '748'] <- '2'
+dat_n$OR01_03 [dat$CASE == '760'] <- '2'
+dat_n$OR01_03 [dat$CASE == '844'] <- '2'
+dat_n$OR01_03 [dat$CASE == '903'] <- '2'
+dat_n$OR01_03 [dat$CASE == '936'] <- '2'
+dat_n$OR01_03 [dat$CASE == '991'] <- '2'
+dat_n$OR01_03 [dat$CASE == '995'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1001'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1045'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1052'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1056'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1092'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1099'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1108'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1117'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1138'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1274'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1298'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1299'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1314'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1344'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1354'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1370'] <- '2'
+dat_n$OR01_03 [dat$CASE == '1434'] <- '2'
+# Research unrelated to your topic
+dat_n$OR01_04 [dat$CASE == '226'] <- '2'
+dat_n$OR01_04 [dat$CASE == '298'] <- '2' 
+dat_n$OR01_04 [dat$CASE == '531'] <- '2'
+# Others
+dat_n$OR01_08 [dat$CASE == '309'] <- '2'
+dat_n$OR01_08 [dat$CASE == '326'] <- '2'
+dat_n$OR01_08 [dat$CASE == '361'] <- '2'
+dat_n$OR01_08 [dat$CASE == '411'] <- '2'
+dat_n$OR01_08 [dat$CASE == '483'] <- '2'
+dat_n$OR01_08 [dat$CASE == '503'] <- '2'
+dat_n$OR01_08 [dat$CASE == '545'] <- '2'
+dat_n$OR01_08 [dat$CASE == '671'] <- '2'
+dat_n$OR01_08 [dat$CASE == '752'] <- '2'
+dat_n$OR01_08 [dat$CASE == '756'] <- '2'
+dat_n$OR01_08 [dat$CASE == '767'] <- '2'
+dat_n$OR01_08 [dat$CASE == '768'] <- '2'
+dat_n$OR01_08 [dat$CASE == '774'] <- '2'
+dat_n$OR01_08 [dat$CASE == '814'] <- '2'
+dat_n$OR01_08 [dat$CASE == '856'] <- '2'
+dat_n$OR01_08 [dat$CASE == '955'] <- '2'
+dat_n$OR01_08 [dat$CASE == '987'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1009'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1040'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1069'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1075'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1086'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1092'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1125'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1141'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1162'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1228'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1229'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1259'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1261'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1267'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1330'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1370'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1422'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1438'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1460'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1477'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1506'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1513'] <- '2'
+dat_n$OR01_08 [dat$CASE == '1549'] <- '2'
 
-table(dat_n$OR01)
+### Recode and include in new data frame
+    ### 0 = no; 1 = yes; NA = Not answered
+### OR01_01 Teaching
+table(dat_new$OR01_01)
+dat_new$OR01_01 <- recode(dat_n$OR01_01, "'1'=0; '2'=1; ")
+### OR01_02 Supervision of other students
+dat_new$OR01_02 <- recode(dat_n$OR01_02, "'1'=0; '2'=1; ")
+### OR01_03 Administration
+dat_new$OR01_03 <- recode(dat_n$OR01_03, "'1'=0; '2'=1; ")
+### OR01_04 Research unrelated to your topic
+dat_new$OR01_04 <- recode(dat_n$OR01_04, "'1'=0; '2'=1; ")
+### OR01_08 Other, please specify
+dat_new$OR01_08 <- recode(dat_n$OR01_08, "'1'=0; '2'=1; ")
+### OR01_09 No further responsibilities
+dat_new$OR01_09 <- recode(dat_n$OR01_08, "'1'=0; '2'=1; ")
 
 ###############################################################
 
