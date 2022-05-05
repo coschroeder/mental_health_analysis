@@ -921,15 +921,31 @@ table(dat_new$EF04, useNA = "always")
       ### 1 = Not checked
       ### 2 = Checked
       ### EF05_04a Other, please specify (free text)
-# TODO #6
-# keep as binary variables
-# sort open categories into it by hand, with explanation. @Julian
-# example code:
-# dat_new$living[dat$CASE == '1141'] <- '3' # participant moved away with partner 
 
+# Add open answers
+# Financial reasons 
+dat_n$EF05_01 [dat$CASE == '232'] <- '2' #PhD took longer
+dat_n$EF05_01 [dat$CASE == '856'] <- '2' #to live
+dat_n$EF05_01 [dat$CASE == '865'] <- '2' #job main occupation
+dat_n$EF05_01 [dat$CASE == '1071'] <- '2' #better payment
+dat_n$EF05_01 [dat$CASE == '1141'] <- '2' #to make a living
+dat_n$EF05_01 [dat$CASE == '1221'] <- '2' #to live
+dat_n$EF05_01 [dat$CASE == '1278'] <- '2' #cut down PhD to 50%
+dat_n$EF05_01 [dat$CASE == '1438'] <- '2' #contract expired, search for another job
+
+# Personal interest
+dat_n$EF05_03 [dat$CASE == '518'] <- '2' #post-PhD employment overlaps with end of PhD phase
+dat_n$EF05_03 [dat$CASE == '576'] <- '2' #prerequisite for PhD in full-time
+dat_n$EF05_03 [dat$CASE == '671'] <- '2' #part of qualification
+dat_n$EF05_03 [dat$CASE == '774'] <- '2' #necessary for the work
+dat_n$EF05_03 [dat$CASE == '1261'] <- '2' #prove of capability of own scientific work and value
+
+# not applicable
+dat_n$EF04 [dat$CASE == '987'] <- '1' #no side job
 
 table(dat$EF05)
 
+dat_new$EF05 <- as.numeric(dat_n$EF05)
 
 ###############################################################
 ### Section EV: Evaluation of your Ph.D.
