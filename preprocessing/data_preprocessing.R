@@ -65,6 +65,10 @@ dat$age <- as.numeric(dat$SD02)
 table(dat$age, deparse.level = 2, useNA = "always")
 # check: value 3 is invalid -> recode
 dat$age <- ifelse( dat$age ==3, NA,dat$age)
+# coarse tails:
+dat$age <- ifelse( dat$age <24, 24,dat$age)
+dat$age <- ifelse( dat$age >36, 36,dat$age)
+
 dat_new$age <- dat$age
 
 ###############################################################
@@ -173,13 +177,12 @@ table(dat$german, useNA = "always")
 
 # add to new dataframe
 dat_new <- cbind(dat_new, dat[c('german', 
-                                #'europe', 
+                                'europe' 
                                 #'continent_coarsed'
                                 )])
 
-# Todo #1: decide which level to keep in the end. 
-# atm: german, europe, asia, other
-# keep: german, non-german
+# Todo #1: Done.
+# keep: german, non-german, europe, non-europe
 
 
 table(dat_new$continent_coarsed, useNA = 'always')
@@ -259,34 +262,22 @@ table(dat$SD13, deparse.level = 2, useNA = "always")
         ### SD14_08a Other, please specify (free text)
 # new variable: living
       ### 1: Alone
-      ### 2: Together with parents
-      ### 3: Together with partner
-      ### 4: Student accommodation
-      ### 5: Shared flat
-      ### 6: together with family
-
+      ### 2: summarize 2,3,6 Together with parents, Together with partner, together with family
+      ### 3:  Student accommodation, Shared flat
+ 
 table(dat$SD14, deparse.level = 2, useNA = "always") 
 dat_new$living[dat$SD14_01 == 'ausgewählt'] <- '1' 
 dat_new$living[dat$SD14_02 == 'ausgewählt'] <- '2' 
-dat_new$living[dat$SD14_03 == 'ausgewählt'] <- '3' 
-dat_new$living[dat$SD14_04 == 'ausgewählt'] <- '4' 
-dat_new$living[dat$SD14_05 == 'ausgewählt'] <- '5' 
-dat_new$living[dat$SD14_08 == 'ausgewählt'] <- '6' 
-dat_new$living[dat$CASE == '1141'] <- '3' # participant moved away with partner 
+dat_new$living[dat$SD14_03 == 'ausgewählt'] <- '2' 
+dat_new$living[dat$SD14_04 == 'ausgewählt'] <- '3' 
+dat_new$living[dat$SD14_05 == 'ausgewählt'] <- '3' 
+dat_new$living[dat$SD14_08 == 'ausgewählt'] <- '2' # all other open answers are stating with family/child
+dat_new$living[dat$CASE == '1141'] <- '2' # participant moved away with partner 
 table(dat_new$living, deparse.level = 2, useNA = "always") 
 
-# Todo #2: coarse data!
-# 1
-# 2,3,6
-# 4,5
+# Todo #2: coarse data! Done.
 
-# assign value labels 
-#dat$living <- factor(dat$living, 
-#                     levels = c(1,2,3,4,5,6), 
-#                     labels = c("Alone","Together with parents","Together with partner","Student accommodation","Shared flat","Together with family")) 
 table(dat$living, useNA ="always") 
-
-
 
 table(dat$SD14, deparse.level = 2, useNA = "always")
 
@@ -357,15 +348,13 @@ table(sub_fac$check_sum, useNA = "always") # N= 41 have more than one subject
 # 1 = Science  
 # 2 = Economic and Social Sciences  
 # 3 = Humanities
-# 4 = Medicine
-# 5 = Law 
-# 6 = Others (e.g. Theology)
-# 7 = Two faculties
+# 4 = Others (e.g. Theology, Medicine, Law)
+# 5 = Two faculties
 
 # new variable
 sub_fac$faculty <- NA
 # 7 = Two faculties
-sub_fac$faculty <- ifelse(sub_fac$check_sum >=11, 7,sub_fac$faculty)
+sub_fac$faculty <- ifelse(sub_fac$check_sum >=11, 5,sub_fac$faculty)
 
 # 1 = Science
 sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_07 == 2, 1,sub_fac$faculty)
@@ -376,9 +365,9 @@ sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_05 == 2, 3,
 # 4 = Medicine (bis n=25?)
 sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_04 == 2, 4,sub_fac$faculty)
 # 5 = Law  
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_03 == 2, 5,sub_fac$faculty)
+sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_03 == 2, 4,sub_fac$faculty)
 # 6 = Others  
-sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_01 == 2 | sub_fac$AP01_02 == 2, 6,sub_fac$faculty)
+sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_01 == 2 | sub_fac$AP01_02 == 2, 4,sub_fac$faculty)
 
 # Faculty Frequencies (multiple responses with value 7)
 # check
@@ -387,11 +376,12 @@ table(sub_fac$faculty, useNA = "always")
 ### NOTE: To be discussed 
 ### TODO #4 @Markus
 # !!! Medicine, Law, "Others" (Theologies) are below N = 20
+# proposal CS: combine Medicine, Law, Others. already done. 
 
 # Include variable in the data frame
 dat_new$faculty <- sub_fac$faculty
 # 1 = Science  2 = Economic and Social Sciences   3 = Humanities
-# 4 = Medicine 5 = Law   6 = Others   7 = Two faculties
+# 4 = others (Medicine,Law..)   5 = Two faculties
 table(dat_new$faculty, useNA = "always")
 
 
@@ -941,11 +931,22 @@ dat_n$EF05_03 [dat$CASE == '774'] <- '2' #necessary for the work
 dat_n$EF05_03 [dat$CASE == '1261'] <- '2' #prove of capability of own scientific work and value
 
 # not applicable
-dat_n$EF04 [dat$CASE == '987'] <- '1' #no side job
+dat_n$EF05_04 [dat$CASE == '987'] <- '1' #no side job
 
-table(dat$EF05)
+# recode to 0-1
+dat_n$EF05_01 <- recode(dat_n$EF05_01, "'1'=0; '2'=1; ")
+dat_n$EF05_02 <- recode(dat_n$EF05_02, "'1'=0; '2'=1; ")
+dat_n$EF05_03 <- recode(dat_n$EF05_03, "'1'=0; '2'=1; ")
+dat_n$EF05_04 <- recode(dat_n$EF05_04, "'1'=0; '2'=1; ")
 
-dat_new$EF05 <- as.numeric(dat_n$EF05)
+# add to dataframe
+dat_new <- cbind(dat_new, dat_n[c('EF05_01',
+                                  'EF05_02',
+                                  'EF05_03',
+                                  'EF05_04')])
+
+# EF05 (sum) needs to be updated. will be done in analysis file, if at all. 
+#dat_new$EF05 <- as.numeric(dat_n$EF05)
 
 ###############################################################
 ### Section EV: Evaluation of your Ph.D.
@@ -1054,8 +1055,8 @@ table(dat_new$GH04, useNA = "always")
 ### 2 = Checked
 ### OR01_08a Other, please specify (free text)
 
-# TODO #8 @Markus (&Julian)
-# Add open answers
+# TODO #8 @Markus (&Julian) DONE?????
+# Add open answers, they can be sorted into the old categories. 
 # Teaching
 dat_n$OR01_01 [dat$CASE == '1047'] <- '2' 
 dat_n$OR01_01 [dat$CASE == '1069'] <- '2' 
@@ -1168,7 +1169,9 @@ dat_new$OR01_04 <- recode(dat_n$OR01_04, "'1'=0; '2'=1; ")
 ### OR01_08 Other, please specify
 dat_new$OR01_08 <- recode(dat_n$OR01_08, "'1'=0; '2'=1; ")
 ### OR01_09 No further responsibilities
-dat_new$OR01_09 <- recode(dat_n$OR01_08, "'1'=0; '2'=1; ")
+dat_new$OR01_09 <- recode(dat_n$OR01_09, "'1'=0; '2'=1; ")
+
+table(dat_new$OR01_08)
 
 ###############################################################
 

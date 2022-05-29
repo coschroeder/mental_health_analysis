@@ -29,27 +29,26 @@ dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_pro
       NA = Not answered
 ```{r}
 table(dat$SD01, useNA='always' )
-barplot(table(dat$SD01))
 ```
 
 
 #### SD02 [age] "How old are you?" SD02_01 I am ... years old
+    24: 24 and younger
+    ..: age
+    36: 36 and older
 
 ```{r}
-describe(dat$age)
-hist(dat$age)
+table(dat$age,useNA='always' )
 ```
 
 
 #### [SD08] Nationality "What is your nationality?"
 - europe: 1=Europe 0=Non-Europe
 - german:  1=German, 0=Non-German
-- continent_coarsed: 1 = Europe, 2 = Asia, 3 = Others
 
 ```{r}
 table(dat$europe, deparse.level = 2, useNA = "always")
 table(dat$german, deparse.level = 2, useNA = "always")
-table(dat$continent_coarsed, deparse.level = 2, useNA = "always")
 ```
 
 #### [SD10] Family education background "What is your family's academic background?"
@@ -84,11 +83,8 @@ table(dat$SD13, deparse.level = 2, useNA = "always")
 
 #### SD14 [living] Living-arrangement "What is your housing situation?" (MC)
       1: Alone
-      2: Together with parents
-      3: Together with partner
-      4: Student accommodation
-      5: Shared flat
-      6: together with family
+      2: Together with parents / Together with partner / Together with family
+      3: Student accommodation / Shared flat
       NA: not answered
 
 ```{r}
@@ -99,14 +95,17 @@ table(dat$living, deparse.level = 2, useNA = "always")
 
 # Section AP: About your PhD
 
-#### [AP01] Faculty "Which faculty are your studies associated with?" (MC)
+#### [AP01] Faculty "Which faculty are your studies associated with?" 
+    1 = Science  
+    2 = Economic and Social Sciences  
+    3 = Humanities
+    4 = Others (e.g. Theology, Medicine, Law)
+    5 = Two faculties
+    NA = not answered
 
 ```{r}
-
+table(dat$faculty, useNA = "always")
 ```
-TODO #4
-
-TODO #5 add to new dataframe
 
 
 #### [AP02] Choice of Topic "Did you choose the topic of your Ph.D. yourself?"
@@ -122,15 +121,14 @@ table(dat$AP02, useNA = "always")
         AP03_01 ... hours/week
         
 ```{r}
-table(dat$AP03_01)
-describe(dat$AP03_01)
+table(dat$AP03_01, useNA = "always")
 ```
 
 #### [AP05] Hours per week work "How many hours a week do you work in total?"
 - AP05_01 ... hours/week
 - timedif: build difference between phd wporking hours and total working hours
 ```{r}
-hist(dat$AP05_01)
+table(dat$AP05_01, useNA = "always")
 ```
 
 ```{r}
@@ -150,7 +148,6 @@ describe(dat$timedif)
 
 ```{r}
 table(dat$phdstage,useNA = "always")
-hist(dat$phdstage)
 ```
 
 # Section EF: Employment/Financial Situation
@@ -177,7 +174,6 @@ table(dat$EF01, useNA = "always")
       
 ```{r}
 table(dat$EF02_01, useNA = "always")
-hist(dat$EF02_01)
 ```
 #### [EF06] Length of scholarship "If you have a scholarship: What is the total length of your current scholarship (in months)?"
         EF06_01 ... months
@@ -202,16 +198,21 @@ table(dat$EF04, useNA = "always")
 ```
 
 #### [EF05] Reason other employment "Why did you decide to have a side-job?"
-      ### EF05 shows how often 1,2,3 etc. options where ticked.
-      ### EF05_01 Earning money
+      ### EF05_01 Earning money/financial reasons
       ### EF05_02 For the CV
       ### EF05_03 Personal interest
-      ### EF05_04 Other, please specify
-      ### 1 = Not checked
-      ### 2 = Checked
-      ### EF05_04a Other, please specify (free text)
-# TODO #6
+      ### EF05_04 Other
+      ### 0 = Not checked
+      ### 1 = Checked
+#### TODO #6
 see open question procedure
+
+```{r}
+table(dat$EF05_01, useNA = 'always', dnn = 'EF05_01')
+table(dat$EF05_02, useNA = 'always', dnn = 'EF05_02')
+table(dat$EF05_03, useNA = 'always', dnn = 'EF05_03')
+table(dat$EF05_04, useNA = 'always', dnn = 'EF05_04')
+```
 
 # Section EV: Evaluation of your Ph.D.
 - scale in EV01, EV04, EV06, EV07, EV08
@@ -234,7 +235,7 @@ Please evaluate in the scale the following statements regarding your Ph.D.:
 - [EV08] Job-satisfaction3 "I am satisfied with my job."
 
 ```{r}
-table(dat$EV04, useNA = "always")
+table(dat$EV01, useNA = "always")
 ```
 
 #### [EV09] Life-satisfaction "How satisfied are you with your life at the moment?"
@@ -278,13 +279,6 @@ table(dat$WG01, useNA = 'always')
 table(dat$WG02, useNA = 'always')
 ```
 
-#### [WG03] Work alone "Do you mainly work alone on your project?"
-        0 = no; 
-        1 = yes; 
-        NA = Not answered
-# TODO #7 : this variable is missing in the data??????
- also missing in sosci survey!
-
 # Section GH: General Health
 - scale in GH01, GH02, GH03, GH04
 
@@ -313,24 +307,24 @@ table(dat$GH01, useNA = "always")
     ### OR01_04 Research unrelated to your topic
     ### OR01_08 Other, please specify
     ### OR01_09 No further responsibilities
-    ### 1 = Not checked
-    ### 2 = Checked
-    ### OR01_08a Other, please specify (free text)
+    ### 0 = Not checked
+    ### 1 = Checked
 
 ```{r}
-table(dat$OR01_01)
+table(dat$OR01_01, useNA = 'always', dnn = 'OR01_01')
+table(dat$OR01_02, useNA = 'always', dnn = 'OR01_02')
+table(dat$OR01_03, useNA = 'always', dnn = 'OR01_03')
+table(dat$OR01_04, useNA = 'always', dnn = 'OR01_04')
+table(dat$OR01_08, useNA = 'always', dnn = 'OR01_08')
+table(dat$OR01_09, useNA = 'always', dnn = 'OR01_09')
 ```
-
-# TODO #8
-# see open question procedure
-# leave them and add other columns for open question. potentially merge them. 
 
 
 #### [OR02] Time other responsibilities "How much time do you spend on other responsibilities besides your research activities?"
         OR02_01 ... %
 
 ```{r}
-hist(dat$OR02_01)
+table(dat$OR02_01,useNA = 'always')
 ```
 
 
@@ -356,7 +350,7 @@ hist(dat$OR02_01)
         5 = all of the time
         NA = Not answered
 ```{r}
-table(dat$ST17, useNA = "always")
+table(dat$ST01, useNA = "always")
 ```
 
 #### [ST16] Institutional-stressor10 "How often do you have meetings with your supervisor(s)?"
@@ -543,7 +537,7 @@ table(dat$MH11, useNA = 'always')
 
 
 ```{r}
-table(dat$MH15, useNA = "always")
+table(dat$MH12, useNA = "always")
 ```
 
 
@@ -556,7 +550,7 @@ table(dat$MH15, useNA = "always")
         5 = very often
         NA = Not answered
 ```{r}
-table(dat$SH01)
+table(dat$SH01, useNA = 'always')
 ```
 
 #### [SH02] Seeking-help2 "Have you heard of the consultation services at the university?"
