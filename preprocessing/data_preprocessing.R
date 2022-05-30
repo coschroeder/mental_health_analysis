@@ -1055,7 +1055,7 @@ table(dat_new$GH04, useNA = "always")
 ### 2 = Checked
 ### OR01_08a Other, please specify (free text)
 
-# TODO #8 @Markus (&Julian) DONE?????
+# TODO #8 @Markus (&Julian) DONE????? 
 # Add open answers, they can be sorted into the old categories. 
 # Teaching
 dat_n$OR01_01 [dat$CASE == '1047'] <- '2' 
@@ -1392,9 +1392,84 @@ dat_new$MH09_09 <- recode(dat_n$MH09_09, "'1'=0; '2'=1; ")
 
 ### MH09_09a Other, please specify (free text)
 # TODO #12: open answer @Markus (&Julian)
-# sort new categories into old. and figure out the rest. 
+# Create new variables for open answers
+# Five new variables are created ( 1 = Checked/ open answer was assigned to this variable)
+# MH09_other1 == Psychological support (incl. counselling)	
+dat_n$MH09_other1 <- NA
+ dat_n$MH09_other1[dat$CASE == '224'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '551'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '572'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '577'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '714'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '748'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '760'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '954'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '1005'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '1097'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '1279'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '1391'] <- '1' 
+dat_n$MH09_other1[dat$CASE == '1513'] <- '1' 
+table(dat_n$MH09_other1, useNA = "always") # N = 13
 
+# MH09_other2 == Supportive Supervision
+dat_n$MH09_other2 <- NA
+dat_n$MH09_other2[dat$CASE == '281'] <- '1' 
+dat_n$MH09_other2[dat$CASE == '497'] <- '1' 
+dat_n$MH09_other2[dat$CASE == '1279'] <- '1' 
+dat_n$MH09_other2[dat$CASE == '1313'] <- '1' 
+dat_n$MH09_other2[dat$CASE == '1511'] <- '1' 
+table(dat_n$MH09_other2, useNA = "always") # N = 5
 
+# MH09_other3 == Professional Development of Supervisors (Evaluation; Monitoring; trainings, standards/ guidelines) 
+dat_n$MH09_other3 <- NA
+dat_n$MH09_other3[dat$CASE == '395'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '422'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '459'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '504'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '538'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '773'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '844'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '849'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '863'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '963'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '1000'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '1075'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '1278'] <- '1' 
+dat_n$MH09_other3[dat$CASE == '1296'] <- '1' 
+table(dat_n$MH09_other3, useNA = "always") # N= 14
+
+# MH09_other4 == Courses & Coaching
+dat_n$MH09_other4 <- NA             
+dat_n$MH09_other4[dat$CASE == '1047'] <- '1' 
+dat_n$MH09_other4[dat$CASE == '1261'] <- '1' 
+dat_n$MH09_other4[dat$CASE == '948'] <- '1' 
+dat_n$MH09_other4[dat$CASE == '1047'] <- '1' 
+dat_n$MH09_other4[dat$CASE == '1298'] <- '1' 
+table(dat_n$MH09_other4, useNA = "always") # N= 5
+
+# MH09_other5 == Others
+dat_n$MH09_other5 <- NA           
+dat_n$MH09_other5[dat$CASE == '392'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '1354'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '394'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '661'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '497'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '786'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '1055'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '426'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '448'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '569'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '669'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '713'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '759'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '791'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '1016'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '1052'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '1086'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '1371'] <- '1' 
+dat_n$MH09_other5[dat$CASE == '1511'] <- '1' 
+table(dat_n$MH09_other5, useNA = "always") # N= 19
+                    
 
 # [MH10] Psychotherapy "Are you currently in psychotherapy?"
       ### 0 = no; 1 = yes; NA = Not answered
