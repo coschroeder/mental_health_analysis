@@ -22,11 +22,9 @@ dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_pro
 # Section SD: Sociodemografics
 
 #### [SD01] Gender "Which gender do you identify with?"
-      1 = diverse; 
-      2 = female; 
-      3 = male; 
-      4 = rather not say; 
-      NA = Not answered
+      0 = female; 
+      1 = male; 
+      NA = diverse, rather not say or Not answered
 ```{r}
 table(dat$SD01, useNA='always' )
 ```
@@ -35,7 +33,7 @@ table(dat$SD01, useNA='always' )
 #### SD02 [age] "How old are you?" SD02_01 I am ... years old
     24: 24 and younger
     ..: age
-    36: 36 and older
+    34: 34 and older
 
 ```{r}
 table(dat$age,useNA='always' )
@@ -143,8 +141,8 @@ describe(dat$timedif)
         2 = 7-12 months 
         3 = 13-18 months
         ...
-        13 = 72-78 months
-        14 = >79 months
+        9 = 48-54 months
+        10 = >54 months
 
 ```{r}
 table(dat$phdstage,useNA = "always")
@@ -170,19 +168,34 @@ table(dat$EF01, useNA = "always")
 
 
 #### [EF02] Length of Contract "If you only have a temporary employment: What is the total length of your contract (in months)?"
-        EF02_01 ... months
+        EF02_01 in months
+        12: 0-12
+        24: 13-24
+        36: 25-36
+        48: 37-48
+        56: >48
       
 ```{r}
+
 table(dat$EF02_01, useNA = "always")
 ```
 #### [EF06] Length of scholarship "If you have a scholarship: What is the total length of your current scholarship (in months)?"
-        EF06_01 ... months
+        EF06_01 in months
+        24: 0-24
+        36: 25-36
+        48: >36
 ```{r}
 table(dat$EF06_01, useNA = "always")
 ```
 
 #### [EF03] % Full time "What is the percentage your contract covers in terms of full-time employment?"
-        EF03_01 ... %
+        EF03_01 in %
+        25: <=25
+        50: 26-50
+        60: 51-60
+        70: 61-70
+        80: 71-80
+        100: 81-100
 ```{r}
 table(dat$EF03_01)
 ```

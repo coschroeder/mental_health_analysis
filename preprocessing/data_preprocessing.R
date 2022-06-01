@@ -55,8 +55,9 @@ names(dat_new)[1] <- "CASE"
 ###############################################################
 # [SD01] Gender "Which gender do you identify with?"
         ### 1 = diverse; 2 = female; 3 = male; 4 = rather not say; NA = Not answered
-dat_new$SD01 <- dat_n$SD01 
-
+        ### recode to 0 = female, 1 = male and NA. 
+dat_new$SD01 <- recode(dat_n$SD01, "'1'=NA; '2'=0; '3'=1; '4'=NA;  ")
+table(dat_new$SD01,useNA = 'always')
 
 ###############################################################
 # [SD02] Age "How old are you?" SD02_01 I am ... years old
@@ -67,9 +68,11 @@ table(dat$age, deparse.level = 2, useNA = "always")
 dat$age <- ifelse( dat$age ==3, NA,dat$age)
 # coarse tails:
 dat$age <- ifelse( dat$age <24, 24,dat$age)
-dat$age <- ifelse( dat$age >36, 36,dat$age)
+dat$age <- ifelse( dat$age >34, 34,dat$age)
 
 dat_new$age <- dat$age
+
+table(dat_new$age, dat_new$SD01, useNA = 'always')
 
 ###############################################################
 # [SD08] Nationality "What is your nationality?"
@@ -800,6 +803,9 @@ dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month <=78, 13, dat$ph
 dat$phdstage <- ifelse(is.na(dat$phdstage == T) & dat$phd_month >=79, 14, dat$phdstage)
 table(dat$phdstage, useNA = "always")
 
+# coarse tail
+dat$phdstage <- ifelse( dat$phdstage >10, 10,dat$phdstage)
+
 # append to new data
 dat_new$phdstage <- dat$phdstage
 
@@ -862,8 +868,17 @@ dat$EF02_01 <- recode(dat$EF02_01, "'36 months' = '36';
                       '1-3' = '2';
                       '0' = '' ")
 
-dat_new$EF02_01 <- as.numeric(dat$EF02_01)
-table(dat_new$EF02_01, useNA = "always")
+# coarse data to 0-12 months, 13-24 months...
+dat$EF02_01 <- as.numeric(dat$EF02_01)
+dat$EF02_01 <- ifelse(dat$EF02_01 <=12, 12, dat$EF02_01)
+dat$EF02_01 <- ifelse(dat$EF02_01 >12 & dat$EF02_01 <= 24, 24, dat$EF02_01)
+dat$EF02_01 <- ifelse(dat$EF02_01 >24 & dat$EF02_01 <= 36, 36, dat$EF02_01)
+dat$EF02_01 <- ifelse(dat$EF02_01 >36 & dat$EF02_01 <= 48, 48, dat$EF02_01)
+dat$EF02_01 <- ifelse(dat$EF02_01 >48, 56, dat$EF02_01)
+
+dat_new$EF02_01 <-dat$EF02_01
+
+table(dat$EF02_01, useNA = "always")
 
 ###############################################################
 # [EF06] Length of scholarship "If you have a scholarship: What is the total length of your current scholarship (in months)?"
@@ -876,7 +891,13 @@ dat$EF06_01 <- recode(dat$EF06_01, "'36 months' = '36';
                       '0' = '' ")
 dat_new$EF06_01 <- as.numeric(dat$EF06_01)
 
-###############################################################
+# coarse data
+dat_new$EF06_01 <- ifelse(dat_new$EF06_01 <= 24, 24, dat_new$EF06_01)
+dat_new$EF06_01 <- ifelse(dat_new$EF06_01 >24 & dat_new$EF06_01 <= 36, 36, dat_new$EF06_01)
+dat_new$EF06_01 <- ifelse(dat_new$EF06_01 >36 , 48, dat_new$EF06_01)
+
+
+##############################################################
 # [EF03] % Full time "What is the percentage your contract covers in terms of full-time employment?"
       ### EF03_01 ... %
 dat$EF03_01 <- str_trim(dat$EF03_01)
@@ -888,6 +909,14 @@ dat$EF03_01 <- recode(dat$EF03_01, "'< 50' = '50';
                       '57,5' = '57.5';
                       '0' = '-';")
 dat_new$EF03_01 <- as.numeric(dat$EF03_01)
+
+# coarse data
+dat_new$EF03_01 <- ifelse(dat_new$EF03_01 <= 25, 25, dat_new$EF03_01)
+dat_new$EF03_01 <- ifelse(dat_new$EF03_01 >25 & dat_new$EF03_01 <= 50, 50, dat_new$EF03_01)
+dat_new$EF03_01 <- ifelse(dat_new$EF03_01 >50 & dat_new$EF03_01 <= 60, 60, dat_new$EF03_01)
+dat_new$EF03_01 <- ifelse(dat_new$EF03_01 >60 & dat_new$EF03_01 <= 70, 70, dat_new$EF03_01)
+dat_new$EF03_01 <- ifelse(dat_new$EF03_01 >70 & dat_new$EF03_01 <= 80, 80, dat_new$EF03_01)
+dat_new$EF03_01 <- ifelse(dat_new$EF03_01 >80 , 100, dat_new$EF03_01)
 
 table(dat_new$EF03_01, useNA = "always")
 
