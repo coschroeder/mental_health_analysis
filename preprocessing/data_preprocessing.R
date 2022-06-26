@@ -48,6 +48,58 @@ dat_n <- dat_n[!mask,]
 dat_new <- data.frame(dat$CASE)
 names(dat_new)[1] <- "CASE"
 
+############################################################
+### Data description bits
+# TODO: move this later somewhere else
+############################################################
+
+# Gender: report female
+N = 589
+sum(dat_new$SD01==0,na.rm=TRUE)/N
+
+# Age:  
+describe(dat$age)
+
+# Nationalities: report Germans, Europeans
+#N <- sum(table(dat_new$german))
+sum(dat_new$german,na.rm = TRUE)/N
+#N <- sum(table(dat_new$europe))
+sum(dat_new$europe==1,na.rm = TRUE)/N
+
+# Children
+N<-sum(table(dat_new$SD13))
+sum(dat_new$SD13,na.rm = TRUE)/N
+
+# Faculty
+#N<-sum(table(dat$faculty_all))
+table(dat$faculty_all, useNA = "always")/N
+
+# Workload
+
+#PhD Work/week
+describe(dat_new$AP03_01)
+# total Work/week
+describe(dat_new$AP05_01)
+
+# Phd Stage
+describe(dat$phd_month)
+# "distribution"
+# N = sum(table(dat_new$phdstage))
+sum(dat_new$phdstage==1 |dat_new$phdstage==2,na.rm = TRUE)/N
+sum(dat_new$phdstage==3 |dat_new$phdstage==4,na.rm = TRUE)/N
+sum(dat_new$phdstage==5 |dat_new$phdstage==6,na.rm = TRUE)/N
+
+# contract type
+# N = sum(table(dat_new$EF01))
+table(dat_new$EF01)/N 
+# contract length
+describe(dat$EF02_01)
+# % of contract
+describe(dat$EF03_01)
+
+
+
+
 ###############################################################
 ### Section SD: Sociodemografics
 ###############################################################
@@ -55,7 +107,7 @@ names(dat_new)[1] <- "CASE"
 ###############################################################
 # [SD01] Gender "Which gender do you identify with?"
         ### 1 = diverse; 2 = female; 3 = male; 4 = rather not say; NA = Not answered
-        ### recode to 0 = female, 1 = male and NA. 
+        ### recode to 0 = female, 1 = male, and NA. 
 dat_new$SD01 <- recode(dat_n$SD01, "'1'=NA; '2'=0; '3'=1; '4'=NA;  ")
 table(dat_new$SD01,useNA = 'always')
 
@@ -66,11 +118,12 @@ dat$age <- as.numeric(dat$SD02)
 table(dat$age, deparse.level = 2, useNA = "always")
 # check: value 3 is invalid -> recode
 dat$age <- ifelse( dat$age ==3, NA,dat$age)
-# coarse tails:
-dat$age <- ifelse( dat$age <24, 24,dat$age)
-dat$age <- ifelse( dat$age >34, 34,dat$age)
 
 dat_new$age <- dat$age
+# coarse tails:
+dat_new$age <- ifelse( dat_new$age <24, 24,dat_new$age)
+dat_new$age <- ifelse( dat_new$age >34, 34,dat_new$age)
+
 
 table(dat_new$age, dat_new$SD01, useNA = 'always')
 
@@ -193,7 +246,6 @@ table(dat_new$europe, useNA = 'always')
 table(dat_new$german, useNA = 'always')
 
 
-
 ###############################################################
 # [SD10] Family education background "What is your family's academic background?"
         ### 1 = academic (at least one parent/legal guardian has a university degree)
@@ -246,7 +298,7 @@ table(dat$SD11, deparse.level = 2, useNA = "always")
         ### 1 = no; 2 = yes; NA = Not answered
 # recode to 
   ### 0 = no
-  ### 1 = yes, from another place in Germany
+  ### 1 = yes
   ### -1 = Not answered
 dat_new$SD13 <- recode(dat_n$SD13, "'1'=0; '2'=1;'-9'=-1")
 
@@ -347,7 +399,43 @@ table(sub_fac$AP01_08, useNA = "always") # Center for Islamic Theology (ZITh) n 
 sub_fac$check_sum <- rowSums(sub_fac[,1:9],na.rm=F) 
 table(sub_fac$check_sum, useNA = "always") # N= 41 have more than one subject
 
+
 # Create ONE variable with  
+# 1 = Science  
+# 2 = Economic and Social Sciences  
+# 3 = Humanities
+# 4 = Medicine 
+# 5 = Law
+# 6 = Theology
+# 7 = Two faculties
+
+# new variable
+sub_fac$faculty_all <- NA
+
+# 7 = Two faculties
+sub_fac$faculty_all <- ifelse(sub_fac$check_sum >=11, 7,sub_fac$faculty_all)
+
+# 1 = Science
+sub_fac$faculty_all <- ifelse(is.na(sub_fac$faculty_all == T) & sub_fac$AP01_07 == 2, 1,sub_fac$faculty_all)
+# 2 = Economic and Social Sciences 
+sub_fac$faculty_all <- ifelse(is.na(sub_fac$faculty_all == T) & sub_fac$AP01_06 == 2, 2,sub_fac$faculty_all)
+# 3 = Humanities
+sub_fac$faculty_all <- ifelse(is.na(sub_fac$faculty_all == T) & sub_fac$AP01_05 == 2, 3,sub_fac$faculty_all)
+# 4 = Medicine (bis n=25?)
+sub_fac$faculty_all <- ifelse(is.na(sub_fac$faculty_all == T) & sub_fac$AP01_04 == 2, 4,sub_fac$faculty_all)
+# 5 = Law  
+sub_fac$faculty_all <- ifelse(is.na(sub_fac$faculty_all == T) & sub_fac$AP01_03 == 2, 5,sub_fac$faculty_all)
+# 6 = Theology  
+sub_fac$faculty_all <- ifelse(is.na(sub_fac$faculty_all == T) & sub_fac$AP01_01 == 2 | sub_fac$AP01_02 == 2, 6,sub_fac$faculty_all)
+
+# Faculty Frequencies (multiple responses with value 7)
+# check
+table(sub_fac$faculty_all, useNA = "always")
+
+dat$faculty_all <- sub_fac$faculty_all
+
+
+# Create ONE COARSE variable with  
 # 1 = Science  
 # 2 = Economic and Social Sciences  
 # 3 = Humanities
@@ -367,9 +455,9 @@ sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_06 == 2, 2,
 sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_05 == 2, 3,sub_fac$faculty)
 # 4 = Medicine (bis n=25?)
 sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_04 == 2, 4,sub_fac$faculty)
-# 5 = Law  
+# 4 = Law  
 sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_03 == 2, 4,sub_fac$faculty)
-# 6 = Others  
+# 5 = Others  
 sub_fac$faculty <- ifelse(is.na(sub_fac$faculty == T) & sub_fac$AP01_01 == 2 | sub_fac$AP01_02 == 2, 4,sub_fac$faculty)
 
 # Faculty Frequencies (multiple responses with value 7)
@@ -452,7 +540,7 @@ describe(dat_new$AP03_01)
 dat$AP05_01 <- str_trim(dat$AP05_01)
 dat$AP05_01 <- car::recode(dat$AP05_01, "'26-30' = '28';
                                     '50 hours/week' = '50';
-                                    ''35' = '35';
+                                    '\'35' = '35';
                                     '50-60' = '55';
                                     '40-45' = '42';
                                     '35-40' = '37';
@@ -868,15 +956,17 @@ dat$EF02_01 <- recode(dat$EF02_01, "'36 months' = '36';
                       '1-3' = '2';
                       '0' = '' ")
 
-# coarse data to 0-12 months, 13-24 months...
-dat$EF02_01 <- as.numeric(dat$EF02_01)
-dat$EF02_01 <- ifelse(dat$EF02_01 <=12, 12, dat$EF02_01)
-dat$EF02_01 <- ifelse(dat$EF02_01 >12 & dat$EF02_01 <= 24, 24, dat$EF02_01)
-dat$EF02_01 <- ifelse(dat$EF02_01 >24 & dat$EF02_01 <= 36, 36, dat$EF02_01)
-dat$EF02_01 <- ifelse(dat$EF02_01 >36 & dat$EF02_01 <= 48, 48, dat$EF02_01)
-dat$EF02_01 <- ifelse(dat$EF02_01 >48, 56, dat$EF02_01)
+dat$EF02_01 <-as.numeric(dat$EF02_01)
 
 dat_new$EF02_01 <-dat$EF02_01
+
+# coarse data to 0-12 months, 13-24 months...
+dat_new$EF02_01 <- ifelse(dat_new$EF02_01 <=12, 12, dat_new$EF02_01)
+dat_new$EF02_01 <- ifelse(dat_new$EF02_01 >12 & dat_new$EF02_01 <= 24, 24, dat_new$EF02_01)
+dat_new$EF02_01 <- ifelse(dat_new$EF02_01 >24 & dat_new$EF02_01 <= 36, 36, dat_new$EF02_01)
+dat_new$EF02_01 <- ifelse(dat_new$EF02_01 >36 & dat_new$EF02_01 <= 48, 48, dat_new$EF02_01)
+dat_new$EF02_01 <- ifelse(dat_new$EF02_01 >48, 56, dat_new$EF02_01)
+
 
 table(dat$EF02_01, useNA = "always")
 
@@ -908,6 +998,8 @@ dat$EF03_01 <- recode(dat$EF03_01, "'< 50' = '50';
                       '60 and 50' = '55';
                       '57,5' = '57.5';
                       '0' = '-';")
+
+dat$EF03_01 <- as.numeric(dat$EF03_01)
 dat_new$EF03_01 <- as.numeric(dat$EF03_01)
 
 # coarse data
