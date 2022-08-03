@@ -48,61 +48,7 @@ dat_n <- dat_n[!mask,]
 dat_new <- data.frame(dat$CASE)
 names(dat_new)[1] <- "CASE"
 
-############################################################
-### Data description bits
-# TODO: move this later somewhere else
-############################################################
 
-# Gender: report female
-N = 589
-sum(dat_new$SD01==0,na.rm=TRUE)/N
-
-# Age:  
-describe(dat$age)
-
-# Nationalities: report Germans, Europeans
-#N <- sum(table(dat_new$german))
-sum(dat_new$german,na.rm = TRUE)/N
-#N <- sum(table(dat_new$europe))
-sum(dat_new$europe==1,na.rm = TRUE)/N
-
-# Children
-#N<-sum(table(dat_new$SD13))
-sum(dat_new$SD13,na.rm = TRUE)/N
-
-# Faculty
-# 1 = Science  
-# 2 = Economic and Social Sciences  
-# 3 = Humanities
-# 4 = Medicine 
-# 5 = Law
-# 6 = Theology
-# 7 = Two faculties
-#N<-sum(table(dat$faculty_all))
-table(dat$faculty_all, useNA = "always")/N *100
-
-# Workload
-
-#PhD Work/week
-describe(dat_new$AP03_01)
-# total Work/week
-describe(dat_new$AP05_01)
-
-# Phd Stage
-describe(dat$phd_month)
-# "distribution"
-# N = sum(table(dat_new$phdstage))
-sum(dat_new$phdstage==1 |dat_new$phdstage==2,na.rm = TRUE)/N
-sum(dat_new$phdstage==3 |dat_new$phdstage==4,na.rm = TRUE)/N
-sum(dat_new$phdstage==5 |dat_new$phdstage==6,na.rm = TRUE)/N
-
-# contract type
-# N = sum(table(dat_new$EF01))
-table(dat_new$EF01)/N *100
-# contract length
-describe(dat$EF02_01)
-# % of contract
-describe(dat$EF03_01)
 
 
 
@@ -1737,6 +1683,7 @@ table(dat$CO07_01, useNA = 'always')
 
 ############################### END ###########################
 ### Export fully anonymous data set as SAV and CSV file    ###
-write.csv(dat_new,"/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_data_v0.csv", row.names = FALSE)
+write.csv(dat_new,"/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_coarsed_data_v1.csv", row.names = FALSE)
+write.csv(dat,"/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_data_v1.csv", row.names = FALSE)
 
 rm(list = ls())
