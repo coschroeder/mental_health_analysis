@@ -67,12 +67,19 @@ sum(dat_new$german,na.rm = TRUE)/N
 sum(dat_new$europe==1,na.rm = TRUE)/N
 
 # Children
-N<-sum(table(dat_new$SD13))
+#N<-sum(table(dat_new$SD13))
 sum(dat_new$SD13,na.rm = TRUE)/N
 
 # Faculty
+# 1 = Science  
+# 2 = Economic and Social Sciences  
+# 3 = Humanities
+# 4 = Medicine 
+# 5 = Law
+# 6 = Theology
+# 7 = Two faculties
 #N<-sum(table(dat$faculty_all))
-table(dat$faculty_all, useNA = "always")/N
+table(dat$faculty_all, useNA = "always")/N *100
 
 # Workload
 
@@ -91,7 +98,7 @@ sum(dat_new$phdstage==5 |dat_new$phdstage==6,na.rm = TRUE)/N
 
 # contract type
 # N = sum(table(dat_new$EF01))
-table(dat_new$EF01)/N 
+table(dat_new$EF01)/N *100
 # contract length
 describe(dat$EF02_01)
 # % of contract
