@@ -83,9 +83,17 @@ describe(dat_complete$EF03_01)
 JS <- rowMeans(subset(dat, select=c(EV06,EV07,EV08)))
 describe(JS)
 
-# Section WG
-# Todo#3: check which one and how to accumulate and insert to table 1 
+#### Section WG: Working Group (WG01 and WG02) ####
+# give relative numbers 
+# WG01: professional support
+describe(dat$WG01)
+prop.table(table(dat$WG01))
+table(dat$WG01,useNA = 'always')
 
+# WG02: emotional support
+describe(dat$WG02)
+prop.table(table(dat$WG02))
+table(dat$WG02,useNA = 'always')
 # Section GH
 # Todo#4: check which one and how to accumulate and insert to table 1 
 #GH02, GH03 recode! @JF
@@ -95,8 +103,51 @@ dat$GH03R <- car::recode(dat$GH03,"1=5; 2=4; 3=3; 4=2;5=1; NA=NA")
 PSS <- rowMeans(subset(dat, select=c(GH01,GH02R,GH03R,GH04)))
 describe(PSS)
 
-# Section OR
-# Todo#5: check which one and how to accumulate and insert to table 1 
+#### Section OR: Other responsibilities ####
+
+# OR1: Other responsibilities
+
+# Teaching
+temp <- dat$OR01_01
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# Supervision
+temp <- dat$OR01_02
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# Administration
+temp <- dat$OR01_03
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# Unrelated Research
+temp <- dat$OR01_04
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# Others
+temp <- dat$OR01_08
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# No further responsibilities
+temp <- dat$OR01_09
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+
+### OR02: Time other responsibilities in % 
+temp <- dat$OR02
+describe(temp)
+table(temp, useNA = 'always')
 
 # Section ST: Stressors
 # Todo#6: check which one and how to accumulate and insert to table 1 
@@ -107,7 +158,55 @@ describe(JI)
 # Section SH: Seeking Help
 # Todo#7: check which one and how to accumulate and insert to table 1 
 
-# Section MH: Mental health
+#### Section MH: Mental health ####
+
+# MH01: feeled stressed
+temp <- dat$MH01
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# MH02: increased stress
+temp <- dat$MH02
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# MH03: Causes of stress
+# TODO
+temp <- dat$MH03
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# MH04: Consultant for work related stress
+# Nobody
+temp <- dat$MH04_01
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# Colleagues
+temp <- dat$MH04_02
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# Admins/Coordination
+temp <- dat$MH04_03
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# Supervisor
+temp <- dat$MH04_04
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# Others
+temp <- dat$MH04_05
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+#MH05: MH declined 
+# TODO: to continue. until MH20+ 
 # Todo#8: check which one and how to accumulate and insert to table 1 
 
 

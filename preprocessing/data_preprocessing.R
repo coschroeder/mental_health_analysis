@@ -1188,6 +1188,9 @@ dat_n$OR01_04 [dat$CASE == '298'] <- '2'
 dat_n$OR01_04 [dat$CASE == '531'] <- '2'
 dat_n$OR01_04 [dat$CASE == '1040'] <- '2'
 # Others
+# set all to false and only insert 'others' where open answers are not specific
+dat_n$OR01_08 <- ifelse(dat_n$OR01_08 =='2', '1', dat_n$OR01_08) 
+
 dat_n$OR01_08 [dat$CASE == '309'] <- '2'
 dat_n$OR01_08 [dat$CASE == '326'] <- '2'
 dat_n$OR01_08 [dat$CASE == '361'] <- '2'
@@ -1228,6 +1231,8 @@ dat_n$OR01_08 [dat$CASE == '1477'] <- '2'
 dat_n$OR01_08 [dat$CASE == '1506'] <- '2'
 dat_n$OR01_08 [dat$CASE == '1513'] <- '2'
 dat_n$OR01_08 [dat$CASE == '1549'] <- '2'
+
+table(dat_n$OR01_08,useNA = 'always')
 
 ### Recode and include in new data frame
     ### 0 = no; 1 = yes; NA = Not answered
