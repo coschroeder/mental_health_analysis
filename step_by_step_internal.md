@@ -23,14 +23,14 @@ If you work with `preprocessed_data_v1.csv` you might have to look into `preproc
 
 ## Todos:
 #### General:
-- Todo#1: Which one is the "Perceived Stress Scale" (Cohen) and the mentioned questions on "satisfaction life, job" (Hellgren)? Note this down in the `data_analysis.R` **@Julian? @Fabianne?**
+- Todo#1: Which one is the "Perceived Stress Scale" (Cohen) and the mentioned questions on "satisfaction life, job" (Hellgren)? Note this down in the `data_analysis.R` **@Julian**
 
 #### Descriptive stats:
-- Todo#2: EV
+- Todo#2: EV: EV06, EV07, EV08: Job satisfaction (Hellgren et al.), Scale @Julian
 - Todo#3: WG
-- Todo#4: GH
+- Todo#4: GH: GH01, GH02, GH03, GH04: Perceived Stress Scale (Cohen) -> GH02, GH03 recode! Scale 
 - Todo#5: OR
-- Todo#6: ST
+- Todo#6: ST: ST13, ST14, ST15: Job insecurity (Hellgren et al.) @Julian
 - Todo#7: SH
 - Todo#8: MH
 
