@@ -1,4 +1,4 @@
-#Load packages:
+# Load packages:
 library(foreign)
 library(psych)
 library(car)
@@ -15,6 +15,10 @@ dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_pro
 #setwd("~/sustainAbility/Mental Health/Daten")
 #dat_complete <- read.csv("preprocessed_data_v1.csv")
 #dat <- read.csv("preprocessed_coarsed_data_v1.csv")
+
+# set options for decimal:
+options(scipen=999)
+options(digits=3)
 
 ############################################################
 # Sociodemographics
@@ -79,9 +83,21 @@ describe(dat_complete$EF03_01)
 
 # Section EV
 # Todo#2: check which one and how to accumulate and insert to table 1 
-#EV06, EV07, EV08: Job satisfaction (Hellgren et al.) @JF
+describe(dat$EV01)
+describe(dat$EV04)
+describe(dat$EV09)
+table(dat$EV05,useNA="always")
+prop.table(table(dat$EV05))
+
+#EV06, EV07, EV08: Job satisfaction (Hellgren et al., 1997)
 JS <- rowMeans(subset(dat, select=c(EV06,EV07,EV08)))
 describe(JS)
+
+# Cronbach's alpha job satisfaction scale
+alphaJS <- cbind(EV06=dat$EV06,EV07=dat$EV07,EV08=dat$EV08)
+alphaJS <- psych::alpha(alphaJS)
+summary(alphaJS)
+alphaJS$total$std.alpha #0.86
 
 #### Section WG: Working Group (WG01 and WG02) ####
 # give relative numbers 
@@ -97,11 +113,16 @@ table(dat$WG02,useNA = 'always')
 # Section GH
 # Todo#4: check which one and how to accumulate and insert to table 1 
 #GH02, GH03 recode! @JF
-#GH01, GH02, GH03, GH04: Perceived Stress Scale (Cohen) @JF
+#GH01, GH02, GH03, GH04: Perceived Stress Scale (Cohen, 1984; Büssing, 2011)
 dat$GH02R <- car::recode(dat$GH02,"1=5; 2=4; 3=3; 4=2;5=1; NA=NA")
 dat$GH03R <- car::recode(dat$GH03,"1=5; 2=4; 3=3; 4=2;5=1; NA=NA")
 PSS <- rowMeans(subset(dat, select=c(GH01,GH02R,GH03R,GH04)))
 describe(PSS)
+# Cronbach's alpha perceived stress scale
+alphaPSS <- cbind(GH01=dat$GH01,GH02R=dat$GH02R,GH03R=dat$GH03R,GH04=dat$GH04)
+alphaPSS <- psych::alpha(alphaPSS)
+summary(alphaPSS)
+alphaPSS$total$std.alpha #0.79
 
 #### Section OR: Other responsibilities ####
 
@@ -151,9 +172,47 @@ table(temp, useNA = 'always')
 
 # Section ST: Stressors
 # Todo#6: check which one and how to accumulate and insert to table 1 
-#ST13, ST14, ST15: Job insecurity (Hellgren et al.) @JF
+#ST13, ST14, ST15: Job insecurity (Hellgren et al., 1999)
 JI <- rowMeans(subset(dat, select=c(ST13,ST14,ST15)))
 describe(JI)
+
+# Cronbach's alpha job insecurity scale
+alphaJI <- cbind(ST13=dat$ST13,ST14=dat$ST14,ST15=dat$ST15)
+alphaJI <- psych::alpha(alphaJI)
+summary(alphaJI)
+alphaJI$total$std.alpha #0.80
+
+# Institutional Stressors (supervisor), positive wording
+ISpositive <- rowMeans(subset(dat, select=c(ST02,ST03,ST05,ST07)))
+describe(ISpositive)
+
+# Cronbach's alpha stressors, positive
+alphaISpositive <- cbind(ST02=dat$ST02,ST03=dat$ST03,ST05=dat$ST05,ST07=dat$ST07)
+alphaISpositive <- psych::alpha(alphaISpositive)
+summary(alphaISpositive)
+alphaISpositive$total$std.alpha #0.85
+
+# Institutional Stressors (supervisor), negative wording
+ISnegative <- rowMeans(subset(dat, select=c(ST01,ST04,ST06,ST08)))
+describe(ISnegative)
+
+# Cronbach's alpha stressors, negative
+alphaISnegative <- cbind(ST01=dat$ST01,ST04=dat$ST04,ST06=dat$ST06,ST08=dat$ST08)
+alphaISnegative <- psych::alpha(alphaISnegative)
+summary(alphaISnegative)
+alphaISnegative$total$std.alpha #0.85
+
+# Other institutional stressors
+# Mistreated by colleagues
+describe(dat$ST17)
+# Regular meetings supervisor
+describe(dat$ST09)
+# Frequency of meetings, Attention: other scale
+describe(dat$ST16)
+# Worrying lack of long-term contracts
+describe(dat$ST11)
+# Find a good job
+describe(dat$ST12)
 
 # Section SH: Seeking Help
 # Todo#7: check which one and how to accumulate and insert to table 1 
