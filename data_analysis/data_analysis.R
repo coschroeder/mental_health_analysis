@@ -11,6 +11,11 @@ library(here) # package to have relative paths, for ex.: file = here("data_analy
 dat_complete <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_data_v1.csv")
 dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_coarsed_data_v1.csv")
 
+# JF:
+#setwd("~/sustainAbility/Mental Health/Daten")
+#dat_complete <- read.csv("preprocessed_data_v1.csv")
+#dat <- read.csv("preprocessed_coarsed_data_v1.csv")
+
 ############################################################
 # Sociodemographics
 # currently: depending on dat (coarsed) AND dat_complete (preprocessed version)
@@ -74,18 +79,30 @@ describe(dat_complete$EF03_01)
 
 # Section EV
 # Todo#2: check which one and how to accumulate and insert to table 1 
+#EV06, EV07, EV08: Job satisfaction (Hellgren et al.) @JF
+JS <- rowMeans(subset(dat, select=c(EV06,EV07,EV08)))
+describe(JS)
 
 # Section WG
 # Todo#3: check which one and how to accumulate and insert to table 1 
 
 # Section GH
 # Todo#4: check which one and how to accumulate and insert to table 1 
+#GH02, GH03 recode! @JF
+#GH01, GH02, GH03, GH04: Perceived Stress Scale (Cohen) @JF
+dat$GH02R <- car::recode(dat$GH02,"1=5; 2=4; 3=3; 4=2;5=1; NA=NA")
+dat$GH03R <- car::recode(dat$GH03,"1=5; 2=4; 3=3; 4=2;5=1; NA=NA")
+PSS <- rowMeans(subset(dat, select=c(GH01,GH02R,GH03R,GH04)))
+describe(PSS)
 
 # Section OR
 # Todo#5: check which one and how to accumulate and insert to table 1 
 
 # Section ST: Stressors
 # Todo#6: check which one and how to accumulate and insert to table 1 
+#ST13, ST14, ST15: Job insecurity (Hellgren et al.) @JF
+JI <- rowMeans(subset(dat, select=c(ST13,ST14,ST15)))
+describe(JI)
 
 # Section SH: Seeking Help
 # Todo#7: check which one and how to accumulate and insert to table 1 
