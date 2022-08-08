@@ -23,16 +23,17 @@ If you work with `preprocessed_data_v1.csv` you might have to look into `preproc
 
 ## Todos:
 #### General:
-- Todo#1: Which one is the "Perceived Stress Scale" (Cohen) and the mentioned questions on "satisfaction life, job" (Hellgren)? Note this down in the `data_analysis.R` **@Julian**, noted down (done)
+- Todo#1: done. Which one is the "Perceived Stress Scale" (Cohen) and the mentioned questions on "satisfaction life, job" (Hellgren)? Note this down in the `data_analysis.R` **@Julian**, noted down (done)
 
 #### Descriptive stats:
-- Todo#2: EV: EV06, EV07, EV08: Job satisfaction (Hellgren et al.), Scale @Julian
-- Todo#3: WG
-- Todo#4: GH: GH01, GH02, GH03, GH04: Perceived Stress Scale (Cohen) -> GH02, GH03 recode! Scale 
-- Todo#5: OR
-- Todo#6: ST: ST13, ST14, ST15: Job insecurity (Hellgren et al.) @Julian
-- Todo#7: SH
-- Todo#8: MH
+- Todo#2: Done. EV: EV06, EV07, EV08: Job satisfaction (Hellgren et al.), Scale @Julian
+- Todo#3: Done. WG
+- Todo#4: Done. GH: GH01, GH02, GH03, GH04: Perceived Stress Scale (Cohen) -> GH02, GH03 recode! Scale
+- Todo#5: Done. OR
+- Todo#6: Done. ST: ST13, ST14, ST15: Job insecurity (Hellgren et al.) @Julian
+- Todo#7: Done. SH
+- Todo#8: started. MH
+- Todo#8.1: MH03: Causes of stress. open answers.
 
 #### Correlation analysis
 - Todo#9
@@ -41,4 +42,4 @@ If you work with `preprocessed_data_v1.csv` you might have to look into `preproc
 - Todo#10: prepare already for the data to come
 
 #### notebook:
-- spell out whole questions @CS
+- Todo#11: spell out whole questions @CS

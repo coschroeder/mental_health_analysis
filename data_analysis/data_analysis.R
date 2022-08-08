@@ -21,7 +21,7 @@ options(scipen=999)
 options(digits=3)
 
 ############################################################
-# Sociodemographics
+#### Sociodemographics ####
 # currently: depending on dat (coarsed) AND dat_complete (preprocessed version)
 ############################################################
 
@@ -81,8 +81,8 @@ describe(dat_complete$EF03_01)
 # this should be all based on dat (coarsed data)
 ##################################################
 
-# Section EV
-# Todo#2: check which one and how to accumulate and insert to table 1 
+#### Section EV ####
+# Todo#2: Done. 
 describe(dat$EV01)
 describe(dat$EV04)
 describe(dat$EV09)
@@ -100,7 +100,6 @@ summary(alphaJS)
 alphaJS$total$std.alpha #0.86
 
 #### Section WG: Working Group (WG01 and WG02) ####
-# give relative numbers 
 # WG01: professional support
 describe(dat$WG01)
 prop.table(table(dat$WG01))
@@ -110,8 +109,9 @@ table(dat$WG01,useNA = 'always')
 describe(dat$WG02)
 prop.table(table(dat$WG02))
 table(dat$WG02,useNA = 'always')
-# Section GH
-# Todo#4: check which one and how to accumulate and insert to table 1 
+
+#### Section GH ####
+# Todo#4: Done.
 #GH02, GH03 recode! @JF
 #GH01, GH02, GH03, GH04: Perceived Stress Scale (Cohen, 1984; Büssing, 2011)
 dat$GH02R <- car::recode(dat$GH02,"1=5; 2=4; 3=3; 4=2;5=1; NA=NA")
@@ -127,51 +127,44 @@ alphaPSS$total$std.alpha #0.79
 #### Section OR: Other responsibilities ####
 
 # OR1: Other responsibilities
-
 # Teaching
 temp <- dat$OR01_01
 describe(temp)
 prop.table(table(temp))
 table(temp,useNA = 'always')
-
 # Supervision
 temp <- dat$OR01_02
 describe(temp)
 prop.table(table(temp))
 table(temp,useNA = 'always')
-
 # Administration
 temp <- dat$OR01_03
 describe(temp)
 prop.table(table(temp))
 table(temp,useNA = 'always')
-
 # Unrelated Research
 temp <- dat$OR01_04
 describe(temp)
 prop.table(table(temp))
 table(temp,useNA = 'always')
-
 # Others
 temp <- dat$OR01_08
 describe(temp)
 prop.table(table(temp))
 table(temp,useNA = 'always')
-
 # No further responsibilities
 temp <- dat$OR01_09
 describe(temp)
 prop.table(table(temp))
 table(temp,useNA = 'always')
 
-
 ### OR02: Time other responsibilities in % 
 temp <- dat$OR02
 describe(temp)
 table(temp, useNA = 'always')
 
-# Section ST: Stressors
-# Todo#6: check which one and how to accumulate and insert to table 1 
+#### Section ST: Stressors ####
+# Todo#6: Done. 
 #ST13, ST14, ST15: Job insecurity (Hellgren et al., 1999)
 JI <- rowMeans(subset(dat, select=c(ST13,ST14,ST15)))
 describe(JI)
@@ -183,6 +176,7 @@ summary(alphaJI)
 alphaJI$total$std.alpha #0.80
 
 # Institutional Stressors (supervisor), positive wording
+# ST02,ST03,ST05,ST07
 ISpositive <- rowMeans(subset(dat, select=c(ST02,ST03,ST05,ST07)))
 describe(ISpositive)
 
@@ -193,6 +187,7 @@ summary(alphaISpositive)
 alphaISpositive$total$std.alpha #0.85
 
 # Institutional Stressors (supervisor), negative wording
+# ST01,ST04,ST06,ST08
 ISnegative <- rowMeans(subset(dat, select=c(ST01,ST04,ST06,ST08)))
 describe(ISnegative)
 
@@ -203,19 +198,18 @@ summary(alphaISnegative)
 alphaISnegative$total$std.alpha #0.85
 
 # Other institutional stressors
-# Mistreated by colleagues
+# ST17: Mistreated by colleagues
 describe(dat$ST17)
 # Regular meetings supervisor
 describe(dat$ST09)
-# Frequency of meetings, Attention: other scale
+# ST09: Frequency of meetings, Attention: other scale
 describe(dat$ST16)
-# Worrying lack of long-term contracts
+# ST11: Worrying lack of long-term contracts
 describe(dat$ST11)
-# Find a good job
+# ST12: Find a good job
 describe(dat$ST12)
 
-# Section SH: Seeking Help
-# Todo#7: check which one and how to accumulate and insert to table 1 
+
 
 #### Section MH: Mental health ####
 
@@ -243,22 +237,18 @@ table(temp,useNA = 'always')
 temp <- dat$MH04_01
 prop.table(table(temp))
 table(temp,useNA = 'always')
-
 # Colleagues
 temp <- dat$MH04_02
 prop.table(table(temp))
 table(temp,useNA = 'always')
-
 # Admins/Coordination
 temp <- dat$MH04_03
 prop.table(table(temp))
 table(temp,useNA = 'always')
-
 # Supervisor
 temp <- dat$MH04_04
 prop.table(table(temp))
 table(temp,useNA = 'always')
-
 # Others
 temp <- dat$MH04_05
 prop.table(table(temp))
@@ -268,9 +258,57 @@ table(temp,useNA = 'always')
 # TODO: to continue. until MH20+ 
 # Todo#8: check which one and how to accumulate and insert to table 1 
 
+# MH10: currently in psychotherapy
+temp <- dat$MH10
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# MH11: ever diagnosed a mental disorder
+temp <- dat$MH11
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+
+#### Section SH: Seeking Help ####
+# Todo#7: Done. 
+# SH01: tried to improve situation
+temp <- dat$SH01
+describe(temp)
+table(temp,useNA = 'always')
+
+# SH02: aware of consultation services at uni
+temp <- dat$SH02
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# SH04: how much knowledge about consultation service
+temp <- dat$SH04
+describe(temp)
+table(temp,useNA = 'always')
+
+# SH05: Sought for help
+temp <- dat$SH05
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# SH06: anyone to talk to
+temp <- dat$SH06
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# SH10: Covid: affect general situation
+temp <- dat$SH10
+describe(temp)
+table(temp,useNA = 'always')
+
+# SH11: Covid: affect answers of this survey
+temp <- dat$SH11
+describe(temp)
+table(temp,useNA = 'always')
+
 
 ####################################################
-# Correlation analysis
+#### Correlation analysis ####
 ####################################################
 # Todo#9:  correlation(outcomes, predictors) => 4xn correlation table 
 # “Outcomes”: PHQ-Depression (PHQ_2_1 + PHQ_2_2) and 
@@ -282,12 +320,12 @@ table(temp,useNA = 'always')
 
 
 ####################################################
-# Analysis of open questions
+#### Analysis of open questions ####
 ####################################################
 # Todo#10: prepare already for the data to come
 
 ######################################################
-# Some plots
+#### Some plots #### 
 ######################################################
 # plot the age
 pdf(file = here("data_analysis/plots/age.pdf"),  width = 4, height = 4)
@@ -296,3 +334,4 @@ dev.off()
 
 # make some more analysis and save plots....
 
+#rm(list = ls())
