@@ -39,3 +39,6 @@ If you work with `preprocessed_data_v1.csv` you might have to look into `preproc
 
 #### Analysis of open questions
 - Todo#10: prepare already for the data to come
+
+#### notebook:
+- spell out whole questions @CS
