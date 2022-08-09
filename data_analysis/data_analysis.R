@@ -8,8 +8,8 @@ library(likert)
 library(here) # package to have relative paths, for ex.: file = here("data_analysis/plots/age.pdf")
 
 # Load the data:
-dat_complete <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_data_v1.csv")
-dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_coarsed_data_v1.csv")
+dat_complete <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v1/preprocessed_data_v1.csv")
+dat <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v1/preprocessed_coarsed_data_v1.csv")
 
 # JF:
 #setwd("~/sustainAbility/Mental Health/Daten")
@@ -255,7 +255,58 @@ prop.table(table(temp))
 table(temp,useNA = 'always')
 
 #MH05: MH declined 
-# TODO: to continue. until MH20+ 
+temp <- dat$MH05
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+#MH07: Other PhDs who are struggling
+temp <- dat$MH07
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+#MH08: Does mh affect work quality negatively
+temp <- dat$MH08
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+#MH09: special services
+# No
+temp <- dat$MH09_01
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# personalised coaching
+temp <- dat$MH09_02
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# mentoring
+temp <- dat$MH09_03
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+#Time management courses
+temp <- dat$MH09_04
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# stress management courses
+temp <- dat$MH09_05
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# structural changes
+temp <- dat$MH09_08
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# Other
+temp <- dat$MH09_09
+prop.table(table(temp))
+table(temp,useNA = 'always')
 # Todo#8: check which one and how to accumulate and insert to table 1 
 
 # MH10: currently in psychotherapy
@@ -268,6 +319,59 @@ temp <- dat$MH11
 prop.table(table(temp))
 table(temp,useNA = 'always')
 
+#MH12: little interest in doing things 
+temp <- dat$MH12
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# MH16: Being so restless that it's hard to sit still 
+temp <- dat$MH16
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# MH17: Being tired easily
+temp <- dat$MH17
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# MH18: Muscle tension or muscle pain
+temp <- dat$MH18
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+# MH19: Trouble falling asleep or sleeping through 
+temp <- dat$MH19
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+#MH20: Trouble on concentrating
+temp <- dat$MH20
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+#MH21: becoming easily annoyed or irritable
+temp <- dat$MH21
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+#MH14: Feeling down
+temp <- dat$MH14
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
+
+#MH15: Feeling nervous, anxious, on edge
+temp <- dat$MH15
+describe(temp)
+prop.table(table(temp))
+table(temp,useNA = 'always')
 
 #### Section SH: Seeking Help ####
 # Todo#7: Done. 
