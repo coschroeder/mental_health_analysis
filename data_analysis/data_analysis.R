@@ -28,19 +28,24 @@ options(digits=3)
 # Gender: report female
 N = 589
 sum(dat_complete$SD01==0,na.rm=TRUE)/N
+table(dat_complete$SD01, useNA = 'always')
+
 
 # Age:  
 describe(dat_complete$age)
+table(dat_complete$age, useNA = 'always')
 
 # Nationalities: report Germans, Europeans
 #N <- sum(table(dat$german))
 sum(dat$german,na.rm = TRUE)/N
 #N <- sum(table(dat$europe))
 sum(dat$europe==1,na.rm = TRUE)/N
+table(dat$german, useNA = 'always')
 
 # Children
 #N<-sum(table(dat$SD13))
 sum(dat$SD13,na.rm = TRUE)/N
+table(dat$SD13, useNA = 'always')
 
 # Faculty
 # 1 = Science  
@@ -53,28 +58,46 @@ sum(dat$SD13,na.rm = TRUE)/N
 #N<-sum(table(dat$faculty_all))
 table(dat_complete$faculty_all, useNA = "always")/N *100
 
-# Workload
 
-#PhD Work/week
-describe(dat$AP03_01)
-# total Work/week
-describe(dat$AP05_01)
+
 
 # Phd Stage
 describe(dat_complete$phd_month)
-# "distribution"
+table(dat_complete$phd_month,useNA = 'always')
+# "distribution" one interval is 6 months
 # N = sum(table(dat$phdstage))
 sum(dat$phdstage==1 |dat$phdstage==2,na.rm = TRUE)/N
 sum(dat$phdstage==3 |dat$phdstage==4,na.rm = TRUE)/N
 sum(dat$phdstage==5 |dat$phdstage==6,na.rm = TRUE)/N
+sum(dat$phdstage==7 |dat$phdstage==8,na.rm = TRUE)/N
 
-# contract type
+
+#### contract type ####
 # N = sum(table(dat$EF01))
-table(dat$EF01)/N *100
+table(dat$EF01,useNA = 'always')/N *100
+table(dat$EF01,useNA = 'always')
 # contract length
 describe(dat_complete$EF02_01)
+table(dat_complete$EF02_01,useNA = 'always')
+# people with less than 12 months in %:
+table(dat$EF02_01)/sum(table(dat$EF02_01))
 # % of contract
 describe(dat_complete$EF03_01)
+table(dat_complete$EF03_01,useNA = 'always')
+
+#### Workload ####
+
+#PhD Work/week
+describe(dat$AP03_01)
+table(dat$AP03_01, useNA = 'always')
+# total Work/week
+describe(dat$AP05_01)
+table(dat$AP05_01, useNA = 'always')
+
+# extra work 
+table(dat$AP05_01-dat$AP03_01, useNA = 'always')
+describe((dat$AP05_01-dat$AP03_01)[dat$AP05_01-dat$AP03_01>0])
+
 
 ##################################################
 # Descriptives of Content Questions
@@ -216,7 +239,6 @@ describe(dat$ST12)
 # MH01: feeled stressed
 temp <- dat$MH01
 describe(temp)
-prop.table(table(temp))
 table(temp,useNA = 'always')
 
 # MH02: increased stress
