@@ -12,7 +12,7 @@ library(here) # package to have relative paths, for ex.: file = here("data_analy
 #dat <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v1/preprocessed_coarsed_data_v1.csv")
 
 # JF:
-#setwd("~/sustainAbility/Mental Health/Daten")
+setwd("~/sustainAbility/Mental Health/Daten")
 #dat_complete <- read.csv("preprocessed_data_v1.csv")
 #dat <- read.csv("preprocessed_coarsed_data_v1.csv")
 
@@ -347,59 +347,59 @@ temp <- dat$MH11
 prop.table(table(temp))
 table(temp,useNA = 'always')
 
-#MH12: little interest in doing things 
-temp <- dat$MH12
-describe(temp)
-prop.table(table(temp))
-table(temp,useNA = 'always')
+#### Subsection PHQ: Perceived Health Questionnaire ####
 
-# MH16: Being so restless that it's hard to sit still 
-temp <- dat$MH16
-describe(temp)
-prop.table(table(temp))
-table(temp,useNA = 'always')
+#MH12: little interest in doing things, past 2 weeks
+describe(dat$MH12)
+prop.table(table(dat$MH12))
+table(dat$MH12,useNA = 'always')
 
-# MH17: Being tired easily
-temp <- dat$MH17
-describe(temp)
-prop.table(table(temp))
-table(temp,useNA = 'always')
+#MH14: feeling down, depressed or hopeless, past 2 weeks
+describe(dat$MH14)
+prop.table(table(dat$MH14))
+table(dat$MH14,useNA = 'always')
 
-# MH18: Muscle tension or muscle pain
-temp <- dat$MH18
-describe(temp)
-prop.table(table(temp))
-table(temp,useNA = 'always')
+PHQ1 <- rowMeans(subset(dat, select=c(MH12,MH14)))
+describe(PHQ)
 
-# MH19: Trouble falling asleep or sleeping through 
-temp <- dat$MH19
-describe(temp)
-prop.table(table(temp))
-table(temp,useNA = 'always')
+#MH15: feeling nervous, anxious, on edge, past 4 weeks
+#if "not at all", MH16-21 skipped
+describe(dat$MH15)
+prop.table(table(dat$MH12))
+table(dat$MH15,useNA = 'always')
 
-#MH20: Trouble on concentrating
-temp <- dat$MH20
-describe(temp)
-prop.table(table(temp))
-table(temp,useNA = 'always')
+PHQ2 <- rowSums(subset(dat, select=c(MH15,MH16,MH17,MH18,MH19,MH20,MH21)))
+describe(PHQ2)
+?rowMeans
+# MH16: being so restless that it's hard to sit still 
+describe(dat$MH16)
+prop.table(table(dat$MH16))
+table(dat$MH16,useNA = 'always')
+
+# MH17: being tired easily
+describe(dat$MH17)
+prop.table(table(dat$MH17))
+table(dat$MH17,useNA = 'always')
+
+# MH18: muscle tension or muscle pain
+describe(dat$MH18)
+prop.table(table(dat$MH18))
+table(dat$MH18,useNA = 'always')
+
+# MH19: trouble falling asleep or sleeping through 
+describe(dat$MH19)
+prop.table(table(dat$MH19))
+table(dat$MH19,useNA = 'always')
+
+#MH20: trouble on concentrating
+describe(dat$MH20)
+prop.table(table(dat$MH20))
+table(dat$MH20,useNA = 'always')
 
 #MH21: becoming easily annoyed or irritable
-temp <- dat$MH21
-describe(temp)
-prop.table(table(temp))
-table(temp,useNA = 'always')
-
-#MH14: Feeling down
-temp <- dat$MH14
-describe(temp)
-prop.table(table(temp))
-table(temp,useNA = 'always')
-
-#MH15: Feeling nervous, anxious, on edge
-temp <- dat$MH15
-describe(temp)
-prop.table(table(temp))
-table(temp,useNA = 'always')
+describe(dat$MH21)
+prop.table(table(dat$MH21))
+table(dat$MH21,useNA = 'always')
 
 #### Section SH: Seeking Help ####
 # Todo#7: Done. 
