@@ -370,7 +370,7 @@ table(dat$MH15,useNA = 'always')
 
 PHQ2 <- rowSums(subset(dat, select=c(MH15,MH16,MH17,MH18,MH19,MH20,MH21)))
 describe(PHQ2)
-?rowMeans
+
 # MH16: being so restless that it's hard to sit still 
 describe(dat$MH16)
 prop.table(table(dat$MH16))
@@ -400,6 +400,18 @@ table(dat$MH20,useNA = 'always')
 describe(dat$MH21)
 prop.table(table(dat$MH21))
 table(dat$MH21,useNA = 'always')
+
+#Correlations
+correlationstable <- cbind(PHQ1, PHQ2)
+library(apaTables)
+apa.cor.table(correlationstable, filename="TablePHQ.doc", table.number=1)
+
+#Regression
+model1 <- lm(PHQ1 ~ age + PHQ2 + JI + JS, data=dat)
+summary(model1)
+
+model2 <- lm(PHQ2 ~ age + PHQ1 + JI + JS, data=dat)
+summary(model2)
 
 #### Section SH: Seeking Help ####
 # Todo#7: Done. 
