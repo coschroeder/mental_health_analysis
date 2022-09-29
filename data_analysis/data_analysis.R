@@ -18,8 +18,8 @@ setwd("~/sustainAbility/Mental Health/Daten")
 
 # CS:
 # Load the data:
-dat_complete <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_data_v1.csv")
-dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_coarsed_data_v1.csv")
+dat_complete <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_data_v2.csv")
+dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_coarsed_data_v2.csv")
 
 
 # set options for decimal:
