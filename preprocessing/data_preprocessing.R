@@ -493,10 +493,11 @@ describe(dat_new$AP03_01)
 dat$AP05_01 <- str_trim(dat$AP05_01)
 dat$AP05_01 <- car::recode(dat$AP05_01, "'26-30' = '28';
                                     '50 hours/week' = '50';
-                                    '\'35' = '35';
+                                    '\\'35' = '35';
                                     '50-60' = '55';
                                     '40-45' = '42';
                                     '35-40' = '37';
+                                    '45 - 50' = '47';
                                     '45-50' = '47';
                                     '35-40' = '37';
                                     '50+' = '50';
@@ -509,8 +510,9 @@ dat$AP05_01 <- car::recode(dat$AP05_01, "'26-30' = '28';
                                     '60-90' = '75';
                                     '36-40' = '38';
                                     '40-60' = '50';
+                                    '40 - 50' = '45';
                                     '40-50' = '45';
-                                    '54-74' = '64';
+                                    '54 - 74' = '64';
                                     '40 (paid)' = '40';
                                     '50-70' = '60';
                                     '40+' = '40';
@@ -1570,6 +1572,7 @@ table(dat$MH11, useNA = 'always')
       ### 3 = More than half the days
       ### 4 = Nearly every day
       ### NA = Not answered
+      ### recode by -1 to match PHQ2 / GAD7 scale in Bach et al.
 
 # [MH15] PHQ_9_Filter "Feeling nervous, anxious, or on edge?"
     # scale for  [MH15] 
@@ -1577,6 +1580,8 @@ table(dat$MH11, useNA = 'always')
     ### 2 = Several days
     ### 3 = More than half the days
     ### NA = Not answered
+    ### recode by -1 to match PHQ2 / GAD7 scale in Bach et al.
+
 
 # [MH16] PHQ_9_1 "Being so restless that it's hard to sit still"
 
@@ -1592,10 +1597,15 @@ table(dat$MH11, useNA = 'always')
 
 # [MH14] PHQ_2_2 "Feeling down, depressed or hopeless"
 
+# recode by -1
 dat_new <- cbind(dat_new, dat_n[c('MH12', 'MH14','MH15','MH16','MH17','MH18','MH19',
-                                  'MH20','MH21')])
+                                  'MH20','MH21')]-1)
 
 table(dat_new$MH21, useNA = "always")
+
+mean(dat_n$MH12, na.rm=T)
+mean(dat_new$MH12, na.rm=T)
+
 
 ###############################################################
 ### Section SH: Seeking Help
