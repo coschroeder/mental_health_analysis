@@ -8,13 +8,19 @@ library(likert)
 library(here) # package to have relative paths, for ex.: file = here("data_analysis/plots/age.pdf")
 
 # Load the data:
-dat_complete <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v1/preprocessed_data_v1.csv")
-dat <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v1/preprocessed_coarsed_data_v1.csv")
+#dat_complete <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v1/preprocessed_data_v1.csv")
+#dat <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v1/preprocessed_coarsed_data_v1.csv")
 
 # JF:
 #setwd("~/sustainAbility/Mental Health/Daten")
 #dat_complete <- read.csv("preprocessed_data_v1.csv")
 #dat <- read.csv("preprocessed_coarsed_data_v1.csv")
+
+# CS:
+# Load the data:
+dat_complete <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_data_v1.csv")
+dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_coarsed_data_v1.csv")
+
 
 # set options for decimal:
 options(scipen=999)
@@ -443,6 +449,8 @@ table(temp,useNA = 'always')
 # Predictors”: Sociodemographics (Gender, Age, Nationality, Family education background, new in Tübingen, care-taking, living-arrangement), 
 # Phd characteristics (faculty, choice of topic, hours on PhD, working hours, phd stage, contract type, length of contract/scholarship, percentage of financing, other employment), 
 # Working group characteristics (Professional support, emotional support, Other responsibilities), Stressors (Institutional, systemic, job insecurity) 
+
+dat$
 
 
 ####################################################
