@@ -6,13 +6,15 @@ library(stringr)
 library(ggplot2)
 library(likert) 
 library(here) # package to have relative paths, for ex.: file = here("data_analysis/plots/age.pdf")
+library(apaTables)
+library(ordinal)
 
 # Load the data:
 #dat_complete <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v1/preprocessed_data_v1.csv")
 #dat <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v1/preprocessed_coarsed_data_v1.csv")
 
 # JF:
-setwd("~/sustainAbility/Mental Health/Daten")
+#setwd("~/sustainAbility/Mental Health/Daten")
 #dat_complete <- read.csv("preprocessed_data_v1.csv")
 #dat <- read.csv("preprocessed_coarsed_data_v1.csv")
 
@@ -121,6 +123,7 @@ prop.table(table(dat$EV05))
 #EV06, EV07, EV08: Job satisfaction (Hellgren et al., 1997)
 JS <- rowMeans(subset(dat, select=c(EV06,EV07,EV08)))
 describe(JS)
+dat$JS <- JS
 
 # Cronbach's alpha job satisfaction scale
 alphaJS <- cbind(EV06=dat$EV06,EV07=dat$EV07,EV08=dat$EV08)
@@ -197,6 +200,8 @@ table(temp, useNA = 'always')
 #ST13, ST14, ST15: Job insecurity (Hellgren et al., 1999)
 JI <- rowMeans(subset(dat, select=c(ST13,ST14,ST15)))
 describe(JI)
+dat$JI <- JI
+
 
 # Cronbach's alpha job insecurity scale
 alphaJI <- cbind(ST13=dat$ST13,ST14=dat$ST14,ST15=dat$ST15)
@@ -360,7 +365,10 @@ prop.table(table(dat$MH14))
 table(dat$MH14,useNA = 'always')
 
 PHQ1 <- rowMeans(subset(dat, select=c(MH12,MH14)))
-describe(PHQ)
+describe(PHQ1)
+
+# insert to data table
+dat$PHQ1 <- PHQ1
 
 #MH15: feeling nervous, anxious, on edge, past 4 weeks
 #if "not at all", MH16-21 skipped
@@ -370,6 +378,9 @@ table(dat$MH15,useNA = 'always')
 
 PHQ2 <- rowSums(subset(dat, select=c(MH15,MH16,MH17,MH18,MH19,MH20,MH21)))
 describe(PHQ2)
+table(PHQ2, useNA = 'always')
+
+dat$PHQ2 <- PHQ2
 
 # MH16: being so restless that it's hard to sit still 
 describe(dat$MH16)
@@ -400,18 +411,6 @@ table(dat$MH20,useNA = 'always')
 describe(dat$MH21)
 prop.table(table(dat$MH21))
 table(dat$MH21,useNA = 'always')
-
-#Correlations
-correlationstable <- cbind(PHQ1, PHQ2)
-library(apaTables)
-apa.cor.table(correlationstable, filename="TablePHQ.doc", table.number=1)
-
-#Regression
-model1 <- lm(PHQ1 ~ age + PHQ2 + JI + JS, data=dat)
-summary(model1)
-
-model2 <- lm(PHQ2 ~ age + PHQ1 + JI + JS, data=dat)
-summary(model2)
 
 #### Section SH: Seeking Help ####
 # Todo#7: Done. 
@@ -462,7 +461,32 @@ table(temp,useNA = 'always')
 # Phd characteristics (faculty, choice of topic, hours on PhD, working hours, phd stage, contract type, length of contract/scholarship, percentage of financing, other employment), 
 # Working group characteristics (Professional support, emotional support, Other responsibilities), Stressors (Institutional, systemic, job insecurity) 
 
-dat$
+#Correlations
+correlationstable <- cbind(dat$PHQ1, dat$PHQ2)
+apa.cor.table(correlationstable, filename="TablePHQ.doc", table.number=1)
+
+# linear Regression
+model1 <- lm(PHQ1 ~ age + JI + JS, data=dat)
+summary(model1)
+
+model2 <- lm(PHQ2 ~ age + PHQ1 + JI + JS, data=dat)
+summary(model2)
+
+#### ordinal logistic regression ####
+# https://cran.r-project.org/web/packages/ordinal/ordinal.pdf
+
+# check proportional odds assumption
+p <-as.numeric(proportions(table(dat$PHQ1) ))
+
+for (i in c(1:(length(p)-1))){
+  print( log(sum(p[1:i]) /sum(p[(i+1):length(p)])))
+  }
+
+# convert PHQ1 to ordered factor
+PHQ1_factor_ordered <- factor(PHQ1, ordered = TRUE, 
+                                levels = c(0, 0.5, 1,1.5, 2, 2.5 ,3))
+fm1 <- clm(PHQ1_factor_ordered ~ age + JI + JS, data=dat)
+summary(fm1)
 
 
 ####################################################
