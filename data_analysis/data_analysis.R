@@ -364,11 +364,11 @@ describe(dat$MH14)
 prop.table(table(dat$MH14))
 table(dat$MH14,useNA = 'always')
 
-PHQ1 <- rowMeans(subset(dat, select=c(MH12,MH14)))
-describe(PHQ1)
+PHQ2 <- rowMeans(subset(dat, select=c(MH12,MH14)))
+describe(PHQ2)
 
 # insert to data table
-dat$PHQ1 <- PHQ1
+dat$PHQ2 <- PHQ2
 
 #MH15: feeling nervous, anxious, on edge, past 4 weeks
 #if "not at all", MH16-21 skipped
@@ -376,11 +376,11 @@ describe(dat$MH15)
 prop.table(table(dat$MH12))
 table(dat$MH15,useNA = 'always')
 
-PHQ2 <- rowSums(subset(dat, select=c(MH15,MH16,MH17,MH18,MH19,MH20,MH21)))
-describe(PHQ2)
-table(PHQ2, useNA = 'always')
+GAD7 <- rowSums(subset(dat, select=c(MH15,MH16,MH17,MH18,MH19,MH20,MH21)))
+describe(GAD7)
+table(GAD7, useNA = 'always')
 
-dat$PHQ2 <- PHQ2
+dat$GAD7 <- GAD7
 
 # MH16: being so restless that it's hard to sit still 
 describe(dat$MH16)
@@ -451,6 +451,52 @@ table(temp,useNA = 'always')
 
 
 ####################################################
+#### Comparison of faculties for XXX ####
+####################################################
+# Faculty
+# 1 = Science  
+# 2 = Economic and Social Sciences  
+# 3 = Humanities
+# 4 = Medicine 
+# 5 = Law
+# 6 = Theology
+# 7 = Two faculties
+
+# http://www.sthda.com/english/wiki/kruskal-wallis-test-in-r
+library(dplyr)
+
+# PHQ 2
+## first view of means 
+for (i in 1:7){
+  print(i)
+  print(mean(dat$PHQ2[dat_complete$faculty_all==i],na.rm = TRUE))
+}
+
+# make faculties to factors:
+dat_complete$faculty_all <- factor(dat_complete$faculty_all)
+
+dat_complete$PHQ2 <- dat$PHQ2
+
+dat$faculty <- factor(dat$faculty)
+
+group_by(dat_complete$PHQ2,faculty_all) 
+
+%>%
+  summarise(
+    count = n(),
+    mean = mean(weight, na.rm = TRUE),
+    sd = sd(weight, na.rm = TRUE),
+    median = median(weight, na.rm = TRUE),
+    IQR = IQR(weight, na.rm = TRUE)
+  )
+
+
+
+table(dat$PHQ2[dat_complete$faculty_all==1], useNA = 'always')
+
+
+
+####################################################
 #### Correlation analysis ####
 ####################################################
 # Todo#9:  correlation(outcomes, predictors) => 4xn correlation table 
@@ -462,30 +508,30 @@ table(temp,useNA = 'always')
 # Working group characteristics (Professional support, emotional support, Other responsibilities), Stressors (Institutional, systemic, job insecurity) 
 
 #Correlations
-correlationstable <- cbind(dat$PHQ1, dat$PHQ2)
+correlationstable <- cbind(dat$PHQ2, dat$GAD7)
 apa.cor.table(correlationstable, filename="TablePHQ.doc", table.number=1)
 
 # linear Regression
-model1 <- lm(PHQ1 ~ age + JI + JS, data=dat)
+model1 <- lm(PHQ2 ~ age + JI + JS, data=dat)
 summary(model1)
 
-model2 <- lm(PHQ2 ~ age + PHQ1 + JI + JS, data=dat)
+model2 <- lm(GAD7 ~ age + PHQ2 + JI + JS, data=dat)
 summary(model2)
 
 #### ordinal logistic regression ####
 # https://cran.r-project.org/web/packages/ordinal/ordinal.pdf
 
 # check proportional odds assumption
-p <-as.numeric(proportions(table(dat$PHQ1) ))
+p <-as.numeric(proportions(table(dat$PHQ2) ))
 
 for (i in c(1:(length(p)-1))){
   print( log(sum(p[1:i]) /sum(p[(i+1):length(p)])))
   }
 
-# convert PHQ1 to ordered factor
-PHQ1_factor_ordered <- factor(PHQ1, ordered = TRUE, 
+# convert PHQ2 to ordered factor
+PHQ2_factor_ordered <- factor(PHQ2, ordered = TRUE, 
                                 levels = c(0, 0.5, 1,1.5, 2, 2.5 ,3))
-fm1 <- clm(PHQ1_factor_ordered ~ age + JI + JS, data=dat)
+fm1 <- clm(PHQ2_factor_ordered ~ age + JI + JS, data=dat)
 summary(fm1)
 
 
