@@ -10,13 +10,13 @@ library(apaTables)
 library(ordinal)
 
 # Load the data:
-#dat_complete <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v1/preprocessed_data_v1.csv")
-#dat <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v1/preprocessed_coarsed_data_v1.csv")
+#dat_complete <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v2/preprocessed_data_v1.csv")
+#dat <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v2/preprocessed_coarsed_data_v1.csv")
 
 # JF:
 #setwd("~/sustainAbility/Mental Health/Daten")
-#dat_complete <- read.csv("preprocessed_data_v1.csv")
-#dat <- read.csv("preprocessed_coarsed_data_v1.csv")
+#dat_complete <- read.csv("preprocessed_data_v2.csv")
+#dat <- read.csv("preprocessed_coarsed_data_v2.csv")
 
 # CS:
 # Load the data:
