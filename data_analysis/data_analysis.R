@@ -461,9 +461,12 @@ table(temp,useNA = 'always')
 # 5 = Law
 # 6 = Theology
 # 7 = Two faculties
+faculty_labels <- c('Science','Economic & Social Sc.','Humanities',
+                    'Medicine','Law','Theology','Two faculties')
 
 # http://www.sthda.com/english/wiki/kruskal-wallis-test-in-r
 library(dplyr)
+library(ggpubr)
 
 # PHQ 2
 ## first view of means 
@@ -475,24 +478,72 @@ for (i in 1:7){
 # make faculties to factors:
 dat_complete$faculty_all <- factor(dat_complete$faculty_all)
 
+# insert PHQ2 and GAD7 to dat_complete
 dat_complete$PHQ2 <- dat$PHQ2
+dat_complete$GAD7 <- dat$GAD7
+dat_complete$JI <- dat$JI
 
-dat$faculty <- factor(dat$faculty)
 
-group_by(dat_complete$PHQ2,faculty_all) 
+# check levels
+levels(dat_complete$faculty_all)
 
-%>%
+# PHQ2
+group_by(dat_complete, faculty_all) %>%
   summarise(
     count = n(),
-    mean = mean(weight, na.rm = TRUE),
-    sd = sd(weight, na.rm = TRUE),
-    median = median(weight, na.rm = TRUE),
-    IQR = IQR(weight, na.rm = TRUE)
+    mean = mean(PHQ2, na.rm = TRUE),
+    sd = sd(PHQ2, na.rm = TRUE),
+    median = median(PHQ2, na.rm = TRUE),
+    IQR = IQR(PHQ2, na.rm = TRUE)
   )
 
+kruskal.test(PHQ2 ~ faculty_all, data = dat_complete)
+
+# GAD7 
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(GAD7, na.rm = TRUE),
+    sd = sd(GAD7, na.rm = TRUE),
+    median = median(GAD7, na.rm = TRUE),
+    IQR = IQR(GAD7, na.rm = TRUE)
+  )
+
+kruskal.test(GAD7 ~ faculty_all, data = dat_complete)
+
+pairwise.wilcox.test(dat_complete$GAD7, dat_complete$faculty_all,
+                     p.adjust.method = "BH")
 
 
-table(dat$PHQ2[dat_complete$faculty_all==1], useNA = 'always')
+# JI 
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(JI, na.rm = TRUE),
+    sd = sd(JI, na.rm = TRUE),
+    median = median(JI, na.rm = TRUE),
+    IQR = IQR(JI, na.rm = TRUE)
+  )
+
+kruskal.test(JI ~ faculty_all, data = dat_complete)
+
+pairwise.wilcox.test(dat_complete$JI, dat_complete$faculty_all,
+                     p.adjust.method = "BH")
+
+# create boxplot
+ggboxplot(na.omit(dat_complete[c("faculty_all","JI")]), 
+          x = "faculty_all", 
+          y = "JI", 
+          #color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          #order = c("ctrl", "trt1", "trt2"),
+          title = 'Job insecurity',
+          ylab = "JI", 
+          xlab = "Faculty",
+          notch = FALSE,
+          x.text.angle=60)+
+scale_x_discrete(labels=faculty_labels)
+
+
 
 
 
