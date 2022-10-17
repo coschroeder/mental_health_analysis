@@ -441,7 +441,6 @@ table(temp,useNA = 'always')
 
 # SH10: Covid: affect general situation
 temp <- dat$SH10
-describe(temp)
 table(temp,useNA = 'always')
 
 # SH11: Covid: affect answers of this survey
@@ -563,11 +562,19 @@ correlationstable <- cbind(dat$PHQ2, dat$GAD7)
 apa.cor.table(correlationstable, filename="TablePHQ.doc", table.number=1)
 
 # linear Regression
-model1 <- lm(PHQ2 ~ age + JI + JS, data=dat)
+#Stressors -> Perceived Stress Scale
+model1 <- lm(PSS ~ age + SD01 + ST01 + ST02 + ST03 + ST04 + ST17 + ST05 + ST07 + ST09, data=dat)
 summary(model1)
 
-model2 <- lm(GAD7 ~ age + PHQ2 + JI + JS, data=dat)
+#Predictors Job insecurity, job satisfaction, life satisfaction, Perceived Stress Scale
+model2 <- lm(PHQ2 ~ age + SD01 + JI + JS + EV09 + PSS, data=dat)
 summary(model2)
+#F(6, 485)=71.29, p < .01, R² = 46.9%
+
+model3 <- lm(GAD7 ~ age + SD01 + JI + JS + EV09 + PSS, data=dat)
+summary(model3)
+#F(6, 395)=36.15, p < .01, R² = 35.5%
+
 
 #### ordinal logistic regression ####
 # https://cran.r-project.org/web/packages/ordinal/ordinal.pdf
