@@ -481,7 +481,18 @@ dat_complete$faculty_all <- factor(dat_complete$faculty_all)
 dat_complete$PHQ2 <- dat$PHQ2
 dat_complete$GAD7 <- dat$GAD7
 dat_complete$JI <- dat$JI
-
+dat_complete$MH01 <- dat$MH01
+dat_complete$EF02 <- dat$EF02
+dat_complete$EF03 <- dat$EF03
+dat_complete$EV09 <- dat$EV09
+dat_complete$SH01 <- dat$SH01
+dat_complete$SH04 <- dat$SH04
+dat_complete$SH11 <- dat$SH11
+dat_complete$GH01 <- dat$GH01
+dat_complete$GH02 <- dat$GH02
+dat_complete$GH03 <- dat$GH03
+dat_complete$GH04 <- dat$GH04
+dat_complete$PSS <- dat$PSS
 
 # check levels
 levels(dat_complete$faculty_all)
@@ -542,8 +553,205 @@ ggboxplot(na.omit(dat_complete[c("faculty_all","JI")]),
           x.text.angle=60)+
 scale_x_discrete(labels=faculty_labels)
 
+# MH01
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(MH01, na.rm = TRUE),
+    sd = sd(MH01, na.rm = TRUE),
+    median = median(MH01, na.rm = TRUE),
+    IQR = IQR(MH01, na.rm = TRUE)
+  )
+
+kruskal.test(MH01 ~ faculty_all, data = dat_complete)
+
+pairwise.wilcox.test(dat_complete$MH01, dat_complete$faculty_all,
+                     p.adjust.method = "BH")
+
+# create boxplot
+ggboxplot(na.omit(dat_complete[c("faculty_all","MH01")]), 
+          x = "faculty_all", 
+          y = "MH01", 
+          #color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          #order = c("ctrl", "trt1", "trt2"),
+          title = 'Mental health',
+          ylab = "MH", 
+          xlab = "Faculty",
+          notch = FALSE,
+          x.text.angle=60)+
+  scale_x_discrete(labels=faculty_labels)
 
 
+# EF02
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(EF02, na.rm = TRUE),
+    sd = sd(EF02, na.rm = TRUE),
+    median = median(EF02, na.rm = TRUE),
+    IQR = IQR(EF02, na.rm = TRUE)
+  )
+
+kruskal.test(EF02 ~ faculty_all, data = dat_complete)
+
+# EF03
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(EF03, na.rm = TRUE),
+    sd = sd(EF03, na.rm = TRUE),
+    median = median(EF03, na.rm = TRUE),
+    IQR = IQR(EF03, na.rm = TRUE)
+  )
+kruskal.test(EF03 ~ faculty_all, data = dat_complete)
+
+pairwise.wilcox.test(dat_complete$EF03, dat_complete$faculty_all,
+                     p.adjust.method = "BH")
+
+# create boxplot
+ggboxplot(na.omit(dat_complete[c("faculty_all","EF03")]), 
+          x = "faculty_all", 
+          y = "EF03", 
+          #color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          #order = c("ctrl", "trt1", "trt2"),
+          title = 'Mental health',
+          ylab = "EF03", 
+          xlab = "Faculty",
+          notch = FALSE,
+          x.text.angle=60)+
+  scale_x_discrete(labels=faculty_labels)
+
+# EV09
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(EV09, na.rm = TRUE),
+    sd = sd(EV09, na.rm = TRUE),
+    median = median(EV09, na.rm = TRUE),
+    IQR = IQR(EV09, na.rm = TRUE)
+  )
+kruskal.test(EV09 ~ faculty_all, data = dat_complete)
+
+# SH01
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(SH01, na.rm = TRUE),
+    sd = sd(SH01, na.rm = TRUE),
+    median = median(SH01, na.rm = TRUE),
+    IQR = IQR(SH01, na.rm = TRUE)
+  )
+kruskal.test(SH01 ~ faculty_all, data = dat_complete)
+
+pairwise.wilcox.test(dat_complete$SH01, dat_complete$faculty_all,
+                     p.adjust.method = "BH")
+
+# create boxplot
+ggboxplot(na.omit(dat_complete[c("faculty_all","SH01")]), 
+          x = "faculty_all", 
+          y = "SH01", 
+          #color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          #order = c("ctrl", "trt1", "trt2"),
+          title = 'Mental health',
+          ylab = "SH01", 
+          xlab = "Faculty",
+          notch = FALSE,
+          x.text.angle=60)+
+  scale_x_discrete(labels=faculty_labels)
+
+# SH04
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(SH04, na.rm = TRUE),
+    sd = sd(SH04, na.rm = TRUE),
+    median = median(SH04, na.rm = TRUE),
+    IQR = IQR(SH04, na.rm = TRUE)
+  )
+kruskal.test(SH04 ~ faculty_all, data = dat_complete)
+
+pairwise.wilcox.test(dat_complete$SH04, dat_complete$faculty_all,
+                     p.adjust.method = "BH")
+
+# create boxplot
+ggboxplot(na.omit(dat_complete[c("faculty_all","SH04")]), 
+          x = "faculty_all", 
+          y = "SH04", 
+          #color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          #order = c("ctrl", "trt1", "trt2"),
+          title = 'Mental health',
+          ylab = "SH04", 
+          xlab = "Faculty",
+          notch = FALSE,
+          x.text.angle=60)+
+  scale_x_discrete(labels=faculty_labels)
+
+
+# SH11
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(SH11, na.rm = TRUE),
+    sd = sd(SH11, na.rm = TRUE),
+    median = median(SH11, na.rm = TRUE),
+    IQR = IQR(SH11, na.rm = TRUE)
+  )
+kruskal.test(SH11 ~ faculty_all, data = dat_complete)
+
+# GH01
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(GH01, na.rm = TRUE),
+    sd = sd(GH01, na.rm = TRUE),
+    median = median(GH01, na.rm = TRUE),
+    IQR = IQR(GH01, na.rm = TRUE)
+  )
+kruskal.test(GH01 ~ faculty_all, data = dat_complete)
+
+# GH02
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(GH02, na.rm = TRUE),
+    sd = sd(GH02, na.rm = TRUE),
+    median = median(GH02, na.rm = TRUE),
+    IQR = IQR(GH02, na.rm = TRUE)
+  )
+kruskal.test(GH02 ~ faculty_all, data = dat_complete)
+
+# GH03
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(GH03, na.rm = TRUE),
+    sd = sd(GH03, na.rm = TRUE),
+    median = median(GH03, na.rm = TRUE),
+    IQR = IQR(GH03, na.rm = TRUE)
+  )
+kruskal.test(GH03 ~ faculty_all, data = dat_complete)
+
+# GH04
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(GH04, na.rm = TRUE),
+    sd = sd(GH04, na.rm = TRUE),
+    median = median(GH04, na.rm = TRUE),
+    IQR = IQR(GH04, na.rm = TRUE)
+  )
+kruskal.test(GH04 ~ faculty_all, data = dat_complete)
+
+# PSS
+group_by(dat_complete, faculty_all) %>%
+  summarise(
+    count = n(),
+    mean = mean(PSS, na.rm = TRUE),
+    sd = sd(PSS, na.rm = TRUE),
+    median = median(PSS, na.rm = TRUE),
+    IQR = IQR(PSS, na.rm = TRUE)
+  )
+kruskal.test(PSS ~ faculty_all, data = dat_complete)
 
 
 ####################################################
