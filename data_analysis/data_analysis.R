@@ -8,6 +8,8 @@ library(likert)
 library(here) # package to have relative paths, for ex.: file = here("data_analysis/plots/age.pdf")
 library(apaTables)
 library(ordinal)
+library(dplyr)
+library(ggpubr)
 
 # Load the data:
 #dat_complete <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v2/preprocessed_data_v1.csv")
@@ -149,6 +151,7 @@ table(dat$WG02,useNA = 'always')
 dat$GH02R <- car::recode(dat$GH02,"1=5; 2=4; 3=3; 4=2;5=1; NA=NA")
 dat$GH03R <- car::recode(dat$GH03,"1=5; 2=4; 3=3; 4=2;5=1; NA=NA")
 PSS <- rowMeans(subset(dat, select=c(GH01,GH02R,GH03R,GH04)))
+dat$PSS <- PSS
 describe(PSS)
 # Cronbach's alpha perceived stress scale
 alphaPSS <- cbind(GH01=dat$GH01,GH02R=dat$GH02R,GH03R=dat$GH03R,GH04=dat$GH04)
@@ -464,23 +467,16 @@ faculty_labels <- c('Science','Economic & Social Sc.','Humanities',
                     'Medicine','Law','Theology','Two faculties')
 
 # http://www.sthda.com/english/wiki/kruskal-wallis-test-in-r
-library(dplyr)
-library(ggpubr)
-
-# PHQ 2
-## first view of means 
-for (i in 1:7){
-  print(i)
-  print(mean(dat$PHQ2[dat_complete$faculty_all==i],na.rm = TRUE))
-}
 
 # make faculties to factors:
 dat_complete$faculty_all <- factor(dat_complete$faculty_all)
 
-# insert PHQ2 and GAD7 to dat_complete
+# insert calculated constructs to  to dat_complete
 dat_complete$PHQ2 <- dat$PHQ2
 dat_complete$GAD7 <- dat$GAD7
 dat_complete$JI <- dat$JI
+dat_complete$PSS <- dat$PSS
+# insert other variables as numeric:
 dat_complete$MH01 <- dat$MH01
 dat_complete$EF02 <- dat$EF02
 dat_complete$EF03 <- dat$EF03
@@ -492,7 +488,6 @@ dat_complete$GH01 <- dat$GH01
 dat_complete$GH02 <- dat$GH02
 dat_complete$GH03 <- dat$GH03
 dat_complete$GH04 <- dat$GH04
-dat_complete$PSS <- dat$PSS
 
 # check levels
 levels(dat_complete$faculty_all)
@@ -614,8 +609,8 @@ ggboxplot(na.omit(dat_complete[c("faculty_all","EF03")]),
           y = "EF03", 
           #color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
           #order = c("ctrl", "trt1", "trt2"),
-          title = 'Mental health',
-          ylab = "EF03", 
+          title = 'EF03 Percentage of employment',
+          ylab = "%", 
           xlab = "Faculty",
           notch = FALSE,
           x.text.angle=60)+
@@ -652,7 +647,7 @@ ggboxplot(na.omit(dat_complete[c("faculty_all","SH01")]),
           y = "SH01", 
           #color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
           #order = c("ctrl", "trt1", "trt2"),
-          title = 'Mental health',
+          title = 'SH01 Tried to improve situation',
           ylab = "SH01", 
           xlab = "Faculty",
           notch = FALSE,
@@ -782,6 +777,17 @@ summary(model2)
 model3 <- lm(GAD7 ~ age + SD01 + JI + JS + EV09 + PSS, data=dat)
 summary(model3)
 #F(6, 395)=36.15, p < .01, R² = 35.5%
+
+# Job insecurity
+#Predictors: age, gender, phdstage, contract_length, percentage_of_employment
+model4 <- lm(JI ~ age + SD01 +  phdstage + EF02_01 + EF03_01, data=dat)
+summary(model4)
+
+# Job satisfaction
+#Predictors: age, gender, phdstage, contract_length, percentage_of_employment, 
+# professional_support, emotional_support
+model5 <- lm(JS ~ age + SD01 +  phdstage + EF02_01 + EF03_01 + WG01 + WG02, data=dat)
+summary(model5)
 
 
 #### ordinal logistic regression ####
