@@ -215,6 +215,7 @@ alphaJI$total$std.alpha #0.80
 # Institutional Stressors (supervisor), positive wording
 # ST02,ST03,ST05,ST07
 ISpositive <- rowMeans(subset(dat, select=c(ST02,ST03,ST05,ST07)))
+dat$ISpositive <- ISpositive
 describe(ISpositive)
 
 # Cronbach's alpha stressors, positive
@@ -226,6 +227,7 @@ alphaISpositive$total$std.alpha #0.85
 # Institutional Stressors (supervisor), negative wording
 # ST01,ST04,ST06,ST08
 ISnegative <- rowMeans(subset(dat, select=c(ST01,ST04,ST06,ST08)))
+dat$ISnegative <- ISnegative
 describe(ISnegative)
 
 # Cronbach's alpha stressors, negative
@@ -444,7 +446,7 @@ table(temp,useNA = 'always')
 
 # SH10: Covid: affect general situation
 temp <- dat$SH10
-table(temp,useNA = 'always')
+table(temp,useNA = 'always')/N
 
 # SH11: Covid: affect answers of this survey
 temp <- dat$SH11
@@ -779,14 +781,18 @@ summary(model3)
 #F(6, 395)=36.15, p < .01, R² = 35.5%
 
 # Job insecurity
-#Predictors: age, gender, phdstage, contract_length, percentage_of_employment
-model4 <- lm(JI ~ age + SD01 +  phdstage + EF02_01 + EF03_01, data=dat)
+#Predictors: age, gender, phdstage, contract_length, percentage_of_employment, 
+# supervision_positive, supervision_negative
+model4 <- lm(JI ~ age + SD01 +  phdstage + EF02_01 + EF03_01+ ISpositive + ISnegative, data=dat)
 summary(model4)
 
 # Job satisfaction
 #Predictors: age, gender, phdstage, contract_length, percentage_of_employment, 
 # professional_support, emotional_support
-model5 <- lm(JS ~ age + SD01 +  phdstage + EF02_01 + EF03_01 + WG01 + WG02, data=dat)
+# supervision_positive, supervision_negative
+
+model5 <- lm(JS ~ age + SD01 +  phdstage + EF02_01 + EF03_01 + WG01 + WG02 + 
+               ISpositive + ISnegative, data=dat)
 summary(model5)
 
 
