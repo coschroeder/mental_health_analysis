@@ -763,7 +763,7 @@ kruskal.test(PSS ~ faculty_all, data = dat_complete)
 # Working group characteristics (Professional support, emotional support, Other responsibilities), Stressors (Institutional, systemic, job insecurity) 
 
 #Correlations
-correlationstable <- cbind(dat$PHQ2, dat$GAD7)
+correlationstable <- cbind(dat$PHQ2, dat$GAD7, dat$PSS, dat$JI, dat$JS, dat$EV09)
 apa.cor.table(correlationstable, filename="TablePHQ.doc", table.number=1)
 
 # linear Regression
@@ -774,11 +774,11 @@ summary(model1)
 #Predictors Job insecurity, job satisfaction, life satisfaction, Perceived Stress Scale
 model2 <- lm(PHQ2 ~ age + SD01 + JI + JS + EV09 + PSS, data=dat)
 summary(model2)
-#F(6, 485)=71.29, p < .01, R² = 46.9%
+#F(6, 485)=71.3, p < .01, R² = 46.2%
 
 model3 <- lm(GAD7 ~ age + SD01 + JI + JS + EV09 + PSS, data=dat)
 summary(model3)
-#F(6, 395)=36.15, p < .01, R² = 35.5%
+#F(6, 395)=36.2, p < .01, R² = 34.5%
 
 # Job insecurity
 #Predictors: age, gender, phdstage, contract_length, percentage_of_employment, 
