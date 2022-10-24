@@ -239,10 +239,20 @@ alphaISnegative$total$std.alpha #0.85
 # Other institutional stressors
 # ST17: Mistreated by colleagues
 describe(dat$ST17)
-# Regular meetings supervisor
+
+# ST09: Regular meetings supervisor
 describe(dat$ST09)
-# ST09: Frequency of meetings, Attention: other scale
+table(dat$ST09)
+# rarely or not at all:
+sum(dat$ST09<=2,na.rm = TRUE)/sum(table(dat$ST09))
+
+# ST16: Frequency of meetings, Attention: other scale
 describe(dat$ST16)
+table(dat$ST16)
+# every 3 months or less:
+sum(dat$ST16>=4,na.rm = TRUE)/sum(table(dat$ST16))
+
+
 # ST11: Worrying lack of long-term contracts
 describe(dat$ST11)
 # ST12: Find a good job
@@ -490,6 +500,9 @@ dat_complete$GH01 <- dat$GH01
 dat_complete$GH02 <- dat$GH02
 dat_complete$GH03 <- dat$GH03
 dat_complete$GH04 <- dat$GH04
+dat_complete$ST09 <- dat$ST09
+dat_complete$ST16 <- dat$ST16
+
 
 # check levels
 levels(dat_complete$faculty_all)
@@ -750,6 +763,42 @@ group_by(dat_complete, faculty_all) %>%
   )
 kruskal.test(PSS ~ faculty_all, data = dat_complete)
 
+# ST09: regular meetings supervisor
+kruskal.test(ST09 ~ faculty_all, data = dat_complete)
+pairwise.wilcox.test(dat_complete$ST09, dat_complete$faculty_all,
+                     p.adjust.method = "BH")
+
+# create boxplot
+ggboxplot(na.omit(dat_complete[c("faculty_all","ST09")]), 
+          x = "faculty_all", 
+          y = "ST09", 
+          #color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          #order = c("ctrl", "trt1", "trt2"),
+          title = 'Regularity meetings with supervisor',
+          ylab = "ST09", 
+          xlab = "Faculty",
+          notch = FALSE,
+          x.text.angle=60)+
+  scale_x_discrete(labels=faculty_labels)
+
+# ST16: Frequency meetings supervisor
+kruskal.test(ST16 ~ faculty_all, data = dat_complete)
+pairwise.wilcox.test(dat_complete$ST16, dat_complete$faculty_all,
+                     p.adjust.method = "BH")
+
+# create boxplot
+ggboxplot(na.omit(dat_complete[c("faculty_all","ST16")]), 
+          x = "faculty_all", 
+          y = "ST16", 
+          #color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          #order = c("ctrl", "trt1", "trt2"),
+          title = 'Frequency meetings with supervisor',
+          ylab = "ST16", 
+          xlab = "Faculty",
+          notch = FALSE,
+          x.text.angle=60)+
+  scale_x_discrete(labels=faculty_labels)
+
 
 ####################################################
 #### Correlation analysis ####
@@ -767,6 +816,7 @@ correlationstable <- cbind(dat$PHQ2, dat$GAD7, dat$PSS, dat$JI, dat$JS, dat$EV09
 apa.cor.table(correlationstable, filename="TablePHQ.doc", table.number=1)
 
 # linear Regression
+
 #Stressors -> Perceived Stress Scale
 model1 <- lm(PSS ~ age + SD01 + ST01 + ST02 + ST03 + ST04 + ST17 + ST05 + ST07 + ST09, data=dat)
 summary(model1)

@@ -251,6 +251,12 @@ table(dat$EF05_04, useNA = 'always', dnn = 'EF05_04')
 
 # Section EV: Evaluation of your Ph.D.
 
+Summarizing scales:
+
+  - Job satisfaction (JS): EV06, EV07, EV08 (Hellgren et al., 1997)
+  
+Single scales: 
+
 -   scale in EV01, EV04, EV06, EV07, EV08
 
           1 = strongly disagree
@@ -324,6 +330,13 @@ table(dat$WG02, useNA = 'always')
 
 # Section GH: General Health
 
+Summarizing scale:
+
+  - Perceived Stress Scale (PSS): GH01, GH02, GH03, GH04 (Cohen, 1984; Büssing, 2011) 
+    (GH02 and GH03 are inverted for PSS)
+
+Single scales:
+
 -   scale in GH01, GH02, GH03, GH04
 
           1 = never
@@ -377,6 +390,14 @@ table(dat$OR02_01,useNA = 'always')
 
 # Section ST: Stressors
 
+Summarizing scales are:
+
+  - Job insecurity (JI): ST13, ST14, ST15 (Hellgren et al., 1999)
+  - Institutional Stressors (supervisor), positive wording (ISpositive): ST02,ST03,ST05,ST07
+  - Institutional Stressors (supervisor), negative wording (ISnegative): ST01,ST04,ST06,ST08
+  
+Individual questions:
+
 #### [ST01] Institutional-stressor1 "Have you ever felt looked down on by your supervisor?"
 
 #### [ST02] Institutional-stressor2 "Do you feel supported by your supervisor?"
@@ -387,7 +408,7 @@ table(dat$OR02_01,useNA = 'always')
 
 #### [ST17] Institutional-stressor4_coll "Have you ever felt mistreated (e.g., insulted, shouted at, undervalued) by your colleagues?"
 
-#### [ST05] Institutional-stressor5 "Does your supervisor encourage you to participate in career-building opportunities such as conferences, summ..."
+#### [ST05] Institutional-stressor5 "Does your supervisor encourage you to participate in career-building opportunities such as conferences, summer schools, research stays, etc.?"
 
 #### [ST06] Institutional-stressor6 "Based on your experiences in academia so far, do you reconsider your career path?"
 
@@ -423,11 +444,11 @@ table(dat$ST01, useNA = "always")
 table(dat$ST16, useNA = 'always')
 ```
 
-#### [ST11] Systemic-stressor1 "The lack of permanent/long-term contracts in academi..."
+#### [ST11] Systemic-stressor1 "The lack of permanent/long-term contracts in academia worries me."
 
 #### [ST12] Systemic-stressor2 I believe having a Ph.D. will help me to find a good job.""
 
-#### [ST13] Job-insecurity1 "Please evaluate in the scale the following statements regarding your Ph.D.:"I am worried about having to le..."
+#### [ST13] Job-insecurity1 "Please evaluate in the scale the following statements regarding your Ph.D.: “I am worried about having to leave my job before I would like to.”
 
 #### [ST14] Job-insecurity2 "There is a risk that I will have to leave my present job in the year to come."
 
@@ -532,7 +553,7 @@ table(dat$MH07, useNA = 'always')
 table(dat$MH08, useNA = 'always')
 ```
 
-#### [MH09] Mental health 9 "Do you think that some special services (e.g., time management courses, coaching, etc.) or structural change..." (MC)
+#### [MH09] Mental health 9 "Do you think that some special services (e.g., time management courses, coaching, etc.) or structural changes are necessary?" (MC)
 
         MH09_01 no
         MH09_02 personalised coaching
@@ -571,7 +592,14 @@ table(dat$MH10, useNA = 'always')
 table(dat$MH11, useNA = 'always')
 ```
 
-## Subsection PHQ
+## PHQ2 and GAD7 
+
+Summarizing scales are:
+
+  - Perceived Health Questionaire (PHQ2): (MH12,MH14) (Bach et al.)
+  - General Anxiety Disorder (GAD7): (MH15,MH16,MH17,MH18,MH19,MH20,MH21)  (Bach et al.)
+
+Individual questions:
 
 #### [MH12] PHQ_2\_1 "Little interest or pleasure in doing things"
 
