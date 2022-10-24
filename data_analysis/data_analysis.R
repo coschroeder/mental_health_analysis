@@ -818,7 +818,7 @@ apa.cor.table(correlationstable, filename="TablePHQ.doc", table.number=1)
 # linear Regression
 
 #Stressors -> Perceived Stress Scale
-model1 <- lm(PSS ~ age + SD01 + ST01 + ST02 + ST03 + ST04 + ST17 + ST05 + ST07 + ST09, data=dat)
+model1 <- lm(PSS ~ age + SD01 + ISpositive + ISnegative, data=dat)
 summary(model1)
 
 #Predictors Job insecurity, job satisfaction, life satisfaction, Perceived Stress Scale
@@ -845,6 +845,7 @@ model5 <- lm(JS ~ age + SD01 +  phdstage + EF02_01 + EF03_01 + WG01 + WG02 +
                ISpositive + ISnegative, data=dat)
 summary(model5)
 
+xtabs(~ dat$ST09 + dat$ST16)
 
 #### ordinal logistic regression ####
 # https://cran.r-project.org/web/packages/ordinal/ordinal.pdf
