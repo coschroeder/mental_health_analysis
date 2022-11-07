@@ -16,9 +16,9 @@ library(ggpubr)
 #dat <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v2/preprocessed_coarsed_data_v1.csv")
 
 # JF:
-#setwd("~/sustainAbility/Mental Health/Daten")
-#dat_complete <- read.csv("preprocessed_data_v2.csv")
-#dat <- read.csv("preprocessed_coarsed_data_v2.csv")
+setwd("~/sustainAbility/Mental Health/Daten")
+dat_complete <- read.csv("preprocessed_data_v2.csv")
+dat <- read.csv("preprocessed_coarsed_data_v2.csv")
 
 # CS:
 # Load the data:
@@ -812,23 +812,23 @@ ggboxplot(na.omit(dat_complete[c("faculty_all","ST16")]),
 # Working group characteristics (Professional support, emotional support, Other responsibilities), Stressors (Institutional, systemic, job insecurity) 
 
 #Correlations
-correlationstable <- cbind(dat$PHQ2, dat$GAD7, dat$PSS, dat$JI, dat$JS, dat$EV09)
+correlationstable <- cbind(dat$PHQ2, dat$GAD7, dat$PSS, JI, JS, dat$EV09, dat$ISpositive, dat$ISnegative)
 apa.cor.table(correlationstable, filename="TablePHQ.doc", table.number=1)
 
 # linear Regression
 
 #Stressors -> Perceived Stress Scale
-model1 <- lm(PSS ~ age + SD01 + ISpositive + ISnegative, data=dat)
+model1 <- lm(PSS ~ age + SD01 + JI + JS + EV09 + ISpositive + ISnegative, data=dat)
 summary(model1)
 
 #Predictors Job insecurity, job satisfaction, life satisfaction, Perceived Stress Scale
-model2 <- lm(PHQ2 ~ age + SD01 + JI + JS + EV09 + PSS, data=dat)
+model2 <- lm(PHQ2 ~ age + SD01 + JI + JS + EV09 + PSS + ISpositive + ISnegative, data=dat)
 summary(model2)
-#F(6, 485)=71.3, p < .01, R² = 46.2%
+#F(8, 482)=54.5, p < .01, R² = 42.7%
 
-model3 <- lm(GAD7 ~ age + SD01 + JI + JS + EV09 + PSS, data=dat)
+model3 <- lm(GAD7 ~ age + SD01 + JI + JS + EV09 + PSS + ISpositive + ISnegative, data=dat)
 summary(model3)
-#F(6, 395)=36.2, p < .01, R² = 34.5%
+#F(8, 392)=29.51, p < .01, R² = 36.3%
 
 # Job insecurity
 #Predictors: age, gender, phdstage, contract_length, percentage_of_employment, 
