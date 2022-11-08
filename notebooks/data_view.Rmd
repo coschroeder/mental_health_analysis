@@ -17,7 +17,7 @@ library(likert)
 Load the data:
 
 ```{r}
-dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_data_v0.csv")
+dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_coarsed_data_v2.csv")
 ```
 
 ------------------------------------------------------------------------
@@ -64,7 +64,7 @@ table(dat$german, deparse.level = 2, useNA = "always")
 table(dat$SD10, useNA = "always")
 ```
 
-#### [SD11] Formale Bildung (einfach) "Did you move to T?bingen for your Ph.D.?"
+#### [SD11] Formale Bildung (einfach) "Did you move to Tuebingen for your Ph.D.?"
 
       0 = no
       1 = yes, from another place in Germany
@@ -86,7 +86,7 @@ table(dat$SD11, deparse.level = 2, useNA = "always")
 table(dat$SD13, deparse.level = 2, useNA = "always")
 ```
 
-#### SD14 [living] Living-arrangement "What is your housing situation?" (MC)
+#### SD14 [living] Living-arrangement "What is your housing situation?" 
 
       1: Alone
       2: Together with parents / Together with partner / Together with family
@@ -131,6 +131,7 @@ table(dat$AP02, useNA = "always")
 
 ```{r}
 table(dat$AP03_01, useNA = "always")
+hist(dat$AP03_01, breaks = 25)
 ```
 
 #### [AP05] Hours per week work "How many hours a week do you work in total?"
@@ -140,11 +141,9 @@ table(dat$AP03_01, useNA = "always")
 
 ```{r}
 table(dat$AP05_01, useNA = "always")
+hist(dat$AP03_01, breaks = 25)
 ```
 
-```{r}
-describe(dat$timedif)
-```
 
 #### AP04 [phdstage] Start Ph.D."When did you start your Ph.D.?"
 
@@ -190,7 +189,6 @@ table(dat$EF01, useNA = "always")
       
 
 ```{r}
-
 table(dat$EF02_01, useNA = "always")
 ```
 
@@ -238,9 +236,9 @@ table(dat$EF04, useNA = "always")
       ### 0 = Not checked
       ### 1 = Checked
 
-#### TODO #6
+##### TODO: EF05_04a Other, please specify (free text)
 
-see open question procedure
+see open question procedure.
 
 ```{r}
 table(dat$EF05_01, useNA = 'always', dnn = 'EF05_01')
@@ -491,12 +489,9 @@ table(dat$MH02, useNA = 'always')
 ```
 
 #### [MH03] Mental health 3 "What is/are the cause(s) of your stress?"
+##### TODO: [MH03_01]: include open answer preprocessing.
 
-# [MH03_01]
-
-# TODO #9: include open answer preprocessing
-
-#### [MH04] Mental health 4 "Do you have anyone at your institute to consult about your work-related stress?" (MC)
+#### [MH04] Mental health 4 "Do you have anyone at your institute to consult about your work-related stress?" 
 
         MH04_01 Nobody
         MH04_02 Colleagues
@@ -505,9 +500,12 @@ table(dat$MH02, useNA = 'always')
         MH04_05 Other, please specify
         0 = Not checked
         1 = Checked
-        MH04_05a Other, please specify (free text)
+        
+##### TODO: MH04_05a: Other, please specify (free text).  See open answer preprocessing
 
-# TODO #10: open answer preprocessing
+```{r}
+table(dat$MH04_01, useNA = 'always')
+```
 
 #### [MH05] Mental health 5 "Do you feel your mental health has declined due to the Ph.D.?"
 
@@ -522,10 +520,7 @@ table(dat$MH05, useNA = 'always')
 ```
 
 #### [MH06] Mental health 6 "What would need to change to improve your mental health status?"
-
-        MH06_01 Free Text
-
-# TODO #11: include open answer preprocessing
+##### TODO: MH06_01 Free Text: include open answer preprocessing
 
 #### [MH07] Mental health 7 "Do you know other Ph.D. students who are struggling with their mental health?"
 
@@ -553,7 +548,7 @@ table(dat$MH07, useNA = 'always')
 table(dat$MH08, useNA = 'always')
 ```
 
-#### [MH09] Mental health 9 "Do you think that some special services (e.g., time management courses, coaching, etc.) or structural changes are necessary?" (MC)
+#### [MH09] Mental health 9 "Do you think that some special services (e.g., time management courses, coaching, etc.) or structural changes are necessary?" 
 
         MH09_01 no
         MH09_02 personalised coaching
@@ -566,7 +561,7 @@ table(dat$MH08, useNA = 'always')
         1 = Checked
         MH09_09a Other, please specify (free text)
 
-# MH09_09a TODO #12: open answer
+##### TODO: MH09_09a: open answer
 
 ```{r}
 table(dat$MH09_02)
@@ -710,13 +705,13 @@ table(dat$SH06, useNA = 'always')
 
         SH07_01 [01] Free text
 
-# todo #13 : open question
+##### TODO: SH07_01: open question
 
 #### [SH09]Seeking-help7 "Do you have any further comments?"
 
         SH09_01 [01] Free text
 
-# todo #14 : open question
+##### TODO: SH09_01: open question
 
 #### [SH11] Corona2 "Do you think the answers you have provided in this survey have been affected by the Covid-19 pandemic?"
 
