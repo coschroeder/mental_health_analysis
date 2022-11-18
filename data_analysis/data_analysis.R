@@ -461,8 +461,8 @@ table(temp,useNA = 'always')/N
 # SH11: Covid: affect answers of this survey
 temp <- dat$SH11
 describe(temp)
-table(temp,useNA = 'always')
-
+table(temp,useNA = 'always')/N
+# 0.1171477 + 0.2173175 = 0.3344652 very likely or likely
 
 ####################################################
 #### Comparison of faculties for XXX ####
