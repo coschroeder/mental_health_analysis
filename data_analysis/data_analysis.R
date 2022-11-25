@@ -37,7 +37,7 @@ options(digits=3)
 
 # Gender: report female
 N = 589
-sum(dat_complete$SD01==0,na.rm=TRUE)/N
+sum(dat_complete$SD01=='diverse',na.rm=TRUE)/N
 table(dat_complete$SD01, useNA = 'always')
 
 
@@ -379,7 +379,7 @@ describe(dat$MH14)
 prop.table(table(dat$MH14))
 table(dat$MH14,useNA = 'always')
 
-PHQ2 <- rowMeans(subset(dat, select=c(MH12,MH14)))
+PHQ2 <- rowSums(subset(dat, select=c(MH12,MH14)))
 describe(PHQ2)
 
 # insert to data table
