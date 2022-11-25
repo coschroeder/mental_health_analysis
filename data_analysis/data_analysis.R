@@ -127,6 +127,9 @@ JS <- rowMeans(subset(dat, select=c(EV06,EV07,EV08)))
 describe(JS)
 dat$JS <- JS
 
+JSSum <- rowSums(subset(dat, select=c(EV06,EV07,EV08)))
+describe(JSSum)
+
 # Cronbach's alpha job satisfaction scale
 alphaJS <- cbind(EV06=dat$EV06,EV07=dat$EV07,EV08=dat$EV08)
 alphaJS <- psych::alpha(alphaJS)
@@ -145,14 +148,24 @@ prop.table(table(dat$WG02))
 table(dat$WG02,useNA = 'always')
 
 #### Section GH ####
-# Todo#4: Done.
-#GH02, GH03 recode! @JF
 #GH01, GH02, GH03, GH04: Perceived Stress Scale (Cohen, 1984; Büssing, 2011)
+#Recode items 2 and 3
 dat$GH02R <- car::recode(dat$GH02,"1=5; 2=4; 3=3; 4=2;5=1; NA=NA")
 dat$GH03R <- car::recode(dat$GH03,"1=5; 2=4; 3=3; 4=2;5=1; NA=NA")
-PSS <- rowMeans(subset(dat, select=c(GH01,GH02R,GH03R,GH04)))
+
+#Recode all items from 1-5 to 0-4
+dat$GH01RR <- car::recode(dat$GH01,"1=0; 2=1; 3=2; 4=3;5=4; NA=NA")
+dat$GH02RR <- car::recode(dat$GH02R,"1=0; 2=1; 3=2; 4=3;5=4; NA=NA")
+dat$GH03RR <- car::recode(dat$GH03R,"1=0; 2=1; 3=2; 4=3;5=4; NA=NA")
+dat$GH04RR <- car::recode(dat$GH04,"1=0; 2=1; 3=2; 4=3;5=4; NA=NA")
+
+PSS <- rowMeans(subset(dat, select=c(GH01RR,GH02RR,GH03RR,GH04RR)))
 dat$PSS <- PSS
 describe(PSS)
+
+PSSSum <- rowSums(subset(dat, select=c(GH01RR,GH02RR,GH03RR,GH04RR)))
+describe(PSSSum)
+
 # Cronbach's alpha perceived stress scale
 alphaPSS <- cbind(GH01=dat$GH01,GH02R=dat$GH02R,GH03R=dat$GH03R,GH04=dat$GH04)
 alphaPSS <- psych::alpha(alphaPSS)
@@ -205,6 +218,8 @@ JI <- rowMeans(subset(dat, select=c(ST13,ST14,ST15)))
 describe(JI)
 dat$JI <- JI
 
+JSSum <- rowSums(subset(dat, select=c(ST13,ST14,ST15)))
+describe(JSSum)
 
 # Cronbach's alpha job insecurity scale
 alphaJI <- cbind(ST13=dat$ST13,ST14=dat$ST14,ST15=dat$ST15)
@@ -382,6 +397,9 @@ table(dat$MH14,useNA = 'always')
 PHQ2 <- rowSums(subset(dat, select=c(MH12,MH14)))
 describe(PHQ2)
 
+PHQSum <- rowSums(subset(dat, select=c(MH12,MH14)))
+describe(PHQSum)
+
 # insert to data table
 dat$PHQ2 <- PHQ2
 
@@ -391,10 +409,14 @@ describe(dat$MH15)
 prop.table(table(dat$MH12))
 table(dat$MH15,useNA = 'always')
 
-GAD7 <- rowSums(subset(dat, select=c(MH15,MH16,MH17,MH18,MH19,MH20,MH21)))
+GAD7 <- rowMeans(subset(dat, select=c(MH15,MH16,MH17,MH18,MH19,MH20,MH21)))
 describe(GAD7)
 table(GAD7, useNA = 'always')
 
+GAD7Sum <- rowSums(subset(dat, select=c(MH15,MH16,MH17,MH18,MH19,MH20,MH21)))
+describe(GAD7Sum)
+
+# insert to data table
 dat$GAD7 <- GAD7
 
 # MH16: being so restless that it's hard to sit still 
