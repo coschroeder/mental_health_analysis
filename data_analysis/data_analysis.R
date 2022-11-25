@@ -394,7 +394,7 @@ describe(dat$MH14)
 prop.table(table(dat$MH14))
 table(dat$MH14,useNA = 'always')
 
-PHQ2 <- rowSums(subset(dat, select=c(MH12,MH14)))
+PHQ2 <- rowMeans(subset(dat, select=c(MH12,MH14)))
 describe(PHQ2)
 
 PHQSum <- rowSums(subset(dat, select=c(MH12,MH14)))
