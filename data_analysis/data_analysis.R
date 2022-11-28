@@ -233,6 +233,12 @@ ISpositive <- rowMeans(subset(dat, select=c(ST02,ST03,ST05,ST07)))
 dat$ISpositive <- ISpositive
 describe(ISpositive)
 
+describe(dat$ST02)
+table(dat$ST02)
+
+describe(dat$ST07)
+table(dat$ST07)
+
 # Cronbach's alpha stressors, positive
 alphaISpositive <- cbind(ST02=dat$ST02,ST03=dat$ST03,ST05=dat$ST05,ST07=dat$ST07)
 alphaISpositive <- psych::alpha(alphaISpositive)
@@ -244,6 +250,12 @@ alphaISpositive$total$std.alpha #0.85
 ISnegative <- rowMeans(subset(dat, select=c(ST01,ST04,ST06,ST08)))
 dat$ISnegative <- ISnegative
 describe(ISnegative)
+
+describe(dat$ST01)
+table(dat$ST01)
+
+describe(dat$ST04)
+table(dat$ST04)
 
 # Cronbach's alpha stressors, negative
 alphaISnegative <- cbind(ST01=dat$ST01,ST04=dat$ST04,ST06=dat$ST06,ST08=dat$ST08)
@@ -270,10 +282,11 @@ sum(dat$ST16>=4,na.rm = TRUE)/sum(table(dat$ST16))
 
 # ST11: Worrying lack of long-term contracts
 describe(dat$ST11)
+table(dat$ST11)
+
 # ST12: Find a good job
 describe(dat$ST12)
-
-
+table(dat$ST12)
 
 #### Section MH: Mental health ####
 
