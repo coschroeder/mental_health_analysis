@@ -267,6 +267,8 @@ table(dat$ST16)
 # every 3 months or less:
 sum(dat$ST16>=4,na.rm = TRUE)/sum(table(dat$ST16))
 
+sum(dat$ST16>=6,na.rm = TRUE)/sum(table(dat$ST16))
+
 
 # ST11: Worrying lack of long-term contracts
 describe(dat$ST11)
