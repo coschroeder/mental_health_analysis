@@ -431,6 +431,12 @@ table(GAD7, useNA = 'always')
 GAD7Sum <- rowSums(subset(dat, select=c(MH15,MH16,MH17,MH18,MH19,MH20,MH21)))
 describe(GAD7Sum)
 
+table(dat$MH15, useNA = "always")
+
+dat$GAD7Sum <- GAD7Sum
+GAD7Category <- car::recode(dat$GAD7Sum,"1:4=0; 5:9=1; 10:15=2; 15:20=3; NA=NA")
+table(GAD7Category, useNA = 'always')
+
 # insert to data table
 dat$GAD7 <- GAD7
 
