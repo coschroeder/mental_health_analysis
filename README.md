@@ -12,5 +12,6 @@ Link to the data: *tba*
 ## Folder structure:
 - preprocessing: preprocessing file to get from the raw to the preprocessed data (this is dependent on raw data, which can not be shared). 
 - data_analysis: data analyis pipeline (dependent on preprocessed data).
-- notebooks: R notebook and HTML file explaining all preprocessed variables. The HTML file can be viewed here directly: 
+- notebooks: R notebook and HTML file explaining all preprocessed variables. The HTML file can be viewed here directly:
+<https://htmlpreview.github.io/?https://github.com/coschroeder/mental_health_analysis/blob/main/notebooks/data_view.nb.html>
 - questionnaire: raw questionnaire as exported from sosci survey.
