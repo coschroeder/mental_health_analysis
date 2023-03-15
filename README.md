@@ -5,13 +5,13 @@ all: University of Tübingen, Germany and sustainAbility Ph.D. initiative at the
 
 ## Analysis Code for the Mental Health Study at the University Tübingen
 
-Link to the preprint: *tba*
+Link to the preprint: <https://doi.org/10.31234/osf.io/uq9w5>
 
 Link to the data: *tba*
 
 ## Folder structure:
 - preprocessing: preprocessing file to get from the raw to the preprocessed data (this is dependent on raw data, which can not be shared). 
 - data_analysis: data analyis pipeline (dependent on preprocessed data).
-- notebooks: R notebook and HTML file explaining all preprocessed variables. The HTML file can be viewed here directly:
-<https://htmlpreview.github.io/?https://github.com/coschroeder/mental_health_analysis/blob/main/notebooks/data_view.nb.html>
+- notebooks: R notebook and HTML file explaining all preprocessed variables. The HTML file can be viewed [here](https://htmlpreview.github.io/?https://github.com/coschroeder/mental_health_analysis/blob/main/notebooks/data_view.nb.html) directly.
+
 - questionnaire: raw questionnaire as exported from sosci survey.
