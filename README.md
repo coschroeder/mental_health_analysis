@@ -9,7 +9,7 @@ Link to the preprint: <https://doi.org/10.31234/osf.io/uq9w5>
 
 Data:
   - The coarsed quantitative data can be found in the `data` folder.
-  - The response to the open questions here: *tba* 
+  - The responses to the open questions can be found here: *tba* 
 
 ## Folder structure:
 - preprocessing: preprocessing file to get from the raw to the preprocessed data (this is dependent on raw data, which can not be shared).
