@@ -1,3 +1,10 @@
+#######################################################
+# R script Mental Health                              #
+# data analysis                                       #
+# sustainAbility PhD Initivative                      #
+# R version 4.1.2                                     #
+#######################################################
+
 # Load packages:
 library(foreign)
 library(psych)
@@ -12,19 +19,8 @@ library(dplyr)
 library(ggpubr)
 
 # Load the data:
-#dat_complete <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v2/preprocessed_data_v1.csv")
-#dat <- read.csv("/Users/ninaeffenberger/SustainAbility/data_v2/preprocessed_coarsed_data_v1.csv")
-
-# JF:
-setwd("~/sustainAbility/Mental Health/Daten")
-dat_complete <- read.csv("preprocessed_data_v2.csv")
-dat <- read.csv("preprocessed_coarsed_data_v2.csv")
-
-# CS:
-# Load the data:
-dat_complete <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_data_v2.csv")
-dat <- read.csv("/home/cornelius/Documents/sustainability/mental_health/data_protected/preprocessed_coarsed_data_v2.csv")
-
+# dat_complete <- read.csv("preprocessed_data.csv") # this data can not be shared for data protection reasons. 
+dat <- read.csv("../data/preprocessed_coarsed_data.csv")
 
 # set options for decimal:
 options(scipen=999)
@@ -33,6 +29,8 @@ options(digits=3)
 ############################################################
 #### Sociodemographics ####
 # currently: depending on dat (coarsed) AND dat_complete (preprocessed version)
+# all reported variables are also in the coarsed data, but average results may
+# sightly differ due to coarsing
 ############################################################
 
 # Gender: report female
@@ -508,7 +506,8 @@ table(temp,useNA = 'always')/N
 # 0.1171477 + 0.2173175 = 0.3344652 very likely or likely
 
 ####################################################
-#### Comparison of faculties for XXX ####
+#### Comparison of faculties ####
+# only coarsed faculties can be shared. 
 ####################################################
 # Faculty
 # 1 = Science  
@@ -844,7 +843,7 @@ ggboxplot(na.omit(dat_complete[c("faculty_all","ST16")]),
 
 
 ####################################################
-#### Correlation analysis ####
+#### Correlation and Regrassion analysis ####
 ####################################################
 # Todo#9:  correlation(outcomes, predictors) => 4xn correlation table 
 # “Outcomes”: PHQ-Depression (PHQ_2_1 + PHQ_2_2) and 
@@ -905,21 +904,5 @@ PHQ2_factor_ordered <- factor(PHQ2, ordered = TRUE,
                                 levels = c(0, 0.5, 1,1.5, 2, 2.5 ,3))
 fm1 <- clm(PHQ2_factor_ordered ~ age + JI + JS, data=dat)
 summary(fm1)
-
-
-####################################################
-#### Analysis of open questions ####
-####################################################
-# Todo#10: prepare already for the data to come
-
-######################################################
-#### Some plots #### 
-######################################################
-# plot the age
-pdf(file = here("data_analysis/plots/age.pdf"),  width = 4, height = 4)
-hist(dat$age)
-dev.off()
-
-# make some more analysis and save plots....
 
 #rm(list = ls())

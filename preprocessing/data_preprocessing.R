@@ -1,7 +1,8 @@
 #######################################################
 # R script Mental Health                              #
+# data preprocessing and coarsing.                    #
 # sustainAbility PhD Initivative                      #
-# R version                                           #
+# R version 4.1.2                                     #
 #######################################################
 
 ### Activate packages 
@@ -18,13 +19,10 @@ recode <- car::recode
 #######################################################
 
 # Read data including the labels
-# dat<-read.spss("C:/Daten/Mental/Mental_Health_Rawdata_v1.sav",use.value.labels=T, to.data.frame=T,use.missings=T)
-dat<-read.spss("/home/cornelius/Documents/sustainability/mental_health/data_protected/Mental_Health_Rawdata_v1.sav",
-               use.value.labels=T, to.data.frame=T,use.missings=T)
+dat<-read.spss("Mental_Health_Rawdata_v1.sav",use.value.labels=T, to.data.frame=T,use.missings=T)
 
 # Read data w/o labels
-dat_n<-read.spss("/home/cornelius/Documents/sustainability/mental_health/data_protected/Mental_Health_Rawdata_v1.sav",
-               use.value.labels=F, to.data.frame=T,use.missings=T)
+dat_n<-read.spss("Mental_Health_Rawdata_v1.sav", use.value.labels=F, to.data.frame=T,use.missings=T)
 
 ##################################################### 
 ### Rough filtering out non-answering participants
@@ -47,9 +45,6 @@ dat_n <- dat_n[!mask,]
 # Create completely new table which will be the final one to share
 dat_new <- data.frame(dat$CASE)
 names(dat_new)[1] <- "CASE"
-
-
-
 
 
 
