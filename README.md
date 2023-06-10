@@ -9,11 +9,11 @@ Link to the preprint: <https://doi.org/10.31234/osf.io/uq9w5>
 
 Data:
   - The coarsed quantitative data can be found in the `data` folder.
-  - The responses to the open questions can be found here: *tba* 
+  - The complete dataset, including the responses to the open questions, can be found here:  https://doi.org/10.23668/psycharchives.12914 
 
 ## Folder structure:
-- preprocessing: preprocessing file to get from the raw to the preprocessed data (this is dependent on raw data, which can not be shared).
-- data_analysis: data analyis pipeline (dependent on preprocessed data). Apart from the faculty wise comparison all analysis can be run on the coarsed data.  For the reported sociodemographic statistics the results may sightly differ due to coarsing.
-- notebooks: R notebook and HTML file explaining all preprocessed variables. The HTML file can be viewed [here](https://htmlpreview.github.io/?https://github.com/coschroeder/mental_health_analysis/blob/main/notebooks/data_view.nb.html) directly.
+- `preprocessing`: preprocessing file to get from the raw to the preprocessed data (this is dependent on raw data, which can not be shared).
+- `data_analysis`: data analyis pipeline (dependent on preprocessed data). Apart from the faculty wise comparison all analysis can be run on the coarsed data.  For the reported sociodemographic statistics the results may sightly differ due to coarsing.
+- `notebooks`: R notebook and HTML file explaining all preprocessed variables. The HTML file can be viewed [here](https://htmlpreview.github.io/?https://github.com/coschroeder/mental_health_analysis/blob/main/notebooks/data_view.nb.html) directly.
 
-- questionnaire: raw questionnaire as exported from sosci survey.
+- `questionnaire`: raw questionnaire as exported from sosci survey.
