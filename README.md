@@ -9,7 +9,11 @@ This work is now published at PLOSOne: <https://doi.org/10.1371/journal.pone.028
 
 (Link to the preprint: <https://doi.org/10.31234/osf.io/uq9w5>)
 
-Data:
+## Executive Summary
+
+See the `Executive_Summary.pdf` for a summary of the study. 
+
+## Data:
   - The coarsed quantitative data can be found in the `data` folder.
   - The complete dataset, including the responses to the open questions, can be found here:  https://doi.org/10.23668/psycharchives.12914 
 
